@@ -1,0 +1,140 @@
+# Basic struct.
+# This struct expects two values --
+# 'a' and 'b'
+struct basic(a, b)
+
+
+# Type.
+# When struct has scoops associated with it
+# it turns into type. However, the keyword at
+# the front is still just a 'struct'.
+struct Right_Triangle(a, b)
+{
+    # This is an anonymous scoop inside a
+    # struct. Whenever this 'right_triangle' struct
+    # is going to be instantiated, this anonymous
+    # scoop is going to be executed. This is somewhat
+    # close to the Python's __init__ function in a
+    # class but there are also a few differences.
+    # 1. It is not mandatory that type has an
+    #    anonymous scoop such as this one (you will
+    #    see examples of this later); A type that
+    #    doesn't have an ononymous scoop is assumed
+    #    to only have variables that are passed to it.
+    # 2. If such anonymous scoop is present, it has to
+    #    declare all the variables that its struct 
+    #    is going to want to use.
+    #    For example, if we want to have acces to 'a' and
+    #    'b' later on, we must declare those as
+    #    variables using the '.' notation.
+    #    It is important to understand that we don't have
+    #    to declare the 'a' and 'b' variables if we
+    #    don't need to have access to them later on.
+    #    If 'a' and 'b' were insignificant by themselves
+    #    and were only passed to the type in order to
+    #    calculate some other values like 'area' and
+    #    'perimeter', we could have ommited those
+    #    first two declarations.
+    { 
+        .a := a
+        .b := b
+        .shape := "triangle"
+        .c := (.a * .a + .b * .b) ^ 0.5
+        .area := .a * .b * 0.5
+        .perimeter := .a + .b + .c
+    }
+
+
+    # This is a named scoop that is associated with
+    # the struct in question, thus, it is a method.
+    # In this example, I used a one-liner, but methods
+    # can be a lot longer and more complex.
+    scoop get_area return .area
+
+
+    # For example, method below uses an if statement.
+    # If statements are covered in the "conditionals.scp".
+    scoop get_sine_a
+    {
+        if .c != 0 return .b / .c
+        return "undefinded"
+    }
+}
+
+
+# Instantiation of the 'right_triangle' type.
+rt := right_triangle(3, 4)
+
+
+# All type's variables are private and cannot be
+# accesed or changed from without the type like so:
+rt.shape = "Circle" # error
+
+
+# A type that utilizes two private methods.
+# Type 'Line' has two default variables 'm' and 'c'
+# based on the function of a line y = mx + c
+# where 'm' is the gradient of the line and 'c' is
+# the y-intersect.
+# As you can see, type 'Line' doesn't have an
+# anonymous scoop assosited with it, therefore,
+# it is assumed that it only has two variables
+# that are passed to it ('m' and 'c' in this case).
+struct Line(m, c)
+{
+    scoop change_gradient(val) private { .m = val }
+
+
+    scoop change_intersect(val) private { .c = val }
+
+
+    scoop make_horizontal(lvl)
+    {
+        .change_gradient(0)
+        .change_intersect(lvl)
+    }
+}
+
+
+# Instantiation of Line.
+l := Line(5, 5)
+
+
+# We cannot make use of type's private functions
+# from within the type.
+l.change_gradient(3) # error
+
+
+# Make Line 'l' horizontal using a public method.
+l.make_horizontal(5) # no error this time
+
+
+# Type that declares its only variables.
+# As you can see in this example, this type
+# only requires 2 variables to operate, however,
+# in its anonymous scoop those 2 variables are
+# declared yet again. This will not give you an error
+# but is considered to be a bad practice.
+struct Example(x, y)
+{
+    {
+        .x := x
+        .y := y
+    }
+
+
+    scoop sum return .x + .y
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+# Scoop that is going to be used in an example later.
+# Scoops are covered in the 'scoops.scp' file.
+scoop meaning return 42
+
+
+{
+    # Simple variable declaration (assignment).
+    # When we declare a variable it means that we
+    # create a variable with this name for the first
+    # time in a given scoop. To declare a variable
+    # we use the ':=' sign.
+    a := 'a'
+    
+
+    # At this point, variable 'a' has already been 
+    # declared, therefore, we cannot declare it again.
+    a := "error" # error
+
+
+    # Luckily for us, variables in Scoops are not
+    # immutable so we can simply change variable's
+    # value using the '=' sign.
+    a = "new beginning" # no error this time
+
+
+    # However, it is important to use there two signs
+    # (':=' and '=') properly. Variable that is not
+    # declared yet, cannot be changed just like declared
+    # variable cannot be declared again (like we tried
+    # to do in the second example).
+    b = "do I exist?" # error
+
+
+    # Variables can be assigned to the result of an expression.
+    b := 5 + 5 * 5 # 125
+
+
+    # Variables can be assigned to other variables. In this
+    # case, variable 'c' will hold integer 125 because we
+    # assigned it to the variable 'b' that itself holds 125.
+    c := b
+
+
+    # Expressions can include variables and 
+    # scoop references -- not just numbers.
+    d := c + meaning() + 3 # 125 + 42 + 3 = 170
+}
+

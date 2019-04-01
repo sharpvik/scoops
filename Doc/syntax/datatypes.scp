@@ -1,0 +1,32 @@
+# 'bln' stands for 'Boolean'. This data type
+# represents binary values. The only 2 values
+# that belong to the 'bln' data type are
+# 'true' and 'false'.
+b := true # bln
+
+
+# 'int' stands for 'Integer'. This data type
+# represents all integers (whole numbers).
+i := 42 # int
+
+
+# 'flt' is short for 'Floating-Point Numbers'.
+# This data type represents all the decimals.
+# In theory, type 'int' should have been an
+# instance of type 'flt', however, due to
+# the low level numbers' representation it is
+# not the case (which is sad).
+f := 3.14 # flt
+
+
+# 'chr' stands for 'Character'. This data type
+# represents all ASCII characters. Values of
+# type 'chr' must be enclosed in single speech
+# marks (like this 'a', not like this "a").
+c := 'c' # chr
+
+
+# 'str' stands for 'String'. This data type
+# represents all combinations of type 'char'.
+# 'str' is basically an array of 'char'.
+s := "Hello, World" # str
