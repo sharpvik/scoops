@@ -19,23 +19,24 @@
 
 
 // OPCODES
-#define PUSH_CHAR   1
-#define EMIT_CHAR   2
-#define HALT        4
+#define HALT        0
+#define EMIT_CONST  1
+#define PUSH_BLN    2
+#define PUSH_CHR    3
+#define PUSH_NUM    4
 
 
 
 // TYPE DECLARATIONS
 typedef struct OBJECT_t 
 {
-    std::string type;
+    char type;
     
     union {
         bool    b;
         char    c;
         double  n;
-        char*   s;
-        void   *p;
+        void*   p;
     };
 } OBJECT;
 

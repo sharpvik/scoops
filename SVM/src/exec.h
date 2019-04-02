@@ -27,16 +27,24 @@
 
 
 
-char * exec(char *ip, std::stack<OBJECT> *data)
+char* exec(char *ip, std::stack<OBJECT> *data)
 {
     switch (*ip)
     {
-        case PUSH_CHAR:
-            return push_char(ip, data);
+        case PUSH_BLN:
+            return push_bln(ip, data);
+            break;
+        
+        case PUSH_CHR:
+            return push_chr(ip, data);
             break;
             
-        case EMIT_CHAR:
-            return emit_char(ip, data);
+        case PUSH_NUM:
+            return push_num(ip, data);
+            break;
+            
+        case EMIT_CONST:
+            return emit_const(ip, data);
             break;
         
         default:

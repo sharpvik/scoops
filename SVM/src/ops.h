@@ -28,21 +28,57 @@ char * nop(char *ip) { return ip + 1; }
 
 
 // 1
-char * push_char(char *ip, std::stack<OBJECT> *data) 
+char* emit_const(char *ip, std::stack<OBJECT> *data) 
+{ 
+    OBJECT o = data->top();
+    data->pop();
+    
+    switch (o.type) {
+        case 'b': // bln
+            printf("%b", o.b);
+            break;
+            
+        case 'c': // chr
+            printf("%c", o.c);
+            break;
+            
+        case 'n': // num
+            printf("%f", o.n);
+            break;
+    }
+    
+    return ip + 1; 
+}
+
+
+// 2
+char* push_bln(char *ip, std::stack<OBJECT> *data)
 {
     OBJECT o;
-    o.type = "chr";
+    o.type = 'b';
+    o.b = *(ip + 1) > 0;
+    data->push(o);
+    return ip + 2;
+}
+
+
+// 3
+char* push_chr(char *ip, std::stack<OBJECT> *data) 
+{
+    OBJECT o;
+    o.type = 'c';
     o.c = *(ip + 1);
     data->push(o); 
     return ip + 2;
 }
 
 
-// 2
-char * emit_char(char *ip, std::stack<OBJECT> *data) 
-{ 
-    OBJECT o = data->top();
-    data->pop();
-    printf("%c", o.c);
-    return ip + 1; 
+// 4
+char* push_num(char *ip, std::stack<OBJECT> *data)
+{
+    OBJECT o;
+    o.type = 'n';
+    o.n = 3.14159;
+    data->push(o);
+    return ip + 1;
 }
