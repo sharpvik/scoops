@@ -1,7 +1,7 @@
 /* By Viktor A. Rozenko Voitenko (2019)
  *
- * This is the "ops.h" header file for the Scoops Virtual Machine (SVM). 
- * It is used by "exec.h" as a library of opcode related functioons. Every
+ * This is the "ops.hpp" header file for the Scoops Virtual Machine (SVM). 
+ * It is used by "exec.hpp" as a library of opcode related functioons. Every
  * function below has a unique opcode (integer that is commented out one line
  * above its declaration) that trigers its execution.
  *
@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <stack>
 
-#include "util.h"
+#include "util.hpp"
 
 
 

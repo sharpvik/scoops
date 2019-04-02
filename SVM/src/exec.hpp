@@ -1,6 +1,6 @@
 /* By Viktor A. Rozenko Voitenko (2019)
  *
- * This is the "exec.h" header file for the Scoops Virtual Machine (SVM). 
+ * This is the "exec.hpp" header file for the Scoops Virtual Machine (SVM). 
  * It is used by "vm.cpp" to execute bytecode instructions.
  *
  * "exec" function ...
@@ -8,11 +8,11 @@
  *        (*data) as its arguments;
  *     2. Using the switch statement with *ip, it executes a function to which
  *        the opcode refers (all opcode functions are located in
- *        the "ops.h" header file, preprocessor define statements for opcodes
- *        can be found in the "util.h" file);
+ *        the "ops.hpp" header file, preprocessor define statements for opcodes
+ *        can be found in the "util.hpp" file);
  *     2. Returns new instruction pointer altered by the opcode 
  *        function that it executed (for details on how and why opcode functions
- *        alter the instruction pointer see "ops.h" file).
+ *        alter the instruction pointer see "ops.hpp" file).
  *
  */
  
@@ -22,8 +22,8 @@
 
 #include <stack>
 
-#include "util.h"
-#include "ops.h"
+#include "util.hpp"
+#include "ops.hpp"
 
 
 

@@ -1,7 +1,7 @@
 /* By Viktor A. Rozenko Voitenko (2019)
  *
  * This is the main C++ file for the Scoops Virtual Machine (SVM). It makes
- * use of the header (.h) files that are located in this directory
+ * use of the header (.hpp) files that are located in this directory
  * (<...>/scoops/SVM/src/) to allow for great code readability and easy editing.
  *
  * The main function of SVM is executing bytecode (.svmb) files brought to life
@@ -10,14 +10,14 @@
  *
  * Scoops Virtual Machine ...
  *     1. Checks existance of the file that was passed to it using the
- *        "FileExists" function from the "util.h" file;
+ *        "FileExists" function from the "util.hpp" file;
  *     2. Reads the file into an array of bytes -- declared as "char* bytes" 
  *        in the main function -- using the "ReadFile" function 
- *        from the "util.h" file;
+ *        from the "util.hpp" file;
  *     2. Initialises stacks;
  *     3. Proceeds into the execution loop where it uses the instruction pointer
  *        to move along the "bytes" array, executing opcodes using the "exec"
- *        function from the "exec.h" file;
+ *        function from the "exec.hpp" file;
  *     4. Upon successful completion -- namely when the HALT opcode 
  *        is reached -- returns 0.
  *
@@ -43,8 +43,8 @@
 #include <string.h>
 #include <stack>
 
-#include "util.h"
-#include "exec.h"
+#include "util.hpp"
+#include "exec.hpp"
 
 
 

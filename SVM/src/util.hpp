@@ -1,9 +1,11 @@
 /* By Viktor A. Rozenko Voitenko (2019)
  *
- * This is the "util.h" header file for the Scoops Virtual Machine (SVM). 
+ * This is the "util.hpp" header file for the Scoops Virtual Machine (SVM). 
  * It is used as a header file for function and type definitions that are shared
  * between multiple files in this directory. Thus, you can see many other files
- * including it, while "util.h" itself mostly uses just the standard library.
+ * including it, while "util.hpp" itself mostly uses just the standard library.
+ *
+ * P.S. All SVM opcodes are defined here.
  *
  */
  
