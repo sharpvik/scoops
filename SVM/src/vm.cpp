@@ -1,10 +1,48 @@
-// STD LIB IMPORTS
+/* By Viktor A. Rozenko Voitenko (2019)
+ *
+ * This is the main C++ file for the Scoops Virtual Machine (SVM). It makes
+ * use of the header (.h) files that are located in this directory
+ * (<...>/scoops/SVM/src/) to allow for great code readability and easy editing.
+ *
+ * The main function of SVM is executing bytecode (.svmb) files brought to life
+ * by the Compiler (see 'Compiler' folder for details or refer to the general
+ * documentation in the 'Doc' folder).
+ *
+ * Scoops Virtual Machine ...
+ *     1. Checks existance of the file that was passed to it using the
+ *        "FileExists" function from the "util.h" file;
+ *     2. Reads the file into an array of bytes -- declared as "char* bytes" 
+ *        in the main function -- using the "ReadFile" function 
+ *        from the "util.h" file;
+ *     2. Initialises stacks;
+ *     3. Proceeds into the execution loop where it uses the instruction pointer
+ *        to move along the "bytes" array, executing opcodes using the "exec"
+ *        function from the "exec.h" file;
+ *     4. Upon successful completion -- namely when the HALT opcode 
+ *        is reached -- returns 0.
+ *
+ *
+ * Usage details:
+ *     CMD:
+ *     ~$ vm.exe <filename>.svmb
+ *
+ *     (Mac OS / Linux) Terminal:
+ *     ~$ vm <filename>.svmb
+ *
+ * 
+ * Return codes and their meanings:
+ *     0   = "OK"
+ *     1   = "no filename specified"
+ *     404 = "file not found"
+ *
+ */
+
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stack>
 
-
-// OWN IMPORTS
 #include "util.h"
 #include "exec.h"
 
@@ -20,7 +58,7 @@ int main(int argc, char* argv[])
     if (argc > 1) filename = argv[1];
     else 
     {
-        printf("Usage: vm.exe <filename>\n");
+        usage();
         return 1; // return code 1 = "no filename specified"
     }
     // check if file exists
@@ -33,16 +71,20 @@ int main(int argc, char* argv[])
         printf("File does not exist.\n");
         return 404; // return code 404 = "file not found"
     }
+    
+    
+    // STACKS
+    std::stack<OBJECT> data;
 
     
     // EXECUTION LOOP
-    char *ip = &bytes[0];
-    while (*ip != 4)
+    char *ip = bytes;
+    while (*ip != HALT)
     {
-        //printf("%u\n", *ip);
-        ip = exec(ip);
+        // printf("opcode %d found\n", *ip);
+        ip = exec(ip, &data);
     }
     
     
-    return 0;
+    return 0; // return code 0 = "OK"
 }

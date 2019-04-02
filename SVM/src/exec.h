@@ -1,25 +1,45 @@
+/* By Viktor A. Rozenko Voitenko (2019)
+ *
+ * This is the "exec.h" header file for the Scoops Virtual Machine (SVM). 
+ * It is used by "vm.cpp" to execute bytecode instructions.
+ *
+ * "exec" function ...
+ *     1. Accepts instruction pointer (*ip) and pointer to the data stack 
+ *        (*data) as its arguments;
+ *     2. Using the switch statement with *ip, it executes a function to which
+ *        the opcode refers (all opcode functions are located in
+ *        the "ops.h" header file, preprocessor define statements for opcodes
+ *        can be found in the "util.h" file);
+ *     2. Returns new instruction pointer altered by the opcode 
+ *        function that it executed (for details on how and why opcode functions
+ *        alter the instruction pointer see "ops.h" file).
+ *
+ */
+ 
+
+
 #pragma once
 
+#include <stack>
+
+#include "util.h"
 #include "ops.h"
 
 
 
-char * exec(char *ip)
+char * exec(char *ip, std::stack<OBJECT> *data)
 {
     switch (*ip)
     {
-        case 10:
-            op_hello();
-            return ip + 1;
+        case PUSH_CHAR:
+            return push_char(ip, data);
             break;
             
-        case 97:
-            op_foo();
-            return ip + 1;
+        case EMIT_CHAR:
+            return emit_char(ip, data);
             break;
         
         default:
-            op_nop();
-            return ip + 1;
+            return nop(ip);
     }
 }

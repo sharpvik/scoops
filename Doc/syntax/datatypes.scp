@@ -5,18 +5,10 @@
 b := true # bln
 
 
-# 'int' stands for 'Integer'. This data type
-# represents all integers (whole numbers).
-i := 42 # int
-
-
-# 'flt' is short for 'Floating-Point Numbers'.
-# This data type represents all the decimals.
-# In theory, type 'int' should have been an
-# instance of type 'flt', however, due to
-# the low level numbers' representation it is
-# not the case (which is sad).
-f := 3.14 # flt
+# 'num' is short for 'Number'.
+# This data type represents all rational numbers
+# including integers and decimals.
+n := 3.14 # num
 
 
 # 'chr' stands for 'Character'. This data type
