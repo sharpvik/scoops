@@ -67,7 +67,8 @@ int main(int argc, char* argv[])
         bytes = ReadFile(filename);
         length = strlen(bytes);
     }
-    else {
+    else 
+    {
         printf("File does not exist.\n");
         return 404; // return code 404 = "file not found"
     }
