@@ -175,7 +175,7 @@ char* binary_xor(char* ip, std::stack<OBJECT>* data)
     OBJECT a = data->top(); data->pop();
     OBJECT o;
     o.type = 'b';
-    o.b = a.b && !b.b || !a.b && b.b;
+    o.b = a.b ^ b.b;
     data->push(o);
     return ip + 1;
 }
@@ -185,5 +185,83 @@ char* binary_xor(char* ip, std::stack<OBJECT>* data)
 char* print_newline(char* ip)
 {
     printf("\n");
+    return ip + 1;
+}
+
+
+// 12
+char* equal_to(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.n == b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+//-------------------------------------------------------------
+// 12
+char* not_eq_to(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.n != b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 12
+char* grt_than(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.n > b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 12
+char* grt_eq_to(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.n >= b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 12
+char* less_than(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.n < b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 12
+char* less_eq_to(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.n <= b.n;
+    data->push(o);
     return ip + 1;
 }

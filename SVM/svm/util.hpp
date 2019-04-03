@@ -33,6 +33,12 @@ enum Opcode {
     BINARY_OR,      // 9
     BINARY_XOR,     // 10
     PRINT_NEWLINE,  // 11
+    EQUAL_TO,       // 12
+    NOT_EQ_TO,      // 13
+    GRT_THAN,       // 14
+    GRT_EQ_TO,      // 15
+    LESS_THAN,      // 16
+    LESS_EQ_TO,     // 17
 };
 
 

@@ -75,6 +75,30 @@ char* exec(char *ip, std::stack<OBJECT> *data)
             return print_newline(ip);
             break;
         
+        case EQUAL_TO:
+            return equal_to(ip, data);
+            break;
+        
+        case NOT_EQ_TO:
+            return not_eq_to(ip, data);
+            break;
+        
+        case GRT_THAN:
+            return grt_than(ip, data);
+            break;
+        
+        case GRT_EQ_TO:
+            return grt_eq_to(ip, data);
+            break;
+            
+        case LESS_THAN:
+            return less_than(ip, data);
+            break;
+        
+        case LESS_EQ_TO:
+            return less_eq_to(ip, data);
+            break;
+        
         default:
             return nop(ip);
     }

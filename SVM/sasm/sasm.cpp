@@ -26,6 +26,7 @@
  *
  * Example program:
  *     # just a comment
+ *     # this program prints the meaning of life
  *     PUSH_CONST 41
  *     PUSH_CONST 1
  *     BINARY_ADD
@@ -35,8 +36,8 @@
  *
  * 
  * Return codes and their meanings:
- *     0   = "OK"
- *     1   = "no filename specified"
+ *     0 = "OK"
+ *     1 = "no filename specified"
  * 
  */
  
@@ -66,10 +67,12 @@ void usage()
 
 
 // VALID OPCODE MNEMONICS
-std::vector<std::string> 
-valid_mnemonics{"HALT", "EMIT_CONST", "PUSH_BLN", "PUSH_CHR", "PUSH_NUM", 
-    "BINARY_ADD", "BINARY_SUB", "BINARY_MUL", "BINARY_DIV", "BINARY_NOT",
-    "BINARY_AND", "BINARY_OR", "BINARY_XOR", "PRINT_NEWLINE"
+std::vector<std::string> valid_mnemonics
+{
+    "HALT", "PUSH_CONST", "EMIT_CONST", "BINARY_ADD", "BINARY_SUB", 
+    "BINARY_MUL", "BINARY_DIV", "BINARY_NOT", "BINARY_AND", "BINARY_OR", 
+    "BINARY_XOR", "PRINT_NEWLINE", "EQUAL_TO", "NOT_EQ_TO", "GRT_THAN", 
+    "GRT_EQ_TO", "LESS_THAN", "LESS_EQ_TO",
 };
 
 
