@@ -26,8 +26,8 @@
  *
  * Example program:
  *     # just a comment
- *     PUSH_NUM 41
- *     PUSH_NUM 1
+ *     PUSH_CONST 41
+ *     PUSH_CONST 1
  *     BINARY_ADD
  *     EMIT_CONST
  *     PRINT_NEWLINE
