@@ -55,23 +55,20 @@ int main(int argc, char* argv[])
     char* bytes;
     unsigned int length;
     // check if filename was specified
-    if (argc > 1) filename = argv[1];
-    else 
+    if (argc < 2)
     {
         usage();
         return 1; // return code 1 = "no filename specified"
     }
+    filename = argv[1];
     // check if file exists
-    if ( FileExists(filename) )
-    {
-        bytes = ReadFile(filename);
-        length = strlen(bytes);
-    }
-    else 
+    if ( !FileExists(filename) )
     {
         printf("File does not exist.\n");
         return 404; // return code 404 = "file not found"
     }
+    bytes = ReadFile(filename);
+    length = strlen(bytes);
     
     
     // STACKS
@@ -82,7 +79,7 @@ int main(int argc, char* argv[])
     char *ip = bytes;
     while (*ip != HALT)
     {
-        // printf("opcode %d found\n", *ip);
+        //printf("opcode %d found\n", *ip);
         ip = exec(ip, &data);
     }
     

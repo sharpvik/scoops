@@ -21,11 +21,20 @@
 
 
 // OPCODES
-#define HALT        0
-#define EMIT_CONST  1
-#define PUSH_BLN    2
-#define PUSH_CHR    3
-#define PUSH_NUM    4
+#define HALT            0
+#define EMIT_CONST      1
+#define PUSH_BLN        2
+#define PUSH_CHR        3
+#define PUSH_NUM        4
+#define BINARY_ADD      5
+#define BINARY_SUB      6
+#define BINARY_MUL      7
+#define BINARY_DIV      8
+#define BINARY_NOT      9
+#define BINARY_AND      10
+#define BINARY_OR       11
+#define BINARY_XOR      12
+#define PRINT_NEWLINE   13
 
 
 

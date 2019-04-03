@@ -24,11 +24,11 @@
 
 
 // anything excecpt codes below
-char * nop(char *ip) { return ip + 1; }
+char* nop(char* ip) { return ip + 1; }
 
 
 // 1
-char* emit_const(char *ip, std::stack<OBJECT> *data) 
+char* emit_const(char* ip, std::stack<OBJECT>* data) 
 { 
     OBJECT o = data->top();
     data->pop();
@@ -52,7 +52,7 @@ char* emit_const(char *ip, std::stack<OBJECT> *data)
 
 
 // 2
-char* push_bln(char *ip, std::stack<OBJECT> *data)
+char* push_bln(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT o;
     o.type = 'b';
@@ -63,7 +63,7 @@ char* push_bln(char *ip, std::stack<OBJECT> *data)
 
 
 // 3
-char* push_chr(char *ip, std::stack<OBJECT> *data) 
+char* push_chr(char* ip, std::stack<OBJECT>* data) 
 {
     OBJECT o;
     o.type = 'c';
@@ -74,11 +74,122 @@ char* push_chr(char *ip, std::stack<OBJECT> *data)
 
 
 // 4
-char* push_num(char *ip, std::stack<OBJECT> *data)
+char* push_num(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT o;
     o.type = 'n';
     o.n = *reinterpret_cast<double*>(ip + 1);
     data->push(o);
+    return ip + 9;
+}
+
+
+// 5
+char* binary_add(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'n';
+    o.n = a.n + b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 6
+char* binary_sub(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'n';
+    o.n = a.n - b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 7
+char* binary_mul(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'n';
+    o.n = a.n * b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 8
+char* binary_div(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'n';
+    o.n = a.n / b.n;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 9
+char* binary_not(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = !a.b;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 10
+char* binary_and(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.b && b.b;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 11
+char* binary_or(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.b || b.b;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 12
+char* binary_xor(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT b = data->top(); data->pop();
+    OBJECT a = data->top(); data->pop();
+    OBJECT o;
+    o.type = 'b';
+    o.b = a.b && !b.b || !a.b && b.b;
+    data->push(o);
+    return ip + 1;
+}
+
+
+// 13
+char* print_newline(char* ip)
+{
+    printf("\n");
     return ip + 1;
 }
