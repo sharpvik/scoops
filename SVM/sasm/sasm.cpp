@@ -49,6 +49,9 @@
 #include <vector>
 
 #include "../svm/util.hpp"
+#include "lex.hpp"
+#include "err.hpp"
+#include "gen.hpp"
 
 
 
@@ -63,17 +66,6 @@ void usage()
         "\t~$ vm <infile path>/<filename>.sasm <outfile path>/<filename>.svmb";
     std::cout << u << "\n";
 }
-
-
-
-// VALID OPCODE MNEMONICS
-std::vector<std::string> valid_mnemonics
-{
-    "HALT", "PUSH_CONST", "EMIT_CONST", "BINARY_ADD", "BINARY_SUB", 
-    "BINARY_MUL", "BINARY_DIV", "BINARY_NOT", "BINARY_AND", "BINARY_OR", 
-    "BINARY_XOR", "PRINT_NEWLINE", "EQUAL_TO", "NOT_EQ_TO", "GRT_THAN", 
-    "GRT_EQ_TO", "LESS_THAN", "LESS_EQ_TO",
-};
 
 
 
