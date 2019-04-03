@@ -201,8 +201,8 @@ char* equal_to(char* ip, std::stack<OBJECT>* data)
     return ip + 1;
 }
 
-//-------------------------------------------------------------
-// 12
+
+// 13
 char* not_eq_to(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT b = data->top(); data->pop();
@@ -215,7 +215,7 @@ char* not_eq_to(char* ip, std::stack<OBJECT>* data)
 }
 
 
-// 12
+// 14
 char* grt_than(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT b = data->top(); data->pop();
@@ -228,7 +228,7 @@ char* grt_than(char* ip, std::stack<OBJECT>* data)
 }
 
 
-// 12
+// 15
 char* grt_eq_to(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT b = data->top(); data->pop();
@@ -241,7 +241,7 @@ char* grt_eq_to(char* ip, std::stack<OBJECT>* data)
 }
 
 
-// 12
+// 16
 char* less_than(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT b = data->top(); data->pop();
@@ -254,7 +254,7 @@ char* less_than(char* ip, std::stack<OBJECT>* data)
 }
 
 
-// 12
+// 17
 char* less_eq_to(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT b = data->top(); data->pop();
