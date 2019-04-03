@@ -15,26 +15,25 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <fstream>
 
 
 
 // OPCODES
-#define HALT            0
-#define EMIT_CONST      1
-#define PUSH_BLN        2
-#define PUSH_CHR        3
-#define PUSH_NUM        4
-#define BINARY_ADD      5
-#define BINARY_SUB      6
-#define BINARY_MUL      7
-#define BINARY_DIV      8
-#define BINARY_NOT      9
-#define BINARY_AND      10
-#define BINARY_OR       11
-#define BINARY_XOR      12
-#define PRINT_NEWLINE   13
+enum Opcode {
+    HALT,           // 0
+    PUSH_CONST,     // 1
+    EMIT_CONST,     // 2
+    BINARY_ADD,     // 3
+    BINARY_SUB,     // 4
+    BINARY_MUL,     // 5
+    BINARY_DIV,     // 6
+    BINARY_NOT,     // 7
+    BINARY_AND,     // 8
+    BINARY_OR,      // 9
+    BINARY_XOR,     // 10
+    PRINT_NEWLINE,  // 11
+};
 
 
 
@@ -75,19 +74,4 @@ char* ReadFile(char* filename)
     char* buffer;
     file.read(buffer, length);
     return buffer;
-}
-
-
-
-// USAGE
-void usage()
-{
-    std::string u = 
-        "Usage details:\n "
-        "\t(Windows) CMD:\n "
-        "\t~$ vm.exe <filename>.svmb\n "
-        "\n "
-        "\t(Mac OS / Linux) Terminal:\n "
-        "\t~$ vm <filename>.svmb";
-    std::cout << u << "\n";
 }

@@ -48,6 +48,20 @@
 
 
 
+void usage()
+{
+    std::string u = 
+        "Usage details:\n "
+        "\t(Windows) CMD:\n "
+        "\t~$ vm.exe <filename>.svmb\n "
+        "\n "
+        "\t(Mac OS / Linux) Terminal:\n "
+        "\t~$ vm <filename>.svmb";
+    std::cout << u << "\n";
+}
+
+
+
 int main(int argc, char* argv[])
 {
     // READ FILE

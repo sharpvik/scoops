@@ -31,26 +31,18 @@ char* exec(char *ip, std::stack<OBJECT> *data)
 {
     switch (*ip)
     {
-        case PUSH_BLN:
-            return push_bln(ip, data);
-            break;
-        
-        case PUSH_CHR:
-            return push_chr(ip, data);
-            break;
-            
-        case PUSH_NUM:
-            return push_num(ip, data);
-            break;
-            
         case EMIT_CONST:
             return emit_const(ip, data);
             break;
             
+        case PUSH_CONST:
+            return push_const(ip, data);
+            break;
+        
         case BINARY_ADD:
             return binary_add(ip, data);
             break;
-            
+        
         case BINARY_SUB:
             return binary_sub(ip, data);
             break;
@@ -58,15 +50,15 @@ char* exec(char *ip, std::stack<OBJECT> *data)
         case BINARY_MUL:
             return binary_mul(ip, data);
             break;
-            
+        
         case BINARY_DIV:
             return binary_div(ip, data);
             break;
-            
+        
         case BINARY_NOT:
             return binary_not(ip, data);
             break;
-            
+        
         case BINARY_AND:
             return binary_and(ip, data);
             break;
@@ -78,7 +70,7 @@ char* exec(char *ip, std::stack<OBJECT> *data)
         case BINARY_XOR:
             return binary_xor(ip, data);
             break;
-            
+        
         case PRINT_NEWLINE:
             return print_newline(ip);
             break;
