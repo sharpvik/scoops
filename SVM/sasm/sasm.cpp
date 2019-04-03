@@ -1,6 +1,6 @@
 /* By Viktor A. Rozenko Voitenko (2019)
  *
- * This is the main "sasm.cpp" file for the Scoops Assembly (SASM). 
+ * This is the main "sasm.cpp" file for the Scoops Assembler (SASM). 
  * As Scoops Virtual Machine (SVM) operates on bytecode it is hard to write
  * programs for it -- programming in bytes is not much fun -- it's almost like
  * coding in binary. Therefore, SASM has been created to provide an intermediate

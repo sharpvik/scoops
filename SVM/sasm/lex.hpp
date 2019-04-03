@@ -1,3 +1,19 @@
+/* By Viktor A. Rozenko Voitenko (2019)
+ *
+ * This is the "lex.hpp" header file for the Scoops Assembler (SASM). 
+ * It is used by "sasm.cpp" as a header file for function definitions that are 
+ * required for lexical analysis of SASM instructions. As you can see, it also
+ * has a few vectors that hold values required to check lexems' type.
+ *
+ * To operate correctly, vector "ops" must always contain the latest most 
+ * relevant list of Scoops Virtual Machine (SVM) opcodes and in the right order!
+ * If any opcodes were to be added, changed or altered, this change must be
+ * reflected on this file -- and more specifically on the "ops" vector.
+ *
+ */
+ 
+ 
+
 #include <iostream>
 #include <vector>
 #include <string>
