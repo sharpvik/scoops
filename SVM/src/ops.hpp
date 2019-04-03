@@ -35,7 +35,7 @@ char* emit_const(char *ip, std::stack<OBJECT> *data)
     
     switch (o.type) {
         case 'b': // bln
-            printf("%b", o.b);
+            printf(o.b ? "true" : "false");
             break;
             
         case 'c': // chr
@@ -78,7 +78,7 @@ char* push_num(char *ip, std::stack<OBJECT> *data)
 {
     OBJECT o;
     o.type = 'n';
-    o.n = 3.14159;
+    o.n = *reinterpret_cast<double*>(ip + 1);
     data->push(o);
     return ip + 1;
 }
