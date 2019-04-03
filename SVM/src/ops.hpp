@@ -52,6 +52,7 @@ char* emit_const(char* ip, std::stack<OBJECT>* data)
 
 
 // 2
+// receives next byte as operand (converts it to 'bool')
 char* push_bln(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT o;
@@ -63,6 +64,7 @@ char* push_bln(char* ip, std::stack<OBJECT>* data)
 
 
 // 3
+// receives next byte as operand (converts it to 'char')
 char* push_chr(char* ip, std::stack<OBJECT>* data) 
 {
     OBJECT o;
@@ -74,6 +76,7 @@ char* push_chr(char* ip, std::stack<OBJECT>* data)
 
 
 // 4
+// receives next 8 bytes as operand (converts them to 'double')
 char* push_num(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT o;
