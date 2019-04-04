@@ -44,8 +44,9 @@
  *
  * 
  * Return codes and their meanings:
- *     0 = "OK"
- *     1 = "no filename specified"
+ *     0   = "OK"
+ *     1   = "no filename specified"
+ *     404 = "file not found"
  * 
  */
  
