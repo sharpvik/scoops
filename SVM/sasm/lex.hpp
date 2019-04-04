@@ -10,6 +10,10 @@
  * If any opcodes were to be added, changed or altered, _this change must be
  * reflected on _this file -- and more specifically on the "ops" vector.
  *
+ * The "lex" function is a state machine that uses the "buffer" variable 
+ * to accumulate characters it reads from the "line" string and produce a vector
+ * of TOKENs (TOKEN type is defined below).
+ *
  */
 
 
@@ -94,7 +98,7 @@ std::vector<TOKEN> lex(std::string line)
     for (int i = 0; i < line_length; i++)
     {
         char _this = line[i];
-        //std::cout << current_state << " " << _this << "\n";
+        //std::cout << current_state << " " << _this << "\n"; // debug
         switch (current_state) {
             case NONE: // decide on the next state
                 switch (_this) {

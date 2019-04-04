@@ -8,7 +8,17 @@
  * files. SASM's file format is ".scpa" which stands for Scoops Assembly.
  *
  * This file relies on the "../svm/util.hpp" for opcode and function definitions
- * that -- as you can imagine -- this assemly language is based on.
+ * that -- as you can imagine -- this assemly language is based on. It also
+ * relies on the header (.hpp) files in this directory.
+ *
+ * What SASM does:
+ *     1. Reads input ".scpa" file line by line;
+ *     2. Runs the "lex" function (from "lex.hpp") -- passing each line as an
+ *        argument -- that returns a vector of TOKENs (TOKEN type 
+ *        is defined in "lex.hpp");
+ *     3. Error checking based on lexer's output -- namely checking for TOKENs
+ *        with "error" type;
+ *     4. Bytecode generation based on the vector of TOKENs.
  *
  *
  * Usage details:
@@ -98,7 +108,7 @@ int main(int argc, char* argv[])
             TOKEN t = toks[i];
             std::cout << t.type << " "; 
         } std::cout << "\n";
-        ----------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------*/
         
         
         // RUN ERROR CHECKER
@@ -120,7 +130,7 @@ int main(int argc, char* argv[])
     {
         // write to path specified
     } 
-    --------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------*/
     
     
     return 0;
