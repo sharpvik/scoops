@@ -99,9 +99,11 @@ std::vector<TOKEN> lex(std::string line)
     {
         char _this = line[i];
         //std::cout << current_state << " " << _this << "\n"; // debug
-        switch (current_state) {
+        switch (current_state) 
+        {
             case NONE: // decide on the next state
-                switch (_this) {
+                switch (_this) 
+                {
                     case 'b':
                         current_state = BOOL_READ;
                         break;
@@ -113,6 +115,9 @@ std::vector<TOKEN> lex(std::string line)
                     case '\'':
                         current_state = CHAR_READ;
                         break;
+                        
+                    default:
+                        current_state = NONE;
                 }
                 break;
                 
