@@ -46,6 +46,7 @@
  * Return codes and their meanings:
  *     0   = "OK"
  *     1   = "no filename specified"
+ *     2   = "syntax error"
  *     404 = "file not found"
  * 
  */
@@ -96,13 +97,23 @@ int main(int argc, char* argv[])
         return 404; // return code 404 = "file not found"
     }
     // read line by line
+    unsigned int line_count = 1;
     std::ifstream file(filename);
     std::string line;
     while ( std::getline(file, line) )
     {
+        // SKIP EMPTY LINES AND LINES WITH COMMENTS
+        if ( line[0] == 0 || line.substr(0, 2) == "//" )
+        {
+            //printf("Line %d ignored.\n", line_count); // debug
+            line_count++;
+            continue;
+        }
+        
+        
         // RUN LEXER
         std::vector<TOKEN> toks = lex(line + " ");
-        /*----------------------------- LEX DEBUG ------------------------------
+        /*----------------------------- LEX DEBUG -----------------------------/
         std::cout << line << "\n"; 
         for (int i = 0; i < toks.size(); i++)
         {
@@ -113,15 +124,23 @@ int main(int argc, char* argv[])
         
         
         // RUN ERROR CHECKER
-        //
+        if ( error_detected(toks) )
+        {
+            printf("\nSYNTAX ERROR on line %d.\n", line_count);
+            printf("Assembler exited with non-zero return value.\n");
+            return 2;
+        }
         
         
         // RUN BYTECODE GEN
         //
+        
+        
+        line_count++;
     }
     
     
-    /*----------------------------- WRITE TO FILE ------------------------------
+    /*----------------------------- WRITE TO FILE -----------------------------/
     // check if output filename was specified
     if (argc < 3)
     {
