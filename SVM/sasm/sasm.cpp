@@ -25,10 +25,8 @@
  *
  *
  * Example program:
- *     # just a comment
- *     # this program prints the meaning of life
- *     PUSH_CONST 41
- *     PUSH_CONST 1
+ *     PUSH_CONST #41
+ *     PUSH_CONST #1
  *     BINARY_ADD
  *     EMIT_CONST
  *     PRINT_NEWLINE
@@ -92,7 +90,15 @@ int main(int argc, char* argv[])
     while ( std::getline(file, line) )
     {
         // RUN LEXER
-        //
+        std::vector<TOKEN> toks = lex(line + " ");
+        /*----------------------------- LEX DEBUG ------------------------------
+        std::cout << line << "\n"; 
+        for (int i = 0; i < toks.size(); i++)
+        {
+            TOKEN t = toks[i];
+            std::cout << t.type << " "; 
+        } std::cout << "\n";
+        ----------------------------------------------------------------------*/
         
         
         // RUN ERROR CHECKER
@@ -104,7 +110,7 @@ int main(int argc, char* argv[])
     }
     
     
-    /* WRITE TO FILE
+    /*----------------------------- WRITE TO FILE ------------------------------
     // check if output filename was specified
     if (argc < 3)
     {
@@ -113,7 +119,8 @@ int main(int argc, char* argv[])
     else
     {
         // write to path specified
-    } */
+    } 
+    --------------------------------------------------------------------------*/
     
     
     return 0;

@@ -5,9 +5,13 @@
  * required for bytecode generation. 
  *
  */
+
+
+
+#pragma once
+
+
  
-
-
 // UTILITY FUNCTIONS
 unsigned char* double_to_bytes(double &n)
 { return reinterpret_cast<unsigned char*>(&n); }
