@@ -19,6 +19,9 @@
  *     3. Error checking based on lexer's output -- namely checking for TOKENs
  *        with "error" type;
  *     4. Bytecode generation based on the vector of TOKENs.
+ *     5. Writing bytecode to the output file specified or to file in the local
+ *        directory. Output file is of ".scpb" format, which stands for Scoops
+ *        bytecode. Bytecode files will be used by SVM.
  *
  *
  * Usage details:
@@ -60,11 +63,11 @@
 
 #include "../svm/util.hpp"
 #include "lex.hpp"
-#include "err.hpp"
 #include "gen.hpp"
 
 
 
+// UTILITY FUNCTIONS
 void usage()
 {
     std::string u = 
@@ -75,6 +78,18 @@ void usage()
         "\t(Mac OS / Linux) Terminal:\n "
         "\t~$ vm <infile path>/<filename>.sasm <outfile path>/<filename>.svmb";
     std::cout << u << "\n";
+}
+
+
+bool error_detected(std::vector<TOKEN> toks)
+{
+    int toks_size = toks.size();
+    for (int i = 0; i < toks_size; i++)
+    {
+        TOKEN t = toks[i];
+        if (t.type == "error") return true;
+    }
+    return false;
 }
 
 
@@ -113,7 +128,7 @@ int main(int argc, char* argv[])
         
         // RUN LEXER
         std::vector<TOKEN> toks = lex(line + " ");
-        /*----------------------------- LEX DEBUG -----------------------------/
+        /*----------------------------- LEX DEBUG ----------------------------*/
         std::cout << line << "\n"; 
         for (int i = 0; i < toks.size(); i++)
         {
@@ -153,5 +168,5 @@ int main(int argc, char* argv[])
     /*------------------------------------------------------------------------*/
     
     
-    return 0;
+    return 0; // return code 0 = "OK"
 }
