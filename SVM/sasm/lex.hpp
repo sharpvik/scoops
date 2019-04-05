@@ -80,7 +80,7 @@ bool num_check(std::string buffer)
     for (int i = 0; i < buffer_length; i++)
     {
         char _this = buffer[i];
-        if (_this < 48 || _this > 57) return false;
+        if (_this < '0' || _this > '9' || _this != '.') return false;
     }
     return true;
 }
@@ -169,8 +169,7 @@ std::vector<TOKEN> lex(std::string line)
                     TOKEN t;
                     int buffer_length = buffer.length();
                     t.type = buffer_length == 1 ? "bool" : "error";
-                    t.bln_val = buffer[0] - '0' == 1;
-                    if (buffer_length != 1) t.bln_val = 1;
+                    t.bln_val = buffer_length != 1 ? 1 : buffer[0] - '0' == 1;
                     toks.push_back(t);
                     buffer = "";
                     current_state = NONE;
