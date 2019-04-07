@@ -23,10 +23,6 @@
 
 
 
-// anything excecpt codes below
-char* nop(char* ip) { return ip + 1; }
-
-
 // 1
 char* push_const(char* ip, std::stack<OBJECT>* data)
 {
@@ -265,3 +261,7 @@ char* less_eq_to(char* ip, std::stack<OBJECT>* data)
     data->push(o);
     return ip + 1;
 }
+
+
+// 18
+char* nop(char* ip) { return ip + 1; }

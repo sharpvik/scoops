@@ -108,12 +108,12 @@ std::vector<TOKEN> lex(std::string line)
                         current_state = BOOL_READ;
                         break;
                         
-                    case '#':
-                        current_state = NUM_READ;
-                        break;
-                        
                     case '\'':
                         current_state = CHAR_READ;
+                        break;
+                        
+                    case '#':
+                        current_state = NUM_READ;
                         break;
                         
                     default:
@@ -133,6 +133,20 @@ std::vector<TOKEN> lex(std::string line)
                     current_state = NONE;
                 }
                 else buffer += _this; // continue reading opcode
+                break;
+                
+            case BOOL_READ:
+                if (_this == ' ') // done reading bool
+                {
+                    TOKEN t;
+                    int buffer_length = buffer.length();
+                    t.type = buffer_length == 1 ? "bool" : "error";
+                    t.bln_val = buffer_length != 1 ? 1 : buffer[0] == '1';
+                    toks.push_back(t);
+                    buffer = "";
+                    current_state = NONE;
+                }
+                else buffer += _this; // continue reading bool
                 break;
                 
             case CHAR_READ:
@@ -161,20 +175,6 @@ std::vector<TOKEN> lex(std::string line)
                     current_state = NONE;
                 }
                 else buffer += _this; // continue reading num
-                break;
-                
-            case BOOL_READ:
-                if (_this == ' ') // done reading bool
-                {
-                    TOKEN t;
-                    int buffer_length = buffer.length();
-                    t.type = buffer_length == 1 ? "bool" : "error";
-                    t.bln_val = buffer_length != 1 ? 1 : buffer[0] - '0' == 1;
-                    toks.push_back(t);
-                    buffer = "";
-                    current_state = NONE;
-                }
-                else buffer += _this; // continue reading bool
                 break;
         }
     }

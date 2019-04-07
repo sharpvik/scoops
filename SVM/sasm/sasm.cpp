@@ -16,10 +16,13 @@
  *     2. Runs the "lex" function (from "lex.hpp") -- passing each line as an
  *        argument -- that returns a vector of TOKENs (TOKEN type 
  *        is defined in "lex.hpp");
- *     3. Error checking based on lexer's output -- namely checking for TOKENs
- *        with "error" type;
- *     4. Bytecode generation based on the vector of TOKENs.
- *     5. Writing bytecode to the output file specified or to file in the local
+ *     3. Syntactic analysis and error checking based on lexer's output -- 
+ *        namely checking for TOKENs with "error" type;
+ *     4. Semantic analysis and error checking based on the number of operands
+ *        required for each opcode;
+ *     5. Bytecode generation based on the vector of TOKENs ("bytecode_gen"
+ *        functions is defined in "gen.hpp");
+ *     6. Writes bytecode to the output file specified or to file in the local
  *        directory. Output file is of ".scpb" format, which stands for Scoops
  *        bytecode. Bytecode files will be used by SVM.
  *
@@ -50,6 +53,9 @@
  *     0   = "OK"
  *     1   = "no filename specified"
  *     2   = "syntax error"
+ *     3   = "semantic error"
+ *     4   = "bytecode generation error"
+ *     5   = "file open error"
  *     404 = "file not found"
  * 
  */
@@ -60,6 +66,7 @@
 #include <string.h>
 #include <sstream>
 #include <vector>
+#include <fstream>
 
 #include "../svm/util.hpp"
 #include "lex.hpp"
@@ -67,7 +74,31 @@
 
 
 
-// UTILITY FUNCTIONS
+// GLOBAL VARIABLES
+/*
+ * The "number_of_operands" array stores the number of operands needed for each
+ * opcode -- indeces correspond to opcode numbers, integer stored under those
+ * indeces represent the number of operands for that specific opcode. It will be
+ * used for the semantic analysis and error checking.
+ *
+ * For example, PUSH_CONST is the second opcode after HALT and thus indexed [1].
+ * It takes exactly one operand -- the value it is supposed to push onto the
+ * data stack.
+ *
+ * Only the opcodes that require one or more operands are given the value in the
+ * array explicitly -- it is because every index in an array of integers that 
+ * was initialized using just the size (like we did with "number_of_operands") 
+ * would be set to 0 by default anyways.
+ */
+int number_of_operands[128];
+void init_number_of_operands()
+{
+    number_of_operands[1] = 1; // PUSH_CONST
+}
+
+
+
+// FUNCTION DECLARATIONS
 void usage()
 {
     std::string u = 
@@ -81,7 +112,7 @@ void usage()
 }
 
 
-bool error_detected(std::vector<TOKEN> toks)
+bool syntax_error_detected(std::vector<TOKEN> toks)
 {
     int toks_size = toks.size();
     for (int i = 0; i < toks_size; i++)
@@ -93,10 +124,22 @@ bool error_detected(std::vector<TOKEN> toks)
 }
 
 
+bool semantic_error_detected(std::vector<TOKEN> toks)
+{
+    int number_of_operands_given = toks.size() - 1;
+    int number_of_operands_needed = number_of_operands[ toks[0].int_val ];
+    return number_of_operands_needed != number_of_operands_given;
+}
+
+
 
 int main(int argc, char* argv[])
 {
-    // READ FILE LINE BY LINE
+    // PREPARATION
+    init_number_of_operands();
+    
+    
+    // CHECK INPUT FILE
     char* filename;
     // check if filename was specified
     if (argc < 2)
@@ -111,11 +154,14 @@ int main(int argc, char* argv[])
         printf("File does not exist.\n");
         return 404; // return code 404 = "file not found"
     }
-    // read line by line
+    
+    
+    // READ FILE LINE BY LINE
     unsigned int line_count = 1;
-    std::ifstream file(filename);
+    std::vector<unsigned char> buffer;
+    std::ifstream ifile(filename);
     std::string line;
-    while ( std::getline(file, line) )
+    while ( std::getline(ifile, line) )
     {
         // SKIP EMPTY LINES AND LINES WITH COMMENTS
         if ( line[0] == 0 || line.substr(0, 2) == "//" )
@@ -128,44 +174,78 @@ int main(int argc, char* argv[])
         
         // RUN LEXER
         std::vector<TOKEN> toks = lex(line + " ");
-        /*----------------------------- LEX DEBUG ----------------------------*/
+        /*----------------------------- LEX DEBUG -----------------------------/
         std::cout << line << "\n"; 
         for (int i = 0; i < toks.size(); i++)
         {
             TOKEN t = toks[i];
             std::cout << t.type << " "; 
-        } std::cout << "\n";
+        } std::cout << "\n\n";
         /*--------------------------------------------------------------------*/
         
         
-        // RUN ERROR CHECKER
-        if ( error_detected(toks) )
+        // RUN SYNTACTIC ANALYSIS
+        if ( syntax_error_detected(toks) )
         {
             printf("\nSYNTAX ERROR on line %d.\n", line_count);
             printf("Assembler exited with non-zero return value.\n");
-            return 2;
+            return 2; // return code 2 = "syntax error"
+        }
+        
+        
+        // RUN SEMANTIC ANALYSIS
+        if ( semantic_error_detected(toks) )
+        {
+            printf("\nSEMANTIC ERROR on line %d.\n", line_count);
+            printf("Assembler exited with non-zero return value.\n");
+            return 3; // return code 3 = "semantic error"
         }
         
         
         // RUN BYTECODE GEN
-        //
+        if ( !bytecode_gen(toks, &buffer) )
+        {
+            printf("\nBYTECODE GENERATION ERROR on line %d.\n", line_count);
+            printf("Assembler exited with non-zero return value.\n");
+            return 4; // return code 4 = "bytecode generation error"
+        }
+        /*-------------------------- BYTECODE DEBUG ---------------------------/
+        printf("Buffer state at line %d\n", line_count);
+        for (char c : buffer)
+            printf("%d ", c);
+        printf("\n\n");
+        /*--------------------------------------------------------------------*/
         
         
         line_count++;
     }
+    buffer.push_back( (unsigned char)0 ); // append HALT opcode in the end just in case
+    ifile.close();
     
     
-    /*----------------------------- WRITE TO FILE -----------------------------/
+    // WRITE TO FILE
+    std::ofstream ofile;
+    
     // check if output filename was specified
-    if (argc < 3)
-    {
-        // dump file into the current directory
-    }
+    if (argc < 3) ofile.open("a.scpb"); // dump file into the current directory
     else
     {
         // write to path specified
-    } 
-    /*------------------------------------------------------------------------*/
+        filename = argv[2]; 
+        ofile.open(filename);
+    }
+    
+    // error checking
+    if (!ofile)
+    {
+        printf("\nFAILED TO OPEN file %s.\n", filename);
+        printf("Assembler exited with non-zero return value.\n");
+        return 5; // return code 5 = "file open error"
+    }
+    
+    // write to file
+    for (char c : buffer) ofile << c;
+    ofile.close();
     
     
     return 0; // return code 0 = "OK"

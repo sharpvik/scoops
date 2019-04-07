@@ -99,6 +99,10 @@ char* exec(char *ip, std::stack<OBJECT> *data)
             return less_eq_to(ip, data);
             break;
         
+        case NOP:
+            return nop(ip);
+            break;
+        
         default:
             return nop(ip);
     }

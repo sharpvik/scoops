@@ -39,6 +39,7 @@ enum Opcode {
     GRT_EQ_TO,      // 15
     LESS_THAN,      // 16
     LESS_EQ_TO,     // 17
+    NOP,            // 18
 };
 
 
