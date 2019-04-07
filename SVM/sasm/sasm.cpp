@@ -77,7 +77,7 @@
 // GLOBAL VARIABLES
 /*
  * The "number_of_operands" array stores the number of operands needed for each
- * opcode -- indeces correspond to opcode numbers, integer stored under those
+ * opcode -- indeces correspond to opcode numbers, integers stored under those
  * indeces represent the number of operands for that specific opcode. It will be
  * used for the semantic analysis and error checking.
  *
@@ -104,7 +104,8 @@ void usage()
     std::string u = 
         "Usage details:\n "
         "\t(Windows) CMD:\n "
-        "\t~$ sasm.exe <infile path>/<filename>.sasm <outfile path>/<filename>.svmb\n "
+        "\t~$ sasm.exe <infile path>/<filename>.sasm <outfile path>/"
+                                                            "<filename>.svmb\n "
         "\n "
         "\t(Mac OS / Linux) Terminal:\n "
         "\t~$ vm <infile path>/<filename>.sasm <outfile path>/<filename>.svmb";
@@ -219,7 +220,7 @@ int main(int argc, char* argv[])
         
         line_count++;
     }
-    buffer.push_back( (unsigned char)0 ); // append HALT opcode in the end just in case
+    buffer.push_back( (unsigned char)0 ); // append HALT opcode in the end
     ifile.close();
     
     
