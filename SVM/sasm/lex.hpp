@@ -46,11 +46,10 @@ typedef struct TOKEN_t
 // LEXEMES
 std::vector<std::string> ops
 {
-    "HALT", "PUSH_CONST", "EMIT_CONST", "BINARY_ADD", "BINARY_SUB", 
-    "BINARY_MUL", "BINARY_DIV", "BINARY_NOT", "BINARY_AND", "BINARY_OR", 
-    "BINARY_XOR", "PRINT_NEWLINE", "EQUAL_TO", "NOT_EQ_TO", "GRT_THAN", 
-    "GRT_EQ_TO", "LESS_THAN", "LESS_EQ_TO",
-};
+    "HALT", "PUSH_CONST", "EMIT_CONST", "BINARY_OP", "PRINT_NEWLINE", 
+    "EQUAL_TO", "NOT_EQ_TO", "GRT_THAN", "GRT_EQ_TO", "LESS_THAN", "LESS_EQ_TO", 
+    "NOP",
+}; 
 
 
 
@@ -80,7 +79,8 @@ bool num_check(std::string buffer)
     for (int i = 0; i < buffer_length; i++)
     {
         char _this = buffer[i];
-        if ( (_this < '0' || _this > '9') && _this != '.') return false;
+        if ( (_this < '0' || _this > '9') && \
+             _this != '.' && _this != '-' ) return false;
     }
     return true;
 }
@@ -127,7 +127,7 @@ std::vector<TOKEN> lex(std::string line)
                     TOKEN t;
                     char ord = lex_find(ops, buffer);
                     t.type = ord != -1 ? "opcode" : "error";
-                    t.int_val = ord != -1 ? ord : -1 ;
+                    t.int_val = ord != -1 ? ord : -1;
                     toks.push_back(t);
                     buffer = "";
                     current_state = NONE;

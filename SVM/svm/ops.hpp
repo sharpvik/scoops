@@ -265,3 +265,89 @@ char* less_eq_to(char* ip, std::stack<OBJECT>* data)
 
 // 18
 char* nop(char* ip) { return ip + 1; }
+
+
+// 19
+char* binary_op(char* ip, std::stack<OBJECT>* data)
+{
+    OBJECT o;
+    char operation = *(ip + 2);
+    switch (operation)
+    {
+        case '+':
+            {
+                OBJECT b = data->top(); data->pop();
+                OBJECT a = data->top(); data->pop();
+                o.n = a.n + b.n;
+            }
+            o.type = 'n';
+            break;
+            
+        case '-':
+            {
+                OBJECT b = data->top(); data->pop();
+                OBJECT a = data->top(); data->pop();
+                o.n = a.n - b.n;
+            }
+            o.type = 'n';
+            break;
+        
+        case '*':
+            {
+                OBJECT b = data->top(); data->pop();
+                OBJECT a = data->top(); data->pop();
+                o.n = a.n * b.n;
+            }
+            o.type = 'n';
+            break;
+            
+        case '/':
+            {
+                OBJECT b = data->top(); data->pop();
+                OBJECT a = data->top(); data->pop();
+                o.n = a.n / b.n;
+            }
+            o.type = 'n';
+            break;
+            
+        case '!':
+            {
+                OBJECT a = data->top(); data->pop();
+                o.b = !a.b;
+            }
+            o.type = 'b';
+            break;
+            
+        case '&':
+            {
+                OBJECT b = data->top(); data->pop();
+                OBJECT a = data->top(); data->pop();
+                o.b = a.b && b.b;
+            }
+            o.type = 'b';
+            break;
+        
+        case '|':
+            {
+                OBJECT b = data->top(); data->pop();
+                OBJECT a = data->top(); data->pop();
+                o.b = a.b || b.b;
+            }
+            o.type = 'b';
+            break;
+            
+        case '^':
+            {
+                OBJECT b = data->top(); data->pop();
+                OBJECT a = data->top(); data->pop();
+                o.b = a.b ^ b.b;
+            }
+            o.type = 'b';
+            break;
+        
+        default:
+            std::cout << "SHIT IT'S ILLEGAL!\n"; 
+    }
+    data->push(o);
+    return ip + 3;
+}

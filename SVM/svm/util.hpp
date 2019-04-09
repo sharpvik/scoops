@@ -24,14 +24,7 @@ enum Opcode {
     HALT,           // 0
     PUSH_CONST,     // 1
     EMIT_CONST,     // 2
-    BINARY_ADD,     // 3
-    BINARY_SUB,     // 4
-    BINARY_MUL,     // 5
-    BINARY_DIV,     // 6
-    BINARY_NOT,     // 7
-    BINARY_AND,     // 8
-    BINARY_OR,      // 9
-    BINARY_XOR,     // 10
+    BINARY_OP,      // 3
     PRINT_NEWLINE,  // 11
     EQUAL_TO,       // 12
     NOT_EQ_TO,      // 13

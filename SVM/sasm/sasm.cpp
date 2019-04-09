@@ -94,6 +94,7 @@ int number_of_operands[128];
 void init_number_of_operands()
 {
     number_of_operands[1] = 1; // PUSH_CONST
+    number_of_operands[3] = 1; // BINARY_OP
 }
 
 

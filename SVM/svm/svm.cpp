@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
     char *ip = bytes;
     while (*ip != HALT)
     {
-        printf("opcode %d found\n", *ip); // opcode detection debug
+        //printf("opcode %d found\n", *ip); // opcode detection debug
         ip = exec(ip, &data);
     }
     
