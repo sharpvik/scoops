@@ -1,24 +1,24 @@
-# 'bln' stands for 'Boolean'. This data type
-# represents binary values. The only 2 values
-# that belong to the 'bln' data type are
-# 'true' and 'false'.
-b := true # bln
+~ 'bln' stands for 'boolean'. This data type
+~ represents binary values. The only 2 values
+~ that belong to the 'bln' data type are
+~ 'true' and 'false'.
+b := true ~ bln
 
 
-# 'num' is short for 'Number'.
-# This data type represents all rational numbers
-# including integers and decimals.
-n := 3.14 # num
+~ 'num' is short for 'number'.
+~ This data type represents all rational numbers
+~ including integers and decimals.
+n := 3.14 ~ num
 
 
-# 'chr' stands for 'Character'. This data type
-# represents all ASCII characters. Values of
-# type 'chr' must be enclosed in single speech
-# marks (like this 'a', not like this "a").
-c := 'c' # chr
+~ 'chr' stands for 'character'. This data type
+~ represents all ASCII characters. Values of
+~ type 'chr' must be enclosed in single speech
+~ marks (like this 'a', not like this "a").
+c := 'c' ~ chr
 
 
-# 'str' stands for 'String'. This data type
-# represents all combinations of type 'char'.
-# 'str' is basically an array of 'char'.
-s := "Hello, World" # str
+~ 'str' stands for 'string'. This data type
+~ represents all combinations of type 'char'.
+~ 'str' is basically an array of 'char'.
+s := "Hello, World" ~ str

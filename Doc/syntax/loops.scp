@@ -1,0 +1,129 @@
+~ It is important to note that loops themselves are merely repeated anonymous 
+~ scoops and are therefore allowed to be declared in the global space alongside 
+~ with named and anonymous scoops. However -- and it flows logically from the 
+~ basic principles of the Scoops programming language -- such loops will have 
+~ some limitations when compared to the loops that are placed inside a scoop.
+~     1. As I mentioned before, every loop is just a repeated anonymous scoop.
+~        This means that, when placed in the global space outside of any scoop's
+~        body, loops cannot rely on external variables to direct them as there
+~        are simply no variables in the global space.
+~        This means that essentially, all 'while' loops will be 'while true' 
+~        loops and rely on some internal breaking mechanism or go on forever.
+~        In addition to that, 'for' loops are not allowed in the global space.
+~        It is so, because the following hypothetical 'for' loop
+{
+    for i := 0; i < 5; i++ { ~~ print i ~~ }
+}
+~        can and will be replaced by the following construction at compile time
+{
+    i := 0
+    while i < 5
+    {
+        ~ print i
+        i++
+    }
+}
+~        which demonstrates that at a deeper level any 'for' loop requires 
+~        that some variable(s) are created outside of its scoop and it is 
+~        illegal if your 'for' loop is located in the global domain (scope);
+~     2. As every loop has a scoop associated with it, it can return values just
+~        like any normal scoop. However, if your loop is located in the global
+~        space, there are no variable(s) available to unpack its return values
+~        into, which means that even if you provide a return statement for your
+~        global loop, it is not going to be useful.
+~
+~ Now that that's covered, let's discuss some syntax.
+
+
+~ Scoop that uses a while loop.
+scoop whiler_one
+{
+    i := 0
+    while i < 5 { i++ } ~ the 'while' loop itself
+    return i
+}
+
+
+scoop whiler_two
+{
+    i := 0
+    j := 10
+    ~ 'while' loop with multiple lines.
+    while i != j
+    {
+        i++
+        j--
+    }
+    return i + j
+}
+
+
+scoop infinite
+{
+    i := 0
+    ~ Infinite 'while' loop.
+    while true { i++ }
+}
+
+
+~ Any loop can be stopped using 'break' keyword or with a 'return' statement.
+~ There is also the 'continue' keyword that allows you to skip this iteration
+~ if you want to. Down below you can see some useful cases for each of these.
+
+
+~ Use 'while' loop with a 'return' statement to validate input.
+{
+    name := while true {
+        i := ~ ask for user input
+        if ~~ check input data type ~~ { return i }
+    }
+}
+
+
+~ Miniature guessing game that employs the 'break' keyword.
+scoop game
+{
+    count := 0
+    secret := ~~ generate random number between 0 and 10 ~~
+    while true 
+    {
+        i := ~~ let user guess the number ~~
+        ~ By the way, we already know how to efficiently validate user input
+        ~ from the previous example.
+        if i == secret { break }
+        count++
+    }
+    return count
+}
+
+
+~ Print all even numbers from an array using the 'continue' keyword.
+~ You can also notice the use of the 'in' keyword. It is a 'range' loop, it
+~ iterates through each and every element in a collection, assigning its 
+~ value to 'n'.
+scoop evens(arr)
+{
+    for _, n in arr {  if n % 2 == 0 { ~~ print n ~~ } else { continue }  }
+}
+
+
+~ Let's give you just one more 'for range' loop to demonstrate how it works.
+~ Range loops receive two callable values (variable names) before the 'in'
+~ keyword and a collection name after it. While looping throug every element of
+~ the collection in question, first variable will be set to element's index, 
+~ second variable will be set to element's value. These two variables can and
+~ should be used inside the loop.
+scoop enumerate(arr)
+{
+    for i, e in arr { ~~ print i e ~~ } 
+}
+
+
+~ As a good practice note: if you are using a 'for range' loop but you don't
+~ need the use elements' indeces for example, just name first variable '_'. It
+~ improves readability! Whenever you see a loop that's written like
+{
+    for _, e in arr { ~~ do something ~~ }
+}
+~ you can instantly know that it is a so called 'for each' loop as it only
+~ concerns itself with the elements' values, not their indeces.
