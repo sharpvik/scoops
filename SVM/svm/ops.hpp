@@ -271,6 +271,9 @@ char* nop(char* ip) { return ip + 1; }
 char* binary_op(char* ip, std::stack<OBJECT>* data)
 {
     OBJECT o;
+    char type = *(ip + 1);
+    if (type != 'c')
+        printf("Invalid parameter type passed to BINARY_OP.\n");
     char operation = *(ip + 2);
     switch (operation)
     {
@@ -346,7 +349,7 @@ char* binary_op(char* ip, std::stack<OBJECT>* data)
             break;
         
         default:
-            std::cout << "SHIT IT'S ILLEGAL!\n"; 
+            printf("Illegal BINARY_OP parameter: '%c'\n", operation);
     }
     data->push(o);
     return ip + 3;
