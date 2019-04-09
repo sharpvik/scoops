@@ -1,12 +1,12 @@
 /* By Viktor A. Rozenko Voitenko (2019)
  *
- * This is the main C++ file for the Scoops Virtual Machine (SVM). It makes
+ * This is the main file for the Scoops Virtual Machine (SVM). It makes
  * use of the header (.hpp) files that are located in this directory
- * (<...>/scoops/SVM/src/) to allow for great code readability and easy editing.
+ * (<...>/scoops/SVM/svm/) to allow for great code readability and easy editing.
  *
- * The main function of SVM is executing bytecode (.svmb) files brought to life
- * by the Compiler (see 'Compiler' folder for details or refer to the general
- * documentation in the 'Doc' folder).
+ * The main function of SVM is executing bytecode (.scpb) files brought to life
+ * by the Scoops Assembler (SASM). SASM source code can be found in the
+ * following directory: (<...>/scoops/SVM/sasm/).
  *
  * Scoops Virtual Machine ...
  *     1. Checks existance of the file that was passed to it using the

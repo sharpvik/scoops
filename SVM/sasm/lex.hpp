@@ -80,7 +80,7 @@ bool num_check(std::string buffer)
     for (int i = 0; i < buffer_length; i++)
     {
         char _this = buffer[i];
-        if (_this < '0' || _this > '9' && _this != '.') return false;
+        if ( (_this < '0' || _this > '9') && _this != '.') return false;
     }
     return true;
 }
