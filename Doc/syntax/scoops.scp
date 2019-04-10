@@ -15,7 +15,7 @@ scoop my_scoop
 
 ~ Self-executing scoop.
 ~ This is a named scoop that may be called later, however, the keyword 'exec' 
-~ after the scoop's name means that this scoop will be executed immediately just 
+~ after the scoop's name means that this scoop will be executed immediately just
 ~ like an anonymous scoop at the very top of the file.
 scoop selfie exec
 {
@@ -56,29 +56,19 @@ scoop sqrt(n) := n ^ 0.5
 ~ Anonymous scoop that returns multiple values.
 ~ Scoops that don't expect any arguments don't have to have a name.
 ~ It is anonymous and thus, it will be executed immediately. 
-~ Anonymous scoops that return values can only be defined inside another scoops 
-~ as there is no global variable space where these returns can be stored once 
-~ they are unpacked.
-scoop parent
-{
-    s, n := {
-        return "the meaning of life is", 42
-    }
+s, n := {
+    return "the meaning of life is", 42
 }
 
 
 ~ Scoop that returns values of its variables.
-~ This is the second example of unpacking the anonymous scoop's returns into the 
-~ variables of its parent scoop. If you want to use some anonymous scoop's
-~ return values, you have to unpack them into the variables of the parent scoop.
-scoop parent
-{
-    s, n := {
-        meaning := "the meaning of life is"
-        number := 42
-        return meaning, number
-    } 
-}
+~ This is the second example of unpacking the anonymous scoop's returns into the
+~ variables. 
+s, n := {
+    meaning := "the meaning of life is"
+    number := 42
+    return meaning, number
+} 
 
 
 ~ Named scoop that returns values.

@@ -5,14 +5,14 @@ struct basic(a, b)
 
 
 ~ Type.
-~ When struct has scoops associated with it turns into a type. However, the 
-~ keyword at the front is still just a 'struct'.
+~ Type is a struct that has scoop(s) associated with it. However, the keyword
+~ at the front is still just 'struct'.
 struct Right_Triangle(a, b)
 {
     ~ This is an anonymous scoop inside a struct. Whenever this 'right_triangle'
     ~ struct is going to be instantiated, this anonymous scoop is going to be 
-    ~ executed. This is somewhat close to the Python's __init__ function in a
-    ~ class but there are also a few differences.
+    ~ executed. This is somewhat close to Python's __init__ function in a class
+    ~ but there are also a few differences.
     ~     1. It is not mandatory that type has an anonymous scoop such as this
     ~        one (you will see examples of this later); A type that doesn't have
     ~        an anonymous scoop is assumed to only have variables that 
