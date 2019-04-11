@@ -41,10 +41,15 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <vector>
 #include <stack>
 
-#include "util.hpp"
-#include "exec.hpp"
+#include "../Include/util.hpp"
+#include "../Include/objects.hpp"
+#include "../Include/opcodes.hpp"
+
+//#include "exec.hpp"
+//#include "ops.hpp"
 
 
 
@@ -66,36 +71,44 @@ int main(int argc, char* argv[])
 {
     // READ FILE
     char* filename;
-    char* bytes;
-    unsigned int length;
     // check if filename was specified
     if (argc < 2)
     {
         usage();
         return 1; // return code 1 = "no filename specified"
     }
-    filename = argv[1];
+    File src{argv[1]};
     // check if file exists
-    if ( !FileExists(filename) )
+    if ( !src.exists() )
     {
         printf("File does not exist.\n");
         return 404; // return code 404 = "file not found"
     }
-    bytes = ReadFile(filename);
-    length = strlen(bytes);
+    // finally read it
+    src.read();
+    std::vector<BYTE> bytes = src.get_contents();
+    for (BYTE b : bytes) std::cout << b;
+    std::cout << "\n";
     
     
-    // STACKS
-    std::stack<OBJECT> data;
+    // STACKS AND MEMORY
+    std::vector< std::vector<BYTE> > memory;
+    std::stack<ScpObj> data;
+
+
+    // GENERATE INSTRUCTIONS FROM "bytes"
+    //
 
     
     // EXECUTION LOOP
+/*
     char *ip = bytes;
     while (*ip != HALT)
     {
         //printf("opcode %d found\n", *ip); // opcode detection debug
         ip = exec(ip, &data);
     }
+*/
     
     
     return 0; // return code 0 = "OK"

@@ -1,9 +1,8 @@
 /* By Viktor A. Rozenko Voitenko (2019)
  *
  * This is the "util.hpp" header file. 
- * It is used as a header file that is shared between multiple files. Thus,
- * you can see many other files including it, while "util.hpp" itself mostly
- * uses just the standard library.
+ * It is used as a header file for the main most general class, type, and
+ * function definitions and is shared between multiple files.
  *
  */
  
@@ -11,49 +10,43 @@
 
 #pragma once
 
+#include <iostream>
+#include <vector>
 #include <fstream>
+
+
+
+typedef uint8_t BYTE;
 
 
 
 class File
 {
-    char* name;
-    char* contents;
-
+    char* filename;
+    std::vector<BYTE> contents;
 
     public:
+    File (char* filename) { this->filename = filename; }
 
-    File (char* filename) { this->name = filename; }
-
-
-    void set_name(char* filename) { this->name = filename; }
-
-
-    bool exists(char* filename)
+    bool exists()
     {
-        std::ifstream file(filename);
-        return file.good();
+        std::ifstream tester(this->filename);
+        return tester.good();
     }
 
-
-    void read(char* filename)
+    void read()
     {
-        // open file
-        std::ifstream file(filename);
-
-        // get length of file
-        file.seekg(0, file.end);
-        size_t length = file.tellg();
-        file.seekg(0, file.beg);
-
-        // read file and return
-        char* buffer;
-        file.read(buffer, length);
-        this->contents = buffer;
+        if ( !this->exists() )
+        {
+            std::cout << "File does not exist.\n";
+            return;
+        }
+        std::ifstream file;
+        file.open(this->filename);
+        BYTE b;
+        while (file >> b) this->contents.push_back(b);
     }
 
-
-    char* get_contents() { return this->contents; }
-};
-    
+    std::vector<BYTE> get_contents() { return this->contents; }
+}; 
 
