@@ -19,4 +19,5 @@ enum Opcode {
     BINARY_OP,      // 0x04 | 1               | 1
     COMPARE_OP,     // 0x05 | 2               | 0
     PRINT_NEWLINE,  // 0x06 | 0               | 0
+    INSTRUCTION_END = 10,
 };
