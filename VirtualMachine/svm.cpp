@@ -53,6 +53,10 @@
 
 
 
+#define INSTRUCTION std::vector<BYTE>
+
+
+
 void usage()
 {
     std::string u = 
@@ -86,19 +90,30 @@ int main(int argc, char* argv[])
     }
     // finally read it
     src.read();
-    std::vector<BYTE> bytes = src.get_contents();
-    for (BYTE b : bytes) std::cout << b;
-    std::cout << "\n";
+    unsigned int length = src.len();
+    src.read();
+    BYTE* bytes = src.get_contents();
     
     
     // STACKS AND MEMORY
-    std::vector< std::vector<BYTE> > memory;
+    std::vector<INSTRUCTION> memory;
     std::stack<ScpObj> data;
 
 
     // GENERATE INSTRUCTIONS FROM "bytes"
-    //
-
+    INSTRUCTION tmp;
+    for (unsigned int i = 0; i < length; i++)
+    {
+        BYTE _this = bytes[i];
+        if (_this == INSTRUCTION_END) 
+        {
+            memory.push_back(tmp);
+            tmp.clear();
+        }
+        else tmp.push_back(_this);
+    }
+    if (tmp.size() > 0) memory.push_back(tmp); // just in case
+    
     
     // EXECUTION LOOP
 /*
