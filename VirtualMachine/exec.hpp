@@ -23,36 +23,47 @@
 
 
 #include "util.hpp"
-//#include "ops.hpp"
+#include "ops.hpp"
 
 
 
-unsigned int exec(unsigned int ip, std::vector<INSTRUCTION>* memory, 
-                  std::stack<OBJECT>* data)
+void exec(bool &running, bool &error, unsigned int &ip, 
+          std::vector<INSTRUCTION> &memory, std::stack<ScpObj> &data)
 {
+    INSTRUCTION instruction = memory[ip];
     BYTE opcode = instruction[0];
     switch (opcode)
     {
+        case THE_END:
+            the_end(running, memory, data);
+            break;
+        
+        case NOP:
+            nop(ip);
+            break;
+/*
         case EMIT_CONST:
-            return emit_const(ip, data);
+            emit_const(ip, data);
+            break;
         
         case PUSH_CONST:
-            return push_const(ip, memory, data);
+            push_const(ip, memory, data);
+            break;
         
         case BINARY_OP:
-            return binary_op(ip, memory, data);
+            binary_op(ip, memory, data);
+            break;
         
         case COMPARE_OP:
-            return compare_op(ip, memory, data);
-        
+            compare_op(ip, memory, data);
+            break;
+*/
         case PRINT_NEWLINE:
-            return print_newline(ip);
-
-        case NOP:
-            return nop(ip);
+            print_newline(ip);
+            break;
         
         default:
-            return bad_opcode(ip, memory, data);
+            bad_opcode(error);
     }
 }
 

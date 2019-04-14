@@ -33,7 +33,6 @@
  * Return codes and their meanings:
  *     0   = "OK"
  *     1   = "no filename specified"
- *     2   = "error while executing"
  *     404 = "file not found"
  *
  */
@@ -95,15 +94,11 @@ int main(int argc, char* argv[])
     
     
     // EXECUTION LOOP
+    bool running = true;
+    bool error = false;
     unsigned int ip = 0;
-    while (true)
-    {
-        //printf("opcode %d found\n", *ip); // opcode detection debug
-        if (memory[ip][0] == HALT) break;
-        std::pair<unsigned int, bool> result = exec(ip, &memory, &data);
-        if (result.second) return 2; // error checking
-        ip = result.first;
-    }
+    while (running && !error)
+        exec(running, error, ip, memory, data);
     
     
     return 0; // return code 0 = "OK"

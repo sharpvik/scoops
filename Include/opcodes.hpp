@@ -11,8 +11,8 @@
 
 
 enum Opcode {
-/*-------------------- byte | # of operand(s) | # bytes for operands ---------*/
-    HALT,           // 0x00 | 0               | 0
+/*-------------------- byte | # of operand(s) | # byte(s) for operands -------*/
+    THE_END,        // 0x00 | 0               | 0
     NOP,            // 0x01 | 0               | 0
     PUSH_CONST,     // 0x02 | 1               | 2 - 9
     EMIT_CONST,     // 0x03 | 0               | 0
