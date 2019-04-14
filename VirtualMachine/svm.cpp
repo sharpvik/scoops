@@ -33,6 +33,7 @@
  * Return codes and their meanings:
  *     0   = "OK"
  *     1   = "no filename specified"
+ *     2   = "error while executing"
  *     404 = "file not found"
  *
  */
@@ -40,34 +41,12 @@
 
 
 #include <stdio.h>
-#include <string.h>
 #include <vector>
 #include <stack>
 
-#include "../Include/util.hpp"
-#include "../Include/objects.hpp"
-#include "../Include/opcodes.hpp"
-
-//#include "exec.hpp"
+#include "util.hpp"
+#include "exec.hpp"
 //#include "ops.hpp"
-
-
-
-#define INSTRUCTION std::vector<BYTE>
-
-
-
-void usage()
-{
-    std::string u = 
-        "Usage details:\n "
-        "\t(Windows) CMD:\n "
-        "\t~$ vm.exe <filename>.svmb\n "
-        "\n "
-        "\t(Mac OS / Linux) Terminal:\n "
-        "\t~$ vm <filename>.svmb";
-    std::cout << u << "\n";
-}
 
 
 
@@ -116,14 +95,15 @@ int main(int argc, char* argv[])
     
     
     // EXECUTION LOOP
-/*
-    char *ip = bytes;
-    while (*ip != HALT)
+    unsigned int ip = 0;
+    while (true)
     {
         //printf("opcode %d found\n", *ip); // opcode detection debug
-        ip = exec(ip, &data);
+        if (memory[ip][0] == HALT) break;
+        std::pair<unsigned int, bool> result = exec(ip, &memory, &data);
+        if (result.second) return 2; // error checking
+        ip = result.first;
     }
-*/
     
     
     return 0; // return code 0 = "OK"

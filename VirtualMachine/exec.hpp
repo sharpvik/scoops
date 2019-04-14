@@ -20,62 +20,39 @@
 
 #pragma once
 
-#include <stack>
+
 
 #include "util.hpp"
-#include "ops.hpp"
+//#include "ops.hpp"
 
 
 
-char* exec(char *ip, std::stack<OBJECT> *data)
+unsigned int exec(unsigned int ip, std::vector<INSTRUCTION>* memory, 
+                  std::stack<OBJECT>* data)
 {
-    switch (*ip)
+    BYTE opcode = instruction[0];
+    switch (opcode)
     {
         case EMIT_CONST:
             return emit_const(ip, data);
-            break;
         
         case PUSH_CONST:
-            return push_const(ip, data);
-            break;
+            return push_const(ip, memory, data);
         
         case BINARY_OP:
-            return binary_op(ip, data);
-            break; 
+            return binary_op(ip, memory, data);
+        
+        case COMPARE_OP:
+            return compare_op(ip, memory, data);
         
         case PRINT_NEWLINE:
             return print_newline(ip);
-            break;
-        
-        case EQUAL_TO:
-            return equal_to(ip, data);
-            break;
-        
-        case NOT_EQ_TO:
-            return not_eq_to(ip, data);
-            break;
-        
-        case GRT_THAN:
-            return grt_than(ip, data);
-            break;
-        
-        case GRT_EQ_TO:
-            return grt_eq_to(ip, data);
-            break;
-        
-        case LESS_THAN:
-            return less_than(ip, data);
-            break;
-        
-        case LESS_EQ_TO:
-            return less_eq_to(ip, data);
-            break;
-        
+
         case NOP:
             return nop(ip);
-            break;
         
         default:
-            return nop(ip);
+            return bad_opcode(ip, memory, data);
     }
 }
+
