@@ -1,7 +1,7 @@
 /* By Viktor A. Rozenko Voitenko (2019)
  *
  * This is the "exec.hpp" header file for the Scoops Virtual Machine (SVM). 
- * It is used by "vm.cpp" to execute bytecode instructions.
+ * It is used by "svm.cpp" to execute bytecode instructions.
  *
  * "exec" function ...
  *     1. Accepts instruction pointer (*ip) and pointer to the data stack 
@@ -28,10 +28,11 @@
 
 
 void exec(bool &running, bool &error, unsigned int &ip, 
-          std::vector<INSTRUCTION> &memory, std::stack<ScpObj> &data)
+          std::vector<INSTRUCTION> &memory, std::stack<ScpObj*> &data)
 {
     INSTRUCTION instruction = memory[ip];
     BYTE opcode = instruction[0];
+    //printf("%d ", opcode);
     switch (opcode)
     {
         case THE_END:
@@ -41,15 +42,16 @@ void exec(bool &running, bool &error, unsigned int &ip,
         case NOP:
             nop(ip);
             break;
-/*
+
         case EMIT_CONST:
-            emit_const(ip, data);
+            emit_const(error, ip, data);
             break;
         
         case PUSH_CONST:
-            push_const(ip, memory, data);
+            push_const(error, ip, memory, data);
             break;
-        
+
+/*
         case BINARY_OP:
             binary_op(ip, memory, data);
             break;
@@ -58,6 +60,7 @@ void exec(bool &running, bool &error, unsigned int &ip,
             compare_op(ip, memory, data);
             break;
 */
+
         case PRINT_NEWLINE:
             print_newline(ip);
             break;

@@ -20,6 +20,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 
 
@@ -80,17 +81,27 @@ class ScpNum : public ScpObj
 
 class ScpStr : public ScpObj
 {
-    std::string value;
+    std::vector<ScpChr> value;
 
     public:
-    ScpStr (std::string value)
+    ScpStr () { this->set_type("str"); }
+
+    unsigned int get_length() { return this->value.size(); }
+
+    std::string get_value()
     {
-        this->set_type("str");
-        this->value = value;
+        std::string value;
+        for (ScpChr chr : this->value)
+            value += chr.get_value();
+        return value;
     }
+    
+    void add_chr(ScpChr chr) { this->value.push_back( chr.get_value() ); }
 
-    std::string get_value() { return this->value; }
-
-    void concat(ScpStr appendix) { this->value += appendix.get_value(); }
+    void concat(ScpStr appendix) 
+    {
+        for ( ScpChr chr : appendix.get_value() )
+            this->add_chr(chr);
+    }
 };
 

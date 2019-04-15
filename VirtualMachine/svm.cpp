@@ -45,7 +45,6 @@
 
 #include "util.hpp"
 #include "exec.hpp"
-//#include "ops.hpp"
 
 
 
@@ -75,7 +74,7 @@ int main(int argc, char* argv[])
     
     // STACKS AND MEMORY
     std::vector<INSTRUCTION> memory;
-    std::stack<ScpObj> data;
+    std::stack<ScpObj*> data;
 
 
     // GENERATE INSTRUCTIONS FROM "bytes"
