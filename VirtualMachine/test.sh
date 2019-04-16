@@ -13,3 +13,6 @@ compiled/svm.out ../Testing/scpb/$1.scpb
 printf "\n"
 printf "\n"
 echo =============================
+echo Sanitizing: svm.out
+rm compiled/svm.out
+printf "\n"

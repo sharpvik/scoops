@@ -64,7 +64,14 @@ void push_const(bool &error, unsigned int &ip, std::vector<INSTRUCTION> &memory,
             break;
 
         case 'n':
-            data.push( new ScpNum(3.14) );
+            {
+                BYTE cast[8];
+                for (int i = 2; i < 2 + 8; i++)
+                    cast[i - 2] = instruction[i];
+                double num = *reinterpret_cast<double*>(cast);
+
+                data.push( new ScpNum(num) );
+            }
             break;
 
         default:
