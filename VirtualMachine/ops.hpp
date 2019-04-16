@@ -47,8 +47,9 @@ void push_const(bool &error, unsigned int &ip, std::vector<INSTRUCTION> &memory,
                 std::stack<ScpObj*> &data)
 {
     INSTRUCTION instruction = memory[ip];
+    unsigned char type = instruction[1];
     
-    switch (instruction[1])
+    switch (type)
     {
         case 'b':
             data.push( new ScpBln(instruction[2]) );
@@ -78,8 +79,7 @@ void push_const(bool &error, unsigned int &ip, std::vector<INSTRUCTION> &memory,
 
 
 // 3
-void emit_const(bool &error, unsigned int &ip,
-                std::stack<ScpObj*> &data)
+void emit_const(bool &error, unsigned int &ip, std::stack<ScpObj*> &data)
 {
     if ( data.empty() )
     {
@@ -114,6 +114,119 @@ void emit_const(bool &error, unsigned int &ip,
     data.pop();
     ip++;
 }
+
+
+// 4
+void binary_op(bool &error, unsigned int &ip, std::vector<INSTRUCTION> &memory,
+               std::stack<ScpObj*> &data)
+{
+    INSTRUCTION instruction = memory[ip];
+    
+    unsigned char sign = instruction[1];
+    
+    if (sign == '!')
+    {
+        std::string type = data.top()->get_type();
+        if (type != "bln")
+        {
+            printf("ERROR: Incorrect data type for BINARY_OP.\n");
+            error = true;
+            return;
+        }
+
+        ScpBln* ptr = (ScpBln*)data.top();
+        ptr->binary_not();
+    }
+
+    else if (sign == '&' || sign == '|' || sign == '^')
+    {
+        ScpObj* second = data.top(); data.pop();
+        ScpObj* first  = data.top(); data.pop();
+        std::string ftype = first->get_type();
+        std::string stype = second->get_type();
+        if (ftype != "bln" || stype != "bln")
+        {
+            printf("ERROR: Incorrect data type for BINARY_OP.\n");
+            error = true;
+            return;
+        }
+        ScpBln* fptr = (ScpBln*)first;
+        ScpBln* sptr = (ScpBln*)second;
+        bool new_value;
+
+        switch (sign)
+        {
+            case '&':
+                new_value = fptr->get_value() && sptr->get_value();
+                break;
+
+            case '|':
+                new_value = fptr->get_value() || sptr->get_value();
+                break;
+
+            case '^':
+                new_value = fptr->get_value() ^ sptr->get_value();
+                break;
+        }
+
+        delete fptr; delete sptr;
+        ScpBln* new_ptr = new ScpBln(new_value);
+        data.push(new_ptr);
+    }
+
+    else if (sign == '+' || sign == '-' || sign == '*' || sign == '/')
+    {
+        ScpObj* second = data.top(); data.pop();
+        ScpObj* first  = data.top(); data.pop();
+        std::string ftype = first->get_type();
+        std::string stype = second->get_type();
+        if (ftype != "num" || stype != "num")
+        {
+            printf("ERROR: Incorrect data type for BINARY_OP.\n");
+            error = true;
+            return;
+        }
+        ScpNum* fptr = (ScpNum*)first;
+        ScpNum* sptr = (ScpNum*)second;
+        double new_value;
+
+        switch (sign)
+        {
+            case '+':
+                new_value = fptr->get_value() + sptr->get_value();
+                break;
+
+            case '-':
+                new_value = fptr->get_value() - sptr->get_value();
+                break;
+
+            case '*':
+                new_value = fptr->get_value() * sptr->get_value();
+                break;
+
+            case '/':
+                new_value = fptr->get_value() / sptr->get_value();
+                break;
+        }
+
+        delete fptr; delete sptr;
+        ScpNum* new_ptr = new ScpNum(new_value);
+        data.push(new_ptr);
+    }
+
+    else
+    {
+        error = true;
+        printf("ERROR: Invalid sign for BINARY_OP.\n");
+        return;
+    }
+
+    ip++;
+}
+
+
+// 5
+//
 
 
 // 6

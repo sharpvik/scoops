@@ -58,13 +58,13 @@ void exec(bool &running, bool &error, unsigned int &ip,
             push_const(error, ip, memory, data);
             break;
 
-/*
         case BINARY_OP:
-            binary_op(ip, memory, data);
+            binary_op(error, ip, memory, data);
             break;
         
+/*
         case COMPARE_OP:
-            compare_op(ip, memory, data);
+            compare_op(error, ip, memory, data);
             break;
 */
 

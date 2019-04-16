@@ -46,6 +46,8 @@ class ScpBln : public ScpObj
     }
     
     bool get_value() { return this->value; }
+
+    void binary_not() { this->value = !this->value; }
 };
 
 
