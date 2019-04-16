@@ -4,15 +4,22 @@
  * It is used by "svm.cpp" to execute bytecode instructions.
  *
  * "exec" function ...
- *     1. Accepts instruction pointer (*ip) and pointer to the data stack 
- *        (*data) as its arguments;
- *     2. Using the switch statement with *ip, it executes a function to which
- *        the opcode refers (all opcode functions are located in
- *        the "ops.hpp" header file, preprocessor define statements for opcodes
- *        can be found in the "util.hpp" file);
- *     2. Returns new instruction pointer altered by the opcode 
- *        function that it executed (for details on how and why opcode functions
- *        alter the instruction pointer see "ops.hpp" file).
+ *     1. Accepts a few arguments as pointers:
+ *            - "running": a binary switch that gets switched off by the THE_END
+ *              opcode. Yeah, it's not really that popular;
+ *            - "error": another binary switch that gets switched on whenever
+ *              SVM encounters an error during execution;
+ *            - "ip": instruction pointer that represents the subscript of
+ *              current instruction in ...
+ *            - "memory": vector that holds all instructions;
+ *            - "data": stack used by SVM to manipulate instances of ScpObj.
+ *     2. Using the switch statement on current instruction's opcode, it 
+ *        executes a function to which the opcode refers (all opcode functions
+ *        are located in the "ops.hpp" header file, opcode definitions are
+ *        hidden in "../Include/opcodes.hpp").
+ *     3. In case it finds an unknown opcode, it calls the function called
+ *        "bad_opcode" located in the "ops.hpp" with the rest of the opcode
+ *         functions. That function simply switches the "error" switch on.
  *
  */
  

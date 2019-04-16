@@ -5,11 +5,6 @@
  * function below has a unique opcode (integer that is commented out one line
  * above its declaration) that trigers its execution.
  *
- * For each opcode below, let R be the number of bytes it uses as operand(s).
- * Then, the pointer value (ip) that it returns must be increased by (R + 1).
- * This is done to keep track of the instruction pointer (*ip) shift due to
- * different amounts and sizes of operands required and used by each opcode.
- *
  */
 
 

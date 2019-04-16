@@ -2,24 +2,25 @@
  *
  * This is the main file for the Scoops Virtual Machine (SVM). It makes
  * use of the header (.hpp) files that are located in this directory
- * (<...>/scoops/SVM/svm/) to allow for great code readability and easy editing.
+ * (<...>/scoops/VirtualMachine/) to allow for great code readability and easy editing.
+ * The "util.hpp" file is constructed in a way that allows us to include just
+ * that one file and nothing else (except for the standard library includes).
+ * If you want to see the full list of header files that SVM relies on, you
+ * should definitely check out the "util.hpp".
  *
  * The main function of SVM is executing bytecode (.scpb) files brought to life
  * by the Scoops Assembler (SASM). SASM source code can be found in the
- * following directory: (<...>/scoops/SVM/sasm/).
+ * following directory: (<...>/scoops/Assembler/).
  *
  * Scoops Virtual Machine ...
- *     1. Checks existance of the file that was passed to it using the
- *        "FileExists" function from the "util.hpp" file;
- *     2. Reads the file into an array of bytes -- declared as "char* bytes" 
- *        in the main function -- using the "ReadFile" function 
- *        from the "util.hpp" file;
- *     2. Initialises stacks;
- *     3. Proceeds into the execution loop where it uses the instruction pointer
- *        to move along the "bytes" array, executing opcodes using the "exec"
+ *     1. Checks existance of the file that was passed to it as a
+ *        command line argument.
+ *     2. Reads the file into an array of bytes -- declared as "BYTE* bytes".
+ *     2. Initialises stacks and memory;
+ *     3. Uses the "bytes" array to load instructions into the memory.
+ *     4. Proceeds into the execution loop where it uses the instruction pointer
+ *        to move along the "memory" vector, executing opcodes using the "exec"
  *        function from the "exec.hpp" file;
- *     4. Upon successful completion -- namely when the HALT opcode 
- *        is reached -- returns 0.
  *
  *
  * Usage details:
@@ -38,10 +39,6 @@
  */
 
 
-
-#include <stdio.h>
-#include <vector>
-#include <stack>
 
 #include "util.hpp"
 #include "exec.hpp"

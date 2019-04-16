@@ -8,9 +8,9 @@
  * merely its subclasses that inherit its rather humble functionality and
  * expand on it. 
  *
- * Such architecture allows SVM to have a single data stack
- * that deals with all the values it wishes to deal with. If there were
- * multiple classes, it would be impossible to do that as C++ std::stack
+ * Such architecture allows SVM to have a single data stack that deals
+ * with all the values it wishes to deal with. If there were multiple
+ * classes, it would be impossible to do that as C++ std::stack
  * can only have values of the same type pushed to it..
  *
  */
