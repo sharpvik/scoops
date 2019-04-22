@@ -1,2 +1,4 @@
-VirtualMachine/compiled/*
-Assembler/compiled/*
+/*.out
+*
+!/**/
+!/*.*
