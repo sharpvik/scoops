@@ -25,20 +25,5 @@
 
 
 
-#define INSTRUCTION std::vector<BYTE> 
+#define INSTRUCTION std::vector<BYTE>
 // BYTE is defined in the "../Includes/util.hpp"
-
-
-
-void usage()
-{
-    std::string u = 
-        "Usage details:\n "
-        "\t(Windows) CMD:\n "
-        "\t~$ vm.exe <filename>.svmb\n "
-        "\n "
-        "\t(Mac OS / Linux) Terminal:\n "
-        "\t~$ vm <filename>.svmb";
-    std::cout << u << "\n";
-}
-
