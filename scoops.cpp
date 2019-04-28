@@ -1,4 +1,19 @@
-/**/
+/* By Viktor A. Rozenko Voitenko (2019)
+ *
+ * This is the "scoops.scp" file -- the main file in this directory. It is
+ * equivalent to The Glove of Thanos as it contains the power of all six
+ * infinity stones from the "Package" folder:
+ *     1. Include;
+ *     2. Compiler;
+ *     3. Assembly Reader;
+ *     4. Assembler;
+ *     5. Bytecode Reader;
+ *     6. Virtual Machine.
+ *
+ * Each one of these stones grants you enormous power. Yet, you have to remember
+ * that great power comes with great responsibility.
+ *
+ */
 
 
 
