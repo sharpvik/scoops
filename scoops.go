@@ -14,8 +14,8 @@ import (
 
 // FUNCTIONS
 func TypeOfArg(arg string) (string, error) {
-    validFlag := regexp.MustCompile(`^-(a|c|e)$`)
-    validFilename := regexp.MustCompile(`^(.+\.scp(a|b)?)|(help)$`)
+    validFlag := regexp.MustCompile(`^-[ace]$`)
+    validFilename := regexp.MustCompile(`^(.+\.scp(a|b)?$)|(help)$`)
     
     if validFlag.MatchString(arg) {
         return "flag", nil
