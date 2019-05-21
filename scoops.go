@@ -5,7 +5,8 @@ import (
     "os"
     "errors"
     "regexp"
-    "github.com/sharpvik/scoops/Package/Import"
+    "github.com/sharpvik/scoops/Package/Util"
+    "github.com/sharpvik/scoops/Package/BytecodeReader"
 )
 
 
@@ -16,7 +17,7 @@ import (
 func TypeOfArg(arg string) (string, error) {
     validFlag := regexp.MustCompile(`^-[ace]$`)
     validFilename := regexp.MustCompile(`^(.+\.scp[ab]?$)|(help)$`)
-    
+
     if validFlag.MatchString(arg) {
         return "flag", nil
     } else if validFilename.MatchString(arg) {
@@ -32,7 +33,7 @@ func ParseArgs(args []string) (byte, string, error) {
     if argc > 2 {
         return 0, "", errors.New("Too many command line arguments.")
     }
-    
+
     var (
         flag byte
         filename string
@@ -42,19 +43,29 @@ func ParseArgs(args []string) (byte, string, error) {
         if err != nil {
             return 0, "", err
         }
-        
+
         if argType == "flag" {
             flag = arg[1]
         } else {
             filename = arg
         }
     }
-    
+
     if filename == "" {
         return 0, "", errors.New("Filename not specified.")
     }
-    
+
     return flag, filename, nil
+}
+
+
+func GetFileExtention(filename string) string {
+    for i, char := range filename {
+        if char == '.' {
+            return filename[i + 1:]
+        }
+    }
+    return ""
 }
 
 
@@ -73,12 +84,29 @@ func main() {
         os.Exit(1)
     }
     fmt.Printf("Flag: %c\nFilename: %s\n", flag, filename)
-    
+
     // Checking for command line keywords...
     switch filename {
     case "help":
         util.Help()
+
+    default:
+        fileExtention := GetFileExtention(filename)
+        switch fileExtention {
+        case "scp":
+            fmt.Println("This file format is not yet supported. Sorry.")
+
+        case "scpa":
+            fmt.Println("This file format is not yet supported. Sorry.")
+
+        case "scpb":
+            data, err := BytecodeReader.Read(filename)
+            if err != nil {
+                fmt.Println(err)
+                os.Exit(1)
+            }
+            fmt.Println(data)
+        }
     }
-    
-    
 }
+
