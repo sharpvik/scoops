@@ -6,7 +6,7 @@ import (
     "errors"
     "regexp"
     "github.com/sharpvik/scoops/Package/Util"
-    "github.com/sharpvik/scoops/Package/BytecodeReader"
+    "github.com/sharpvik/scoops/Package/Bytecode"
 )
 
 
@@ -76,14 +76,15 @@ func main() {
     // Processing command line arguments...
     flag, filename, err := ParseArgs(os.Args[1:])
     if err != nil {
-        util.Err(err)
+        util.Error(err)
         fmt.Println(`
 │ To use embedded helper:
 └──── scoops help
         `)
         os.Exit(1)
     }
-    fmt.Printf("Flag: %c\nFilename: %s\n", flag, filename)
+    util.Log( "Flag: " + string(flag) )
+    util.Log("Filename: " + filename)
 
     // Checking for command line keywords...
     switch filename {
@@ -100,7 +101,13 @@ func main() {
             fmt.Println("This file format is not yet supported. Sorry.")
 
         case "scpb":
-            data, err := BytecodeReader.Read(filename)
+            if flag != 0 && flag != 'e' {
+                util.Warning(
+                    "Input file is of *.scpb format. Bytecode files " +
+                    "can only be executed. Omitting the flag...",
+                )
+            }
+            data, err := bytecode.Read(filename)
             if err != nil {
                 fmt.Println(err)
                 os.Exit(1)

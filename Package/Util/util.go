@@ -13,8 +13,18 @@ import (
 
 
 // FUNCTIONS
-func Err(err error) {
+func Error(err error) {
     fmt.Println("│ Error:", err)
+}
+
+
+func Warning(warning string) {
+    fmt.Println("│ Warning:", warning)
+}
+
+
+func Log(message string) {
+    fmt.Println("│ Log:", message)
 }
 
 

@@ -1,4 +1,4 @@
-package BytecodeReader
+package bytecode
 
 import (
     "os"
@@ -20,7 +20,7 @@ func TestRead(t *testing.T) {
     output, err := Read(sampleFilename)
 
     if err != nil {
-        t.Error("System Erro: Cannot read sample file.")
+        t.Error("System Error: Cannot read sample file.")
     }
 
     for i, b := range input {

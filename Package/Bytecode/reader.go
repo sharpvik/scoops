@@ -1,4 +1,4 @@
-package BytecodeReader
+package bytecode
 
 import "io/ioutil"
 

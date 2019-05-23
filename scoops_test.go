@@ -108,3 +108,21 @@ func TestParseArgs(t *testing.T) {
         }
     }
 }
+
+
+func TestGetFileExtention(t *testing.T) {
+    cases := []string{
+        "a.scp", "a.scpa", "a.scpb", "a.exe", "a",
+    }
+    answers := []string{
+        "scp", "scpa", "scpb", "exe", "",
+    }
+    for i, c := range cases {
+        extention := GetFileExtention(c)
+        if extention != answers[i] {
+            t.Errorf("Fail: for '%s' received '%s' byt expected '%s'.",
+                     c, extention, answers[i])
+        }
+    }
+}
+
