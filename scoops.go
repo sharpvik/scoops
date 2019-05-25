@@ -103,16 +103,17 @@ func main() {
         case "scpb":
             if flag != 0 && flag != 'e' {
                 util.Warning(
-                    "Input file is of *.scpb format. Bytecode files " +
-                    "can only be executed. Omitting the flag...",
+                    "Input file is of *.scpb format. Execution is " +
+                    "the only option for bytecode files. " +
+                    "Omitting the flag.",
                 )
             }
-            data, err := bytecode.Read(filename)
+            code, err := bytecode.Read(filename)
             if err != nil {
                 fmt.Println(err)
                 os.Exit(1)
             }
-            fmt.Println(data)
+            bytecode.Run(code)
         }
     }
 }
