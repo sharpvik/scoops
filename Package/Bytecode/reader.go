@@ -1,15 +1,30 @@
 package bytecode
 
-import "io/ioutil"
+import (
+    "os"
+    "bufio"
+    "github.com/sharpvik/scoops/Package/Bytecode"
+    "github.com/sharpvik/scoops/Package/Shared"
+    "github.com/sharpvik/scoops/Package/Util"
+)
 
 
 
 // FUNCTIONS
-func Read(filename string) ([]uint8, error) {
-    data, err := ioutil.ReadFile(filename)
+func Read(filename string) ([]bytecode.instruction, error) {
+    file, err := os.Open(filename)
     if err != nil {
         return nil, err
     }
-    return data, err
+    rdr := bufio.NewReader(file)
+    opcode, err := rdr.ReadByte()
+    if err != nil {
+        return nil, err
+    }
+    code := []bytecode.instruction{}
+    for opcode != shared.THE_END {
+        //
+    }
+    return code, err
 }
 

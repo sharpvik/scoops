@@ -20,7 +20,7 @@ func TestRead(t *testing.T) {
     output, err := Read(sampleFilename)
 
     if err != nil {
-        t.Error("System Error: Cannot read sample file.")
+        t.Error("Fail: Cannot read sample file.")
     }
 
     for i, b := range input {
@@ -29,6 +29,7 @@ func TestRead(t *testing.T) {
         }
     }
 
+    file.Close()
     os.Remove(sampleFilename)
 }
 

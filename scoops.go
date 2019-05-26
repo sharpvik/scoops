@@ -6,10 +6,9 @@ import (
     "errors"
     "regexp"
     "github.com/sharpvik/scoops/Package/Util"
+    "github.com/sharpvik/scoops/Package/Assembly"
     "github.com/sharpvik/scoops/Package/Bytecode"
 )
-
-
 
 
 
@@ -70,8 +69,6 @@ func GetFileExtention(filename string) string {
 
 
 
-
-
 func main() {
     // Processing command line arguments...
     flag, filename, err := ParseArgs(os.Args[1:])
@@ -93,27 +90,38 @@ func main() {
 
     default:
         fileExtention := GetFileExtention(filename)
+        //var sourceСode string
+        var assemblyСode []string
+        var byteСode []bytecode.instruction
+        
         switch fileExtention {
         case "scp":
-            fmt.Println("This file format is not yet supported. Sorry.")
+            util.Error("This file format is not yet supported. Sorry.")
+            os.Exit(1)
+            fallthrough
 
         case "scpa":
-            fmt.Println("This file format is not yet supported. Sorry.")
+            if assemblyСode == nil {
+                var err error
+                assemblyСode, err = assembly.Read(filename)
+                if err != nil {
+                    util.Error(err)
+                    os.Exit(1)
+                }
+            }
+            byteCode = assembly.Assemble(assemblyСode)
+            fallthrough
 
         case "scpb":
-            if flag != 0 && flag != 'e' {
-                util.Warning(
-                    "Input file is of *.scpb format. Execution is " +
-                    "the only option for bytecode files. " +
-                    "Omitting the flag.",
-                )
+            if byteCode == nil {
+                var err error
+                byteCode, err = bytecode.Read(filename)
+                if err != nil {
+                    util.Error(err)
+                    os.Exit(1)
+                }
             }
-            code, err := bytecode.Read(filename)
-            if err != nil {
-                fmt.Println(err)
-                os.Exit(1)
-            }
-            bytecode.Run(code)
+            bytecode.Execute(byteCode)
         }
     }
 }
