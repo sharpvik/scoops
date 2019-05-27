@@ -1,6 +1,7 @@
 package assembly
 
 import (
+    "fmt"
     "testing"
 )
 
@@ -22,9 +23,15 @@ func TestSyntaxCheck(t *testing.T) {
     }
     badLines, _ := SyntaxCheck(cases)
     realBadLines := []uint64{5, 6, 7, 8, 9}
+    if len(badLines) != len(realBadLines) {
+        t.Error("Fail: Cannot properly analyse syntax.")
+        fmt.Println("Got badLines:", badLines)
+        fmt.Println("While realBadLines:", realBadLines)
+    }
     for i, verdict := range badLines {
         if verdict != realBadLines[i] {
-            t.Error("Fail: Cannot properly analyse syntax.")    
+            t.Error("Fail: Cannot properly analyse syntax.")
+            fmt.Println("Verdict for line", i, "is incorrect.")
         }
     }
 }

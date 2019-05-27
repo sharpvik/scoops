@@ -22,8 +22,13 @@ var OpcodeMap = map[string]uint8{
 
 
 func SyntaxCheck(code []string) (badLines []uint64, err error) {
+    /* 
+        [A-Z_]+       -- OPERATOR
+        '[\x00-\x7F]' -- CHAR CONVERSION OPERAND
+        [0-9]+        -- NUMBER OPERAND                                         
+    */
     validInstruction := regexp.MustCompile(
-        `^[A-Z_]+( '[\x21-\x7E]'| [0-9]+)*\s*$`)
+        `^[A-Z_]+( '[\x00-\x7F]'| [0-9]+)*\s*$`)
     for i, line := range code {
         if !validInstruction.MatchString(line) {
             err = errors.New("Syntactically incorrect lines detected.")
@@ -37,4 +42,3 @@ func SyntaxCheck(code []string) (badLines []uint64, err error) {
 func Assemble(code []string) {
     //
 }
-
