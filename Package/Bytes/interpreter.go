@@ -1,4 +1,4 @@
-package bytecode
+package bytes
 
 import (
     "fmt"
@@ -8,12 +8,24 @@ import (
 
 
 
+type Instruction struct{
+    opcode  uint8
+    operand []byte
+}
+
+
 type Interpreter struct {
     running bool
     err     error
     ip      uint64
     code    []Instruction
     // global environment
+}
+
+
+
+func NewInstruction(opcode uint8, operand []byte) *Instruction {
+    return &Instruction{opcode, operand}
 }
 
 

@@ -7,7 +7,7 @@ import (
     "regexp"
     "github.com/sharpvik/scoops/Package/Util"
     "github.com/sharpvik/scoops/Package/Assembly"
-    "github.com/sharpvik/scoops/Package/Bytecode"
+    "github.com/sharpvik/scoops/Package/Bytes"
 )
 
 
@@ -90,9 +90,11 @@ func main() {
 
     default:
         fileExtention := GetFileExtention(filename)
-        //var sourceСode string
-        assemblyСode := []string{}
-        byteСode := []bytecode.Instruction{}
+        var (
+            //sourceСode []string
+            assemblyСode []string
+            byteCode []bytes.Instruction
+        )
         
         switch fileExtention {
         case "scp":
@@ -104,7 +106,6 @@ func main() {
 
         case "scpa":
             if assemblyСode == nil {
-                var err error
                 assemblyСode, err = assembly.Read(filename)
                 if err != nil {
                     util.Error(err)
@@ -117,13 +118,13 @@ func main() {
         case "scpb":
             if byteCode == nil {
                 var err error
-                byteCode, err = bytecode.Read(filename)
+                byteCode, err = bytes.Read(filename)
                 if err != nil {
                     util.Error(err)
                     os.Exit(1)
                 }
             }
-            bytecode.Execute(byteCode)
+            bytes.Execute(byteCode)
         }
     }
 }

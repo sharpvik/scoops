@@ -6,7 +6,7 @@ import (
     "strconv"
     //"github.com/sharpvik/scoops/Package/Util"
     "github.com/sharpvik/scoops/Package/Shared"
-    "github.com/sharpvik/scoops/Package/Bytecode"
+    "github.com/sharpvik/scoops/Package/Bytes"
 )
 
 
@@ -111,6 +111,6 @@ func SemanticsCheck(code []string) (badLines []uint64, errSlice []error) {
 }
 
 
-func Assemble(code []string) (byteCode []bytecode.Instruction) {
+func Assemble(code []string) (byteCode []bytes.Instruction) {
     return
 }
