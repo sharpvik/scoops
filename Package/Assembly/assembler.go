@@ -39,6 +39,11 @@ func SyntaxCheck(code []string) (badLines []uint64, err error) {
 }
 
 
-func Assemble(code []string) {
+func SemanticsCheck(code []string) (badLines []uint64, err error) {
+    //
+}
+
+
+func Assemble(code []string) (byteCode []bytecode.Instruction) {
     //
 }

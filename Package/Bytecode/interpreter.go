@@ -8,7 +8,7 @@ import (
 
 
 
-type interpreter struct {
+type Interpreter struct {
     running bool
     err     error
     ip      uint64
@@ -17,7 +17,7 @@ type interpreter struct {
 }
 
 
-func NewInterpreter(code []uint8) *interpreter {
+func NewInterpreter(code []Instruction) *interpreter {
     return &interpreter{
         true,
         false,
@@ -27,11 +27,10 @@ func NewInterpreter(code []uint8) *interpreter {
 }
 
 
-func Execute(code []uint8) {
+func Execute(code []Instruction) {
     interpreter := NewInterpreter(code)
     for interpreter.running && interpreter.err == nil {
         fmt.Println("It's all good.")
         interpreter.err = errors.New("Just to show off.")
     }
 }
-

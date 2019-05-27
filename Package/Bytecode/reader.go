@@ -3,7 +3,6 @@ package bytecode
 import (
     "os"
     "bufio"
-    "github.com/sharpvik/scoops/Package/Bytecode"
     "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/Util"
 )
@@ -11,7 +10,7 @@ import (
 
 
 // FUNCTIONS
-func Read(filename string) ([]bytecode.instruction, error) {
+func Read(filename string) ([]bytecode.Instruction, error) {
     file, err := os.Open(filename)
     if err != nil {
         return nil, err
@@ -27,4 +26,3 @@ func Read(filename string) ([]bytecode.instruction, error) {
     }
     return code, err
 }
-
