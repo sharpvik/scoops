@@ -12,15 +12,15 @@ type Interpreter struct {
     running bool
     err     error
     ip      uint64
-    code    []uint8
+    code    []Instruction
     // global environment
 }
 
 
-func NewInterpreter(code []Instruction) *interpreter {
-    return &interpreter{
+func NewInterpreter(code []Instruction) *Interpreter {
+    return &Interpreter{
         true,
-        false,
+        nil,
         0,
         code,
     }

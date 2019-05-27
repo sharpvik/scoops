@@ -91,12 +91,14 @@ func main() {
     default:
         fileExtention := GetFileExtention(filename)
         //var sourceСode string
-        var assemblyСode []string
-        var byteСode []bytecode.instruction
+        assemblyСode := []string{}
+        byteСode := []bytecode.Instruction{}
         
         switch fileExtention {
         case "scp":
-            util.Error("This file format is not yet supported. Sorry.")
+            util.Error(
+                errors.New("This file format is not yet supported. Sorry."),
+            )
             os.Exit(1)
             fallthrough
 

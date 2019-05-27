@@ -4,13 +4,13 @@ import (
     "os"
     "bufio"
     "github.com/sharpvik/scoops/Package/Shared"
-    "github.com/sharpvik/scoops/Package/Util"
+    //"github.com/sharpvik/scoops/Package/Util"
 )
 
 
 
 // FUNCTIONS
-func Read(filename string) ([]bytecode.Instruction, error) {
+func Read(filename string) ([]Instruction, error) {
     file, err := os.Open(filename)
     if err != nil {
         return nil, err
@@ -20,7 +20,7 @@ func Read(filename string) ([]bytecode.Instruction, error) {
     if err != nil {
         return nil, err
     }
-    code := []bytecode.instruction{}
+    code := []Instruction{}
     for opcode != shared.THE_END {
         //
     }
