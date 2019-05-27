@@ -4,7 +4,6 @@ import (
     "regexp"
     "errors"
     "strconv"
-    //"github.com/sharpvik/scoops/Package/Util"
     "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/Bytes"
 )
@@ -26,11 +25,13 @@ var OpcodeMap = map[string]uint8{
 func SyntaxCheck(code []string) (badLines []uint64, err error) {
     /* 
         [A-Z_]+       -- OPERATOR
-        '[\x00-\x7F]' -- CHAR CONVERSION OPERAND
-        [0-9]+        -- NUMBER OPERAND                                         
+        '[\x00-\x7F]' -- ASCII CHAR CONVERSION OPERAND
+        [0-9]+        -- DECIMAL OPERAND
+        x[0-9A-F]+    -- HEXADECIMAL OPERAND
+        b[01]{1,8}    -- BINARY OPERAND
     */
     validInstruction := regexp.MustCompile(
-        `^[A-Z_]+( '[\x00-\x7F]'| [0-9]+)*\s*$`)
+        `^[A-Z_]+( '[\x00-\x7F]'| [0-9]+| x[0-9A-F]+| b[01]{1,8})*\s*$`)
     for i, line := range code {
         if !validInstruction.MatchString(line) {
             err = errors.New("Syntactically incorrect lines detected.")
@@ -48,14 +49,53 @@ func FindOpcode(line string) string {
 
 
 func FindOperand(line string) []string {
-    validOperandByte := regexp.MustCompile(`'[\x00-\x7F]'|[0-9]+`)
+    validOperandByte := regexp.MustCompile(
+        `'[\x00-\x7F]'|[0-9]+|x[0-9A-F]+|b[01]{1,8}`)
     return validOperandByte.FindAllString(line, -1)
 }
 
 
-func FindIntegers(line string) []string {
+func FindDecimals(line string) []string {
     validInteger := regexp.MustCompile(`[0-9]+`)
     return validInteger.FindAllString(line, -1)
+}
+
+
+func FindHexadecimals(line string) []string {
+    validHexadecimal := regexp.MustCompile(`x[0-9A-F]+`)
+    return validHexadecimal.FindAllString(line, -1)
+}
+
+
+func DecimalCheck(decimal string) bool {
+    _, err := strconv.ParseUint(decimal, 10, 8)
+    return err == nil
+}
+
+
+func DecimalSliceCheck(decimals []string) bool {
+    for _, integer := range decimals {
+        if !DecimalCheck(integer) {
+            return false
+        }
+    }
+    return true
+}
+
+
+func HexadecimalCheck(hexadecimal string) bool {
+    _, err := strconv.ParseUint(hexadecimal[1:], 16, 8)
+    return err == nil
+}
+
+
+func HexadecimalSliceCheck(hexadecimals []string) bool {
+    for _, integer := range hexadecimals {
+        if !HexadecimalCheck(integer) {
+            return false
+        }
+    }
+    return true
 }
 
 
@@ -70,22 +110,24 @@ func SemanticsCheck(code []string) (badLines []uint64, errSlice []error) {
             continue
         }
         
-        // Check that every integer i in operand can be stored in a uint8.
-        integerStrings := FindIntegers(line)
-        broken := false
-        for _, integer := range integerStrings {
-            _, err := strconv.ParseUint(integer, 10, 8)
-            if err != nil {
-                errSlice = append(
-                    errSlice,
-                    errors.New("Operand contains byte value out of range."),
-                )
-                badLines = append( badLines, uint64(i) )
-                broken = true
-                break
-            }
-        }
-        if broken {
+        // Check that operand is made of values that can be stored in a byte
+        /* 
+            ASCII characters are by definition a byte long.
+            Binary integers' length is checked syntactically as well.
+            Must only check:
+                1. Decimals
+                2. Hexadecimals
+        */
+        decimalStrings := FindDecimals(line)
+        hexadecimalStrings := FindHexadecimals(line)
+        
+        if !DecimalSliceCheck(decimalStrings) ||
+           !HexadecimalSliceCheck(hexadecimalStrings) {
+            errSlice = append(
+                errSlice,
+                errors.New("Operand contains byte value out of range."),
+            )
+            badLines = append( badLines, uint64(i) )
             continue
         }
         
