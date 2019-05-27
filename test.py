@@ -5,13 +5,14 @@ DIRS = [
     "github.com/sharpvik/scoops/Package/Assembly/",
     "github.com/sharpvik/scoops/Package/Bytes/",
 ]
-OUTFILE = "TESTS.txt"
+OUTF = "TESTS.txt"
 
 def test():
-    file = open(OUTFILE, 'w')
+    file = open(OUTF, 'wb')
     for dir in DIRS:
-        output = sp.check_output(['go', 'test', dir]).decode('utf-8')
+        output = sp.check_output(['go', 'test', dir])
         file.write(output)
+    file.close()
     
 if __name__ == "__main__":
     test()
