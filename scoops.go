@@ -101,9 +101,29 @@ func main() {
                 errors.New("This file format is not yet supported. Sorry."),
             )
             os.Exit(1)
+            // 4 lines above will be removed upon completion of compiler.
+            // They will be replaced with the code snippet below.
+            /*
+            sourceCode, err = source.Read(filename)
+            if err != nil {
+                util.Error(err)
+                os.Exit(1)
+            }
+            assemblyCode = source.Compile(sourceCode)
+            if flag == 'a' {
+                assembly.Write(assemblyCode)
+                os.Exit(0)
+            }
+            */
             fallthrough
 
         case "scpa":
+            if flag == 'a' {
+                util.Error(
+                    errors.New("Invalid flag for *.scpa input file."),
+                )
+                os.Exit(1)
+            }
             if assemblyСode == nil {
                 assemblyСode, err = assembly.Read(filename)
                 if err != nil {
@@ -112,11 +132,20 @@ func main() {
                 }
             }
             byteCode = assembly.Assemble(assemblyСode)
+            if flag == 'c' {
+                bytes.Write(byteCode)
+                os.Exit(0)
+            }
             fallthrough
 
         case "scpb":
+            if flag != 'e' && flag != 0 {
+                util.Error(
+                    errors.New("Invalid flag for *.scpb input file."),
+                )
+                os.Exit(1)
+            }
             if byteCode == nil {
-                var err error
                 byteCode, err = bytes.Read(filename)
                 if err != nil {
                     util.Error(err)
