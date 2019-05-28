@@ -67,93 +67,110 @@ func GetFileExtention(filename string) string {
 }
 
 
+func UsageHint() {
+    fmt.Println(`
+│ To use embedded helper:
+└──── scoops help
+    `)
+}
+
+
 
 func main() {
     // Processing command line arguments...
     flag, filename, err := ParseArgs(os.Args[1:])
     if err != nil {
         util.Error(err)
-        fmt.Println(`
-│ To use embedded helper:
-└──── scoops help
-        `)
+        UsageHint()
         os.Exit(1)
     }
     util.Log( "Flag: " + string(flag) )
     util.Log("Filename: " + filename)
 
-    // Checking for command line keywords...
-    switch filename {
-    case "help":
-        util.Help()
-
-    default:
-        fileExtention := GetFileExtention(filename)
-        var (
-            //sourceСode []string
-            assemblyСode []string
-            byteCode []bytes.Instruction
+    fileExtention := GetFileExtention(filename)
+    var (
+        //sourceСode []string
+        assemblyСode []string
+        byteCode []bytes.Instruction
+    )
+    
+    // Use filename extention to determine execution process and catch errors...
+    switch fileExtention {
+    case "scp":
+        util.Error(
+            errors.New("This file format is not yet supported. Sorry."),
         )
-        
-        switch fileExtention {
-        case "scp":
+        os.Exit(1)
+        // The 4 lines above will be removed upon completion of compiler.
+        // They will be replaced with the code snippet below.
+        /*
+        sourceCode, err = source.Read(filename)
+        if err != nil {
+            util.Error(err)
+            os.Exit(1)
+        }
+        assemblyCode = source.Compile(sourceCode)
+        if flag == 'a' {
+            assembly.Write(assemblyCode)
+            os.Exit(0)
+        }
+        */
+        fallthrough
+
+    case "scpa":
+        if flag == 'a' {
             util.Error(
-                errors.New("This file format is not yet supported. Sorry."),
+                errors.New("Invalid flag for *.scpa input file."),
             )
             os.Exit(1)
-            // 4 lines above will be removed upon completion of compiler.
-            // They will be replaced with the code snippet below.
-            /*
-            sourceCode, err = source.Read(filename)
+        }
+        if assemblyСode == nil {
+            assemblyСode, err = assembly.Read(filename)
             if err != nil {
                 util.Error(err)
                 os.Exit(1)
             }
-            assemblyCode = source.Compile(sourceCode)
-            if flag == 'a' {
-                assembly.Write(assemblyCode)
-                os.Exit(0)
-            }
-            */
-            fallthrough
-
-        case "scpa":
-            if flag == 'a' {
-                util.Error(
-                    errors.New("Invalid flag for *.scpa input file."),
-                )
-                os.Exit(1)
-            }
-            if assemblyСode == nil {
-                assemblyСode, err = assembly.Read(filename)
-                if err != nil {
-                    util.Error(err)
-                    os.Exit(1)
-                }
-            }
-            byteCode = assembly.Assemble(assemblyСode)
-            if flag == 'c' {
-                bytes.Write(byteCode)
-                os.Exit(0)
-            }
-            fallthrough
-
-        case "scpb":
-            if flag != 'e' && flag != 0 {
-                util.Error(
-                    errors.New("Invalid flag for *.scpb input file."),
-                )
-                os.Exit(1)
-            }
-            if byteCode == nil {
-                byteCode, err = bytes.Read(filename)
-                if err != nil {
-                    util.Error(err)
-                    os.Exit(1)
-                }
-            }
-            bytes.Execute(byteCode)
         }
+        byteCode = assembly.Assemble(assemblyСode)
+        if flag == 'c' {
+            bytes.Write(byteCode)
+            os.Exit(0)
+        }
+        fallthrough
+
+    case "scpb":
+        if flag != 'e' && flag != 0 {
+            util.Error(
+                errors.New("Invalid flag for *.scpb input file."),
+            )
+            os.Exit(1)
+        }
+        if byteCode == nil {
+            byteCode, err = bytes.Read(filename)
+            if err != nil {
+                util.Error(err)
+                os.Exit(1)
+            }
+        }
+        bytes.Execute(byteCode)
+    
+    case "":
+        // If filename doesn't have extention, it is either a command line
+        // keyword, or an invalid input file.
+        switch filename {
+        case "help":
+            util.Help()
+            
+        default:
+            util.Error( errors.New("Input file does not have exntention.") )
+            UsageHint()
+            os.Exit(1)
+        }
+        
+    default:
+        // Any other filename extentions are to be considered invalid.
+        util.Error( errors.New("Input file has an invalid exntention.") )
+        UsageHint()
+        os.Exit(1)
     }
 }
-
