@@ -1,13 +1,13 @@
 package main
 
 import (
-    "fmt"
-    "os"
     "errors"
-    "regexp"
+    "fmt"
     "github.com/sharpvik/scoops/Package/Util"
     "github.com/sharpvik/scoops/Package/Assembly"
     "github.com/sharpvik/scoops/Package/Bytes"
+    "os"
+    "regexp"
 )
 
 
@@ -156,7 +156,7 @@ func main() {
     
     case "":
         // If filename doesn't have extention, it is either a command line
-        // keyword, or an invalid input file.
+        // keyword (like "help"), or an invalid input file.
         switch filename {
         case "help":
             util.Help()

@@ -1,20 +1,22 @@
 package assembly
 
 import (
-    "regexp"
     "errors"
-    "strconv"
     "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/Bytes"
+    "regexp"
+    "strconv"
 )
 
 
 
+// Based on ../Shared/opcodes.go/const(opcodes)
 var OpcodeMap = map[string]uint8{
     "THE_END": shared.THE_END,
     "NOP": shared.NOP,
-    "PUSH_CONST": shared.PUSH_CONST,
-    "EMIT_CONST": shared.EMIT_CONST,
+    "LOAD_BYTES": shared.LOAD_BYTES,
+    "PRINT_OBJECT": shared.PRINT_OBJECT,
+    "ARITHMETIC_OP": shared.ARITHMETIC_OP,
     "BINARY_OP": shared.BINARY_OP,
     "COMPARE_OP": shared.COMPARE_OP,
     "PRINT_NEWLINE": shared.PRINT_NEWLINE,
@@ -112,12 +114,12 @@ func SemanticsCheck(code []string) (badLines []uint64, errSlice []error) {
         
         // Check that operand is made of values that can be stored in a byte
         /* 
-            ASCII characters are by definition a byte long.
-            Binary integers' length is checked syntactically as well.
-            Must only check:
-                1. Decimals
-                2. Hexadecimals
-        */
+         *  ASCII characters are by definition a byte long.
+         *  Binary integers' length is checked syntactically as well.
+         *  Must only check:
+         *      1. Decimals
+         *      2. Hexadecimals
+         */
         decimalStrings := FindDecimals(line)
         hexadecimalStrings := FindHexadecimals(line)
         

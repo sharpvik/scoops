@@ -25,8 +25,8 @@ func TestRead(t *testing.T) {
     }
 
     cases := []string{
-        "PUSH_CONST 'c\n",
-        "EMIT_CONST\n",
+        "LOAD_BYTES 'c'\n",
+        "PRINT_OBJECT\n",
         "PRINT_NEWLINE\n",
         "THE_END",
     }

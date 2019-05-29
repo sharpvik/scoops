@@ -2,8 +2,6 @@ package main
 
 import "testing"
 
-
-
 func TestTypeOfArg(t *testing.T) {
     cases := []string{
         // valid flags

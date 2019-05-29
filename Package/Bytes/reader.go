@@ -1,10 +1,10 @@
 package bytes
 
 import (
-    "os"
-    "bufio"
+    "bufio"    
     "github.com/sharpvik/scoops/Package/Shared"
     //"github.com/sharpvik/scoops/Package/Util"
+    "os"
 )
 
 

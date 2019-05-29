@@ -2,8 +2,6 @@
 │ └ ├ ─ ┬
 */
 
-
-
 package util
 
 import (
@@ -12,7 +10,6 @@ import (
 
 
 
-// FUNCTIONS
 func Error(err error) {
     fmt.Println("│ Error:", err)
 }

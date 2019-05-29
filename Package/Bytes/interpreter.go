@@ -1,8 +1,8 @@
 package bytes
 
 import (
-    "fmt"
     "errors"
+    "fmt"
     //"github.com/sharpvik/scoops/Package/Util"
 )
 

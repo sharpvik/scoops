@@ -1,9 +1,9 @@
 package assembly
 
 import (
-    "os"
-    "io"
     "bufio"
+    "io"
+    "os"
 )
 
 func Read(filename string) ([]string, error) {
@@ -28,4 +28,3 @@ func Read(filename string) ([]string, error) {
     
     return assemblyСode, nil
 }
-

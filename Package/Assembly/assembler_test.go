@@ -8,17 +8,17 @@ import (
 
 func TestSyntaxCheck(t *testing.T) {
     cases := []string{
-        "PUSH_CONST 'C' xF7\n",
-        "PUSH_CONST 3 'c' 23 xFF b101\n",
-        "PUSH_CONST 1 42\n",
-        "EMIT_CONST\n",
+        "LOAD_BYTES 'C' xF7\n",
+        "LOAD_BYTES 3 'c' 23 xFF b101\n",
+        "LOAD_BYTES 1 42\n",
+        "PRINT_OBJECT\n",
         "THE_END\n",
         
-        "push_const 'c'\n",
-        "PUSH_CONST b0134\n",
-        "PUSH_CONST 'sc'\n",
-        "PUSH_CONST 'sc\n",
-        "PUSH_CONST xFH",
+        "load_bytes 'c'\n",
+        "LOAD_BYTES b0134\n",
+        "LOAD_BYTES 'sc'\n",
+        "LOAD_BYTES 'sc\n",
+        "LOAD_BYTES xFH",
     }
     badLines, _ := SyntaxCheck(cases)
     realBadLines := []uint64{5, 6, 7, 8, 9}
@@ -43,17 +43,17 @@ func TestSyntaxCheck(t *testing.T) {
 
 func TestFindOpcode(t *testing.T) {
     cases := []string{
-        "PUSH_CONST 'C'\n",
-        "PUSH_CONST 'A' 'b'\n",
-        "PUSH_CONST 1 42\n",
-        "EMIT_CONST\n",
+        "LOAD_BYTES 'C'\n",
+        "LOAD_BYTES 'A' 'b'\n",
+        "LOAD_BYTES 1 42\n",
+        "PRINT_OBJECT\n",
         "THE_END\n",
     }
     answers := []string{
-        "PUSH_CONST",
-        "PUSH_CONST",
-        "PUSH_CONST",
-        "EMIT_CONST",
+        "LOAD_BYTES",
+        "LOAD_BYTES",
+        "LOAD_BYTES",
+        "PRINT_OBJECT",
         "THE_END",
     }
     for i, c := range cases {
@@ -71,10 +71,10 @@ func TestFindOpcode(t *testing.T) {
 
 func TestFindOperand(t *testing.T) {
     cases := []string{
-        "PUSH_CONST 'C'\n",
-        "PUSH_CONST 3 'c' 23 xFF b101\n",
-        "PUSH_CONST 1 42\n",
-        "EMIT_CONST\n",
+        "LOAD_BYTES 'C'\n",
+        "LOAD_BYTES 3 'c' 23 xFF b101\n",
+        "LOAD_BYTES 1 42\n",
+        "PRINT_OBJECT\n",
         "THE_END\n",
     }
     answers := [][]string{
@@ -111,10 +111,10 @@ func TestFindOperand(t *testing.T) {
 
 func TestFindDecimals(t *testing.T) {
     cases := []string{
-        "PUSH_CONST 'C'\n",
-        "PUSH_CONST 5 'b'\n",
-        "PUSH_CONST 1 42\n",
-        "EMIT_CONST\n",
+        "LOAD_BYTES 'C'\n",
+        "LOAD_BYTES 5 'b'\n",
+        "LOAD_BYTES 1 42\n",
+        "PRINT_OBJECT\n",
         "THE_END\n",
     }
     answers := [][]string{
@@ -151,10 +151,10 @@ func TestFindDecimals(t *testing.T) {
 
 func TestFindHexadecimals(t *testing.T) {
     cases := []string{
-        "PUSH_CONST 'C'\n",
-        "PUSH_CONST 5 x54 xFF x65 101 'c'\n",
-        "PUSH_CONST 1 x42\n",
-        "EMIT_CONST\n",
+        "LOAD_BYTES 'C'\n",
+        "LOAD_BYTES 5 x54 xFF x65 101 'c'\n",
+        "LOAD_BYTES 1 x42\n",
+        "PRINT_OBJECT\n",
         "THE_END\n",
     }
     answers := [][]string{
@@ -237,16 +237,16 @@ func TestHexadecimalCheck(t *testing.T) {
 
 func TestSemanticsCheck(t *testing.T) {
     cases := []string{
-        "PUSH_CONST 1 'C'\n",
-        "PUSH_CONST 4 'c' 23 xFF b101\n",
-        "PUSH_CONST 1 42\n",
-        "EMIT_CONST\n",
+        "LOAD_BYTES 1 'C'\n",
+        "LOAD_BYTES 4 'c' 23 xFF b101\n",
+        "LOAD_BYTES 1 42\n",
+        "PRINT_OBJECT\n",
         "THE_END\n",
         
         "END\n", // opcode does not exist
-        "PUSH_CONST 256\n", // 256 cannot be stored in a uint8
+        "LOAD_BYTES 256\n", // 256 cannot be stored in a uint8
         "BINARY_OP '&' '&' '&'\n", // BINARY_OP requires only 2 bytes in operand
-        "PUSH_CONST 2 'c' 23 xFF\n", // PUSH_CONST requires 2 + 1 bytes not 4
+        "LOAD_BYTES 2 'c' 23 xFF\n", // LOAD_BYTES requires 2 + 1 bytes not 4
     }
     badLines, _ := SemanticsCheck(cases)
     realBadLines := []uint64{5, 6, 7, 8}
