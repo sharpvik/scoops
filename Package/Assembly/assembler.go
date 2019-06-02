@@ -10,28 +10,14 @@ import (
 
 
 
-// Based on ../Shared/opcodes.go/const(opcodes)
-var OpcodeMap = map[string]uint8{
-    "THE_END": shared.THE_END,
-    "NOP": shared.NOP,
-    "LOAD_BYTES": shared.LOAD_BYTES,
-    "PRINT_OBJECT": shared.PRINT_OBJECT,
-    "ARITHMETIC_OP": shared.ARITHMETIC_OP,
-    "BINARY_OP": shared.BINARY_OP,
-    "COMPARE_OP": shared.COMPARE_OP,
-    "PRINT_NEWLINE": shared.PRINT_NEWLINE,
-}
-
-
-
 func SyntaxCheck(code []string) (badLines []uint64, err error) {
     /* 
-        [A-Z_]+       -- OPERATOR
-        '[\x00-\x7F]' -- ASCII CHAR CONVERSION OPERAND
-        [0-9]+        -- DECIMAL OPERAND
-        x[0-9A-F]+    -- HEXADECIMAL OPERAND
-        b[01]{1,8}    -- BINARY OPERAND
-    */
+     * [A-Z_]+       -- OPERATOR
+     * '[\x00-\x7F]' -- ASCII CHAR CONVERSION OPERAND
+     * [0-9]+        -- DECIMAL OPERAND
+     * x[0-9A-F]+    -- HEXADECIMAL OPERAND
+     * b[01]{1,8}    -- BINARY OPERAND
+     */
     validInstruction := regexp.MustCompile(
         `^[A-Z_]+( '[\x00-\x7F]'| [0-9]+| x[0-9A-F]+| b[01]{1,8})*\s*$`)
     for i, line := range code {
@@ -114,11 +100,11 @@ func SemanticsCheck(code []string) (badLines []uint64, errSlice []error) {
         
         // Check that operand is made of values that can be stored in a byte
         /* 
-         *  ASCII characters are by definition a byte long.
-         *  Binary integers' length is checked syntactically as well.
-         *  Must only check:
-         *      1. Decimals
-         *      2. Hexadecimals
+         * ASCII characters are by definition a byte long.
+         * Binary integers' length is checked syntactically as well.
+         * Must only check:
+         *     1. Decimals
+         *     2. Hexadecimals
          */
         decimalStrings := FindDecimals(line)
         hexadecimalStrings := FindHexadecimals(line)

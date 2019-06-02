@@ -1,3 +1,5 @@
+# Python3 required
+
 import subprocess as sp
 
 DIRS = [
@@ -5,7 +7,7 @@ DIRS = [
     "github.com/sharpvik/scoops/Package/Assembly/",
     "github.com/sharpvik/scoops/Package/Bytes/",
 ]
-OUTF = "TESTS.txt"
+OUTF = "../TESTS.txt"
 
 def test():
     file = open(OUTF, 'wb')
