@@ -1,6 +1,8 @@
 package assembly
 
 import (
+    "fmt"
+    "github.com/sharpvik/scoops/Package/Bytes"
     "testing"
 )
 
@@ -20,21 +22,11 @@ func TestSyntaxCheck(t *testing.T) {
         "LOAD_BYTES 'sc\n",
         "LOAD_BYTES xFH",
     }
-    badLines, _ := SyntaxCheck(cases)
-    realBadLines := []uint64{5, 6, 7, 8, 9}
-    if len(badLines) != len(realBadLines) {
-        t.Error(
-            "Fail: Cannot properly analyse syntax.\n" +
-            "Got badLines:", badLines, "\n" +
-            "While realBadLines:", realBadLines,
-        )
-        return
-    }
-    for i, verdict := range badLines {
-        if verdict != realBadLines[i] {
+    for i, line := range cases {
+        err := SyntaxCheck(line)
+        if (i < 5 && err != nil) || (i >= 5 && err == nil) {
             t.Error(
-                "Fail: Cannot properly analyse syntax.\n" +
-                "Verdict for line", i, "is incorrect.",
+                fmt.Sprintf("Fail: Invalid verdict for line %d.\n", i),
             )
         }
     }
@@ -248,28 +240,74 @@ func TestSemanticsCheck(t *testing.T) {
         "BINARY_OP '&' '&' '&'\n", // BINARY_OP requires only 2 bytes in operand
         "LOAD_BYTES 2 'c' 23 xFF\n", // LOAD_BYTES requires 2 + 1 bytes not 4
     }
-    badLines, _ := SemanticsCheck(cases)
-    realBadLines := []uint64{5, 6, 7, 8}
-    if len(badLines) != len(realBadLines) {
-        t.Error(
-            "Fail: Cannot properly analyse semantics.\n" +
-            "Got badLines:", badLines, "\n" +
-            "While realBadLines:", realBadLines,
-        )
-        return
-    }
-    for i, line := range badLines {
-        if line != realBadLines[i] {
+    for i, line := range cases {
+        err := SemanticsCheck(line)
+        if (i < 5 && err != nil) || (i >= 5 && err == nil) {
             t.Error(
-                "Fail: Cannot properly analyse semantics.\n" +
-                "Got badLines:", badLines, "\n" +
-                "While realBadLines:", realBadLines,
+                fmt.Sprintf("Fail: Invalid verdict for line %d.\n", i),
             )
         }
     }
 }
 
 
-func TestAssemble(t *testing.T) {
-    //
+func TestGetIntegerAndBase(t *testing.T) {
+    cases := []string{
+        "b101", "xFF", "42",
+    }
+    answers := []int{
+        2, 16, 10,
+    }
+    for i, c := range cases {
+        _, base := GetIntegerAndBase(c)
+        if base != answers[i] {
+            t.Error(
+                "Fail: Cannot find integer base properly.\n",
+                "For", c, "\n",
+                "Got", base, "\n",
+                "But expected", answers[i], "\n",
+            )
+        }
+    }
+}
+
+
+func TestAssembleLine(t *testing.T) {
+    cases := []string{
+        "LOAD_BYTES 1 'C'\n",
+        "LOAD_BYTES 4 'c' 23 xFF b101\n",
+        "LOAD_BYTES 1 42\n",
+        "PRINT_OBJECT\n",
+        "THE_END\n",
+    }
+    answers := []*bytes.Instruction{
+        bytes.NewInstruction(2, []byte{1, 67}),
+        bytes.NewInstruction(2, []byte{4, 99, 23, 255, 5}),
+        bytes.NewInstruction(2, []byte{1, 42}),
+        bytes.NewInstruction(3, []byte{}),
+        bytes.NewInstruction(0, []byte{}),
+    }
+    for i, line := range cases {
+        reply, _ := AssembleLine(line)
+        answer := answers[i]
+        if reply.Opcode != answer.Opcode || 
+           len(reply.Operand) != len(answer.Operand) {
+            t.Error(
+                "Fail: Invalid instruction assembly.\n",
+                "Wanted:", answers[i], "\n",
+                "But received:", reply, "\n",
+            )
+        }
+        
+        for b, operandByte := range reply.Operand {
+            answerByte := answer.Operand[b]
+            if operandByte != answerByte {
+                t.Error(
+                    "Fail: Invalid instruction assembly.\n",
+                    "Wanted:", answers[i], "\n",
+                    "But received:", reply, "\n",
+                )
+            }
+        }
+    }
 }

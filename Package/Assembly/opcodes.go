@@ -2,7 +2,7 @@ package assembly
 
 import "github.com/sharpvik/scoops/Package/Shared"
 
-// Based on ../Shared/opcodes.go/const(opcodes)
+// Based on scoops/Package/Shared/opcodes.go/const(opcodes)
 var OpcodeMap = map[string]uint8{
 	"THE_END": shared.THE_END,
 	"NOP": shared.NOP,

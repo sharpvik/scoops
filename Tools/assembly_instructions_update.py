@@ -4,7 +4,7 @@ def opcodes_pars_template_fill(file):
     file.write(
         "package assembly\n\n" +
         "import \"github.com/sharpvik/scoops/Package/Shared\"\n\n" +
-        "// Based on ../Shared/opcodes.go/const(opcodes)\n" +
+        "// Based on scoops/Package/Shared/opcodes.go/const(opcodes)\n" +
         "var OpcodeMap = map[string]uint8{\n"
     )
 

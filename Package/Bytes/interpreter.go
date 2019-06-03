@@ -9,8 +9,8 @@ import (
 
 
 type Instruction struct{
-    opcode  uint8
-    operand []byte
+    Opcode  uint8
+    Operand []byte
 }
 
 
