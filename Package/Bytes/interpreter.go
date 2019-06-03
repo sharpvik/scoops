@@ -18,7 +18,7 @@ type Interpreter struct {
     running bool
     err     error
     ip      uint64
-    code    []Instruction
+    code    []*Instruction
     // global environment
 }
 
@@ -29,7 +29,7 @@ func NewInstruction(opcode uint8, operand []byte) *Instruction {
 }
 
 
-func NewInterpreter(code []Instruction) *Interpreter {
+func NewInterpreter(code []*Instruction) *Interpreter {
     return &Interpreter{
         true,
         nil,
@@ -39,8 +39,7 @@ func NewInterpreter(code []Instruction) *Interpreter {
 }
 
 
-func Execute(code []Instruction) {
-    interpreter := NewInterpreter(code)
+func (interpreter *Interpreter) Execute() {
     for interpreter.running && interpreter.err == nil {
         fmt.Println("It's all good.")
         interpreter.err = errors.New("Just to show off.")

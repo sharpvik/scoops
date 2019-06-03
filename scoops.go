@@ -91,7 +91,7 @@ func main() {
     var (
         //sourceСode []string
         assemblyСode []string
-        byteCode []bytes.Instruction
+        byteCode []*bytes.Instruction
     )
     
     // Use filename extention to determine execution process and catch errors...
@@ -131,7 +131,11 @@ func main() {
                 os.Exit(1)
             }
         }
-        byteCode = assembly.Assemble(assemblyСode)
+        byteCode, err = assembly.Assemble(assemblyСode)
+        if err != nil {
+            util.Error(err)
+            os.Exit(1)
+        }
         if flag == 'c' {
             bytes.Write(byteCode)
             os.Exit(0)
@@ -152,7 +156,8 @@ func main() {
                 os.Exit(1)
             }
         }
-        bytes.Execute(byteCode)
+        interpreter := bytes.NewInterpreter(byteCode)
+        interpreter.Execute()
     
     case "":
         // If filename doesn't have extention, it is either a command line

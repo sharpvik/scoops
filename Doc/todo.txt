@@ -1,24 +1,27 @@
-1. Package/Assembly/assembler.go
-    + func SemanticsCheck([]string) ([]uint64, error)
-    - func Assemble([]string) []bytecode.Instruction
+Package/Assembly/assembler.go
+    + func SemanticsCheck([]string) error
+    + func Assemble([]string) ([]*bytes.Instruction, error)
 
-2. Package/Assembly/assembler_test.go
+Package/Assembly/assembler_test.go
     + func TestSemanticsCheck(*testing.T)
-    - func TestAssemble(*testing.T)
+    + func TestAssembleLine(*testing.T)
 
-3. scoops/scoops.go
-    - var byteCode []bytecode.Instruction (currently fails to be declared!)
+scoops/scoops.go
+    + var byteCode []*bytes.Instruction
 
-4. Package/Bytecode/reader.go
+Package/Assembly/writer.go
+    - func Write([]*bytes.Instruction) error
+
+Package/Bytecode/reader.go
     - func Read(string) ([]Instruction, error)
 
-5. Package/Bytecode/reader_test.go
+Package/Bytecode/reader_test.go
     - func TestRead(*testing.T)
 
-6. Package/Bytecode/environment.go
+Package/Bytecode/environment.go
     - type Environment struct
     - func NewEnvironment (...) *Environment
     - (...)
 
-7. Package/Bytecode/interpreter.go
+Package/Bytecode/interpreter.go
     - func Execute([]Instruction)

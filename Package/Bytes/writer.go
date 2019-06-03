@@ -1,5 +1,5 @@
 package bytes
 
-func Write(byteCode []Instruction) {
+func Write(byteCode []*Instruction) {
     //
 }

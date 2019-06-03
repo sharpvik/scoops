@@ -10,7 +10,7 @@ import (
 
 
 // FUNCTIONS
-func Read(filename string) ([]Instruction, error) {
+func Read(filename string) ([]*Instruction, error) {
     file, err := os.Open(filename)
     if err != nil {
         return nil, err
@@ -20,7 +20,7 @@ func Read(filename string) ([]Instruction, error) {
     if err != nil {
         return nil, err
     }
-    code := []Instruction{}
+    code := []*Instruction{}
     for opcode != shared.THE_END {
         //
     }
