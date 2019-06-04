@@ -28,7 +28,7 @@ func TestTypeOfArg(t *testing.T) {
     for i, c := range cases {
         argType, _ := TypeOfArg(c)
         if argType != answers[i] {
-            t.Errorf("Fail: for '%s' received '%s' but expected '%s'.",
+            t.Errorf("For '%s' received '%s' but expected '%s'.",
                      c, argType, answers[i])
         }
     }
@@ -101,7 +101,7 @@ func TestParseArgs(t *testing.T) {
         flag, filename, _ := ParseArgs(c)
         eflag, efilename := answers[i].flag, answers[i].filename
         if flag != eflag || filename != efilename {
-            t.Errorf("Fail: for '%s %s' received '%c, %s'. Expected: '%c, %s'.",
+            t.Errorf("For '%s %s' received '%c, %s'. Expected: '%c, %s'.",
                      c[0], c[1], flag, filename, eflag, efilename)
         }
     }
@@ -118,9 +118,8 @@ func TestGetFileExtention(t *testing.T) {
     for i, c := range cases {
         extention := GetFileExtention(c)
         if extention != answers[i] {
-            t.Errorf("Fail: for '%s' received '%s' byt expected '%s'.",
+            t.Errorf("For '%s' received '%s' byt expected '%s'.",
                      c, extention, answers[i])
         }
     }
 }
-

@@ -36,12 +36,12 @@ func TestRead(t *testing.T) {
     answer, err := Read(sampleFilename)
 
     if err != nil {
-        t.Error("Fail: Cannot read sample file.")
+        t.Error("Cannot read sample file.")
     }
 
     for i, line := range answer {
         if line != cases[i] {
-            t.Error("Fail: Cannot properly read sample file.")
+            t.Error("Cannot properly read sample file.")
         }
     }
 

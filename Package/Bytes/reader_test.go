@@ -11,7 +11,7 @@ func TestRead(t *testing.T) {
     sampleFilename := "test.scpb"
     file, err := os.Create(sampleFilename)
     if err != nil {
-        t.Error("System Error: Cannot create sample file.")
+        t.Error("Cannot create sample file.")
     }
 
     //

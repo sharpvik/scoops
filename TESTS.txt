@@ -1,4 +1,4 @@
 ok  	github.com/sharpvik/scoops	(cached)
-ok  	github.com/sharpvik/scoops/Package/Assembly	(cached)
-ok  	github.com/sharpvik/scoops/Package/Bytes	(cached)
-ok  	github.com/sharpvik/scoops/Package/DataStructures/Queue	(cached)
+ok  	github.com/sharpvik/scoops/Package/Assembly	0.017s
+ok  	github.com/sharpvik/scoops/Package/Bytes	0.010s
+ok  	github.com/sharpvik/scoops/Package/DataTypes/Queue	0.008s

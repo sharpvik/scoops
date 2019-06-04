@@ -6,7 +6,7 @@ DIRS = [
     "github.com/sharpvik/scoops/",
     "github.com/sharpvik/scoops/Package/Assembly/",
     "github.com/sharpvik/scoops/Package/Bytes/",
-    "github.com/sharpvik/scoops/Package/DataStructures/Queue/",
+    "github.com/sharpvik/scoops/Package/DataTypes/Queue/",
 ]
 OUTF = "../TESTS.txt"
 

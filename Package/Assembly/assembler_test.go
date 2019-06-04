@@ -26,7 +26,7 @@ func TestSyntaxCheck(t *testing.T) {
         err := SyntaxCheck(line)
         if (i < 5 && err != nil) || (i >= 5 && err == nil) {
             t.Error(
-                fmt.Sprintf("Fail: Invalid verdict for line %d.\n", i),
+                fmt.Sprintf("Invalid verdict for line %d.\n", i),
             )
         }
     }
@@ -52,7 +52,7 @@ func TestFindOpcode(t *testing.T) {
         reply := FindOpcode(c)
         if reply != answers[i] {
             t.Error(
-                "Fail: Cannot properly find opcode.\n" +
+                "Cannot properly find opcode.\n" +
                 "Got opcode:", reply, "\n" +
                 "But expected:", answers[i], 
             )
@@ -80,7 +80,7 @@ func TestFindOperand(t *testing.T) {
         reply := FindOperand(c)
         if len(reply) != len(answers[i]) {
             t.Error(
-                "Fail: Cannot properly find operand.\n" +
+                "Cannot properly find operand.\n" +
                 "Case:", i, "\n" +
                 "Got operand:", reply, "\n" +
                 "But expected:", answers[i], 
@@ -90,7 +90,7 @@ func TestFindOperand(t *testing.T) {
         for j, item := range reply {
             if item != answers[i][j] {
                 t.Error(
-                    "Fail: Cannot properly find operand.\n" +
+                    "Cannot properly find operand.\n" +
                     "Case:", i, "\n" +
                     "Got operand:", reply, "\n" +
                     "But expected:", answers[i], 
@@ -120,7 +120,7 @@ func TestFindDecimals(t *testing.T) {
         reply := FindDecimals(c)
         if len(reply) != len(answers[i]) {
             t.Error(
-                "Fail: Cannot properly find decimal.\n" +
+                "Cannot properly find decimal.\n" +
                 "Case:", i, "\n" +
                 "Got:", reply, "\n" +
                 "But expected:", answers[i], 
@@ -130,7 +130,7 @@ func TestFindDecimals(t *testing.T) {
         for j, item := range reply {
             if item != answers[i][j] {
                 t.Error(
-                    "Fail: Cannot properly find decimal.\n" +
+                    "Cannot properly find decimal.\n" +
                     "Case:", i, "\n" +
                     "Got:", reply, "\n" +
                     "But expected:", answers[i], 
@@ -160,7 +160,7 @@ func TestFindHexadecimals(t *testing.T) {
         reply := FindHexadecimals(c)
         if len(reply) != len(answers[i]) {
             t.Error(
-                "Fail: Cannot properly find hexadecimal.\n" +
+                "Cannot properly find hexadecimal.\n" +
                 "Case:", i, "\n" +
                 "Got:", reply, "\n" +
                 "But expected:", answers[i], 
@@ -170,7 +170,7 @@ func TestFindHexadecimals(t *testing.T) {
         for j, item := range reply {
             if item != answers[i][j] {
                 t.Error(
-                    "Fail: Cannot properly find hexadecimal.\n" +
+                    "Cannot properly find hexadecimal.\n" +
                     "Case:", i, "\n" +
                     "Got:", reply, "\n" +
                     "But expected:", answers[i],
@@ -194,7 +194,7 @@ func TestDecimalCheck(t *testing.T) {
         reply := DecimalCheck(c)
         if reply != answers[i] {
             t.Error(
-                "Fail: Cannot properly check decimal.\n" +
+                "Cannot properly check decimal.\n" +
                 "Case:", c, "\n" +
                 "Got:", reply, "\n" +
                 "But expected:", answers[i],
@@ -217,7 +217,7 @@ func TestHexadecimalCheck(t *testing.T) {
         reply := HexadecimalCheck(c)
         if reply != answers[i] {
             t.Error(
-                "Fail: Cannot properly check hexadecimal.\n" +
+                "Cannot properly check hexadecimal.\n" +
                 "Case:", c, "\n" +
                 "Got:", reply, "\n" +
                 "But expected:", answers[i],
@@ -244,7 +244,7 @@ func TestSemanticsCheck(t *testing.T) {
         err := SemanticsCheck(line)
         if (i < 5 && err != nil) || (i >= 5 && err == nil) {
             t.Error(
-                fmt.Sprintf("Fail: Invalid verdict for line %d.\n", i),
+                fmt.Sprintf("Invalid verdict for line %d.\n", i),
             )
         }
     }
@@ -262,7 +262,7 @@ func TestGetIntegerAndBase(t *testing.T) {
         _, base := GetIntegerAndBase(c)
         if base != answers[i] {
             t.Error(
-                "Fail: Cannot find integer base properly.\n",
+                "Cannot find integer base properly.\n",
                 "For", c, "\n",
                 "Got", base, "\n",
                 "But expected", answers[i], "\n",
@@ -293,7 +293,7 @@ func TestAssembleLine(t *testing.T) {
         if reply.Opcode != answer.Opcode || 
            len(reply.Operand) != len(answer.Operand) {
             t.Error(
-                "Fail: Invalid instruction assembly.\n",
+                "Invalid instruction assembly.\n",
                 "Wanted:", answers[i], "\n",
                 "But received:", reply, "\n",
             )
@@ -303,7 +303,7 @@ func TestAssembleLine(t *testing.T) {
             answerByte := answer.Operand[b]
             if operandByte != answerByte {
                 t.Error(
-                    "Fail: Invalid instruction assembly.\n",
+                    "Invalid instruction assembly.\n",
                     "Wanted:", answers[i], "\n",
                     "But received:", reply, "\n",
                 )
