@@ -51,7 +51,7 @@ than popping every element off by hand using the **Pop** function.
 func (q *queue) Empty() bool
 ```
 
-**Empty** returns *true* if queue is empty and *false* if it isn't.
+**Empty** returns `true` if queue is empty and `false` if it isn't.
 
 
 ### func Peek
