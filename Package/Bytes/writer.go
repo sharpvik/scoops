@@ -2,17 +2,16 @@ package bytes
 
 import (
     "bufio"
-    "errors"
     "os"
 )
 
-func Write(assemblyCode []*Instruction, filename string) error {
+func Write(byteCode []*Instruction, filename string) error {
     // Convert []*bytes.Instruction to []byte
-    var byteCode []byte
-    for _, i := range assemblyCode {
-        byteCode = append(byteCode, i.Opcode)
+    var digest []byte
+    for _, i := range byteCode {
+        digest = append(digest, i.Opcode)
         for _, b := range i.Operand {
-            byteCode = append(byteCode, b)
+            digest = append(digest, b)
         }
     }
     
@@ -22,12 +21,14 @@ func Write(assemblyCode []*Instruction, filename string) error {
         return err
     }
     
-    // Create bufio.Writer and write to file
+    // Write to file
     wrtr := bufio.NewWriter(file)
-    n, err := wrtr.Write(byteCode)
+    _, err = wrtr.Write(digest)
     if err != nil {
         return err
     }
+    wrtr.Flush()
+    file.Close()
     
     return nil
 }

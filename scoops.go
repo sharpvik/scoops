@@ -110,7 +110,7 @@ func main() {
             os.Exit(1)
         }
         assemblyCode = source.Compile(sourceCode)
-        if flag == 'a' {
+        if flag == 'c' {
             assembly.Write(assemblyCode)
             os.Exit(0)
         }
@@ -118,7 +118,7 @@ func main() {
         fallthrough
 
     case "scpa":
-        if flag == 'a' {
+        if flag == 'c' {
             util.Error(
                 errors.New("Invalid flag for *.scpa input file."),
             )
@@ -136,13 +136,18 @@ func main() {
             util.Error(err)
             os.Exit(1)
         }
-        if flag == 'c' {
-            bytes.Write(byteCode)
+        if flag == 'a' {
+            bytes.Write(byteCode, "out.scpb")
             os.Exit(0)
         }
         fallthrough
 
     case "scpb":
+        util.Error(
+            errors.New("This file format is not yet supported. Sorry."),
+        )
+        os.Exit(1)
+        /*
         if flag != 'e' && flag != 0 {
             util.Error(
                 errors.New("Invalid flag for *.scpb input file."),
@@ -158,7 +163,8 @@ func main() {
         }
         interpreter := bytes.NewInterpreter(byteCode)
         interpreter.Execute()
-    
+        */
+
     case "":
         // If filename doesn't have extention, it is either a command line
         // keyword (like "help"), or an invalid input file.
