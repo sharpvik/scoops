@@ -53,11 +53,11 @@ syntactically valid:
 | №  | Operand Type | Definitions               | Regular Expression | Example |
 |---:|:-------------|:--------------------------|:-------------------|:--------|
 | 1. | Boolean      | 64-bit long boolean       | `b[01]+`           | b101010 |
-| 2. | Rune         | UTF-8 compliant character | `'.'`              | '🍨'    |
-| 3. | Float        | 64 bit long float         | `-?\d+\.\d+`       | 3.14159 |
-| 4. | Hexadecimal  | 64 bit long hexadecimal   | `x[\dA-F]+`        | x2A     |
+| 2. | Float        | 64 bit long float         | `-?\d+\.\d+`       | 3.14159 |
+| 3. | Hexadecimal  | 64 bit long hexadecimal   | `x[\dA-F]+`        | x2A     |
 | 4. | Integer      | 64 bit long integer       | `-?\d+`            | -42     |
-| 5. | String       | UTF-8 compliant string    | `".+"`             | "I❤️U"  |
+| 5. | Rune         | UTF-8 compliant character | `'.'`              | '🍨'    |
+| 6. | String       | UTF-8 compliant string    | `".+"`             | "I❤️U"  |
 
 It is important to note that booleans, floating point numbers, hexadecimals and 
 integers **must** be so that *SI* will be able to store them in 64 bits. For 
