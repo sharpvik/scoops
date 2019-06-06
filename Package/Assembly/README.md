@@ -18,7 +18,7 @@ Assembly instruction consists of two parts:
 Regular expression that matches a valid *Scoops Assembly* instruction:
 
 ```
-^[A-Z_]+( -?\d+| -?\d+\.\d+| '.'| ".+")*\s*$
+^[A-Z_]+( b[01]+| '.'| -?\d+\.\d+| x[\dA-F]+| -?\d+| ".+")*\s*$
 ```
 
 ## Opcodes
@@ -47,23 +47,21 @@ follows: `[A-Z_]+`
 
 ## Operands
 
-### Overview
-
 There are 4 types of operands that *Scoops Assembler (SA)* accepts as 
 syntactically valid:
 
 | №  | Operand Type | Definitions               | Regular Expression | Example |
 |---:|:-------------|:--------------------------|:-------------------|:--------|
-| 1. | Integer      | 64 bit long integer       | `-?\d+`            | -42     |
-| 2. | Float        | 64 bit long float         | `-?\d+\.\d+`       | 3.14159 |
-| 3. | Character    | UTF-8 compliant character | `'.'`              | '🍨'    |
-| 4. | String       | UTF-8 compliant string    | `".+"`             | "❤️🍨" |
+| 1. | Boolean      | 64-bit long boolean       | `b[01]+`           | b101010 |
+| 2. | Rune         | UTF-8 compliant character | `'.'`              | '🍨'    |
+| 3. | Float        | 64 bit long float         | `-?\d+\.\d+`       | 3.14159 |
+| 4. | Hexadecimal  | 64 bit long hexadecimal   | `x[\dA-F]+`        | x2A     |
+| 4. | Integer      | 64 bit long integer       | `-?\d+`            | -42     |
+| 5. | String       | UTF-8 compliant string    | `".+"`             | "I❤️U"  |
 
-It is important to note that both integers and floating point numbers **must**
-be so that *SI* will be able to store them in 64 bits. For example, all integers
-must fall in range of **±9 223 372 036 854 775 807**.
-
-### Quantity
+It is important to note that booleans, floating point numbers, hexadecimals and 
+integers **must** be so that *SI* will be able to store them in 64 bits. For 
+example, all integers must fall in range of **±9 223 372 036 854 775 807**.
 
 All opcodes require **specific** number of operands to be served with them. You 
 can find these numbers [in here].
