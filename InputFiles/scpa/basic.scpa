@@ -1,5 +1,11 @@
-LOAD_BYTES 2 'c' 23
+LOAD_BYTES 2 'c' 
 NOP
 PRINT_OBJECT
 PRINT_NEWLINE
 THE_END
+
+
+
+
+'s'
+'shit'

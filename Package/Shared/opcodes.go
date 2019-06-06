@@ -7,6 +7,7 @@ package shared
  *         │ scoops/Package/Assembly/assembler_test.go
  *         │ scoops/InputFiles/scpa/*
  */
+
 const (
     THE_END         uint8 = iota    // 0
     NOP             uint8 = iota    // 1
