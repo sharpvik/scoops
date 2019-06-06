@@ -1,6 +1,6 @@
 package shared
 
-var NumberOfBytesInOperand = [255]int{
+var NumberOfBytesInOperand = [256]int{
     /* THE_END */           0,
     /* NOP */               0,
     /* LOAD_BYTES */       -1, // number of bytes in operand = first byte
