@@ -108,6 +108,18 @@ func TestParseArgs(t *testing.T) {
 }
 
 
+func TestReverseString(t *testing.T) {
+    cases := "Hello, World!"
+    answer := "!dlroW ,olleH"
+    reply := ReverseString(cases) 
+    if reply != answer {
+        t.Errorf(
+            "Cannot properly reverse string. Got %s for %s", reply, cases,
+        )
+    }
+}
+
+
 func TestGetFileExtention(t *testing.T) {
     cases := []string{
         "a.scp", "a.scpa", "a.scpb", "a.exe", "a",

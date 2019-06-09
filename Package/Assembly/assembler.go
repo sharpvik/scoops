@@ -2,8 +2,8 @@ package assembly
 
 import (
     "errors"
+    "fmt"
     "github.com/sharpvik/scoops/Package/Bytes"
-    "github.com/sharpvik/scoops/Package/Shared"
     "regexp"
     "strconv"
 )
@@ -12,16 +12,18 @@ import (
 
 func SyntaxCheck(line string) error {
     /* 
-     * [A-Z_]+       -- OPERATOR
-     * '[\x00-\x7F]' -- ASCII CHAR CONVERSION OPERAND
-     * [0-9]+        -- DECIMAL OPERAND
-     * x[0-9A-F]+    -- HEXADECIMAL OPERAND
-     * b[01]{1,8}    -- BINARY OPERAND
+     * b[01]+           -- BOOLEAN
+     * x[\dA-F]+        -- HEXADECIMAL
+     * \d+              -- DECIMAL
+     * '[\x00-\xFF]'    -- ASCII CHAR
+     * [A-Z_]+          -- OPERATOR
      */
     validInstruction := regexp.MustCompile(
-        `^[A-Z_]+( '[\x00-\x7F]'| [0-9]+| x[0-9A-F]+| b[01]{1,8})*\s*$`)
+        `^[A-Z_]+( b[01]+| x[\dA-F]+| \d+| '[\x00-\xFF]'| [A-Z_]+)\s*$`)
     if !validInstruction.MatchString(line) {
-        return errors.New("Syntactically incorrect line detected.")
+        return errors.New(
+            fmt.Sprintf("Syntactically incorrect line detected:\n\t%s", line),
+        )
     }
     return nil
 }
@@ -33,92 +35,62 @@ func FindOpcode(line string) string {
 }
 
 
-func FindOperand(line string) []string {
+func FindOperand(line string) string {
     validOperandByte := regexp.MustCompile(
-        `'[\x00-\x7F]'|[0-9]+|x[0-9A-F]+|b[01]{1,8}`)
-    return validOperandByte.FindAllString(line, -1)
+        `b[01]+|x[\dA-F]+|\d+|'[\x00-\xFF]'|[A-Z_]+`)
+    return validOperandByte.FindString(line)
 }
 
 
-func FindDecimals(line string) []string {
-    validInteger := regexp.MustCompile(`[0-9]+`)
-    return validInteger.FindAllString(line, -1)
-}
-
-
-func FindHexadecimals(line string) []string {
-    validHexadecimal := regexp.MustCompile(`x[0-9A-F]+`)
-    return validHexadecimal.FindAllString(line, -1)
-}
-
-
-func DecimalCheck(decimal string) bool {
-    _, err := strconv.ParseUint(decimal, 10, 8)
-    return err == nil
-}
-
-
-func DecimalSliceCheck(decimals []string) bool {
-    for _, integer := range decimals {
-        if !DecimalCheck(integer) {
-            return false
+func OperandCheck(operand string) bool {
+    prefix := operand[0]
+    switch prefix {
+    case 'b':
+        return len(operand) < 10
+        
+    case 'x':
+        _, e := strconv.ParseUint(operand[1:], 16, 8)
+        return e == nil
+        
+    case '\'':
+        // ASCII characters are 1 byte long by definition and their validity is
+        // checked syntactically.
+        return true 
+        
+    default: // it's either integer or opcode at this point
+        validOpcode := regexp.MustCompile(`[A-Z_]+`)
+        if validOpcode.MatchString(operand) {
+            return true
         }
+        _, e := strconv.ParseUint(operand, 10, 8)
+        return e == nil
     }
-    return true
-}
-
-
-func HexadecimalCheck(hexadecimal string) bool {
-    _, err := strconv.ParseUint(hexadecimal[1:], 16, 8)
-    return err == nil
-}
-
-
-func HexadecimalSliceCheck(hexadecimals []string) bool {
-    for _, integer := range hexadecimals {
-        if !HexadecimalCheck(integer) {
-            return false
-        }
-    }
-    return true
 }
 
 
 func SemanticsCheck(line string) error {
     opcodeString := FindOpcode(line)
-    opcode, exists := OpcodeMap[opcodeString]
+    _, exists := OpcodeMap[opcodeString]
     if !exists {
         return errors.New("Opcode does not exist.")
     }
     
     // Check that operand is made of values that can be stored in a byte
     /* 
-     * ASCII characters are by definition a byte long.
-     * Binary integers' length is checked syntactically as well.
+     * ASCII characters and opcodes are by definition a byte long.
      * Must only check:
-     *     1. Decimals
-     *     2. Hexadecimals
+     *     1. Booleans
+     *     2. Decimals
+     *     3. Hexadecimals
      */
-    decimalStrings := FindDecimals(line)
-    hexadecimalStrings := FindHexadecimals(line)
+    opcodeLen := len(opcodeString)
+    operand := FindOperand(line[opcodeLen:])
     
-    if !DecimalSliceCheck(decimalStrings) ||
-       !HexadecimalSliceCheck(hexadecimalStrings) {
+    // Check integers
+    if !OperandCheck(operand) {
         return errors.New("Operand contains byte value out of range.")
     }
-    
-    // Check number of bytes in operand for opcode.
-    validNumberOfBytesInOperand := shared.NumberOfBytesInOperand[opcode]
-    operand := FindOperand(line)
-    actualNumberOfBytesInOperand := len(operand)
-    if validNumberOfBytesInOperand == -1 {
-        tmp, _ := strconv.ParseUint(operand[0], 10, 8)
-        validNumberOfBytesInOperand = int(tmp) + 1
-    }
-    if actualNumberOfBytesInOperand != validNumberOfBytesInOperand {
-        return errors.New("Invalid number of bytes in operand.")
-    }
-    
+        
     return nil
 }
 
@@ -132,6 +104,7 @@ func GetIntegerAndBase(integer string) (string, int) {
      * b[01]{1,8}    -- BINARY OPERAND
      */
     prefix := integer[0]
+
     switch prefix {
     case 'b':
         return integer[1:], 2
@@ -154,22 +127,26 @@ func AssembleLine(line string) (instruction *bytes.Instruction, err error) {
     }
     
     opcodeString := FindOpcode(line)
-    operandSlice := FindOperand(line)
+    opcodeLen := len(opcodeString)
+    operandString := FindOperand(line[opcodeLen:])
     opcode := OpcodeMap[opcodeString]
-    var operand []byte
-    for _, item := range operandSlice {
-        if item[0] == '\'' { // char
-            operand = append(operand, item[1])
-            continue
-        }
+    validOpcode := regexp.MustCompile(`^[A-Z_]+$`)
+    var operand byte
+    if operandString[0] == '\'' { // char
+        operand = operandString[1]
+    } else if validOpcode.MatchString(operandString) {
+        operand = OpcodeMap[operandString]
+    } else {
         // If this byte is not a char, it must be an integer with base
         // 2 / 10 / 16. Let's detect its base and parse it.
-        integer, integerBase := GetIntegerAndBase(item)
-        operand64, _ := strconv.ParseUint(integer, integerBase, 8)
-        operandByte := uint8(operand64)
-        operand = append(operand, operandByte)
+        integer, integerBase := GetIntegerAndBase(operandString)
+        operand64, err := strconv.ParseUint(integer, integerBase, 8)
+        if err != nil {
+            return nil, err
+        }
+        operand = byte(operand64)    
     }
-    
+
     instruction = bytes.NewInstruction(opcode, operand)
     return
 }

@@ -19,6 +19,7 @@ func Read(filename string) ([]string, error) {
         if err != nil {
             if err == io.EOF {
                 assemblyСode = append(assemblyСode, line)
+                file.Close()
                 break
             }
             return nil, err
@@ -26,5 +27,6 @@ func Read(filename string) ([]string, error) {
         assemblyСode = append(assemblyСode, line)
     }
     
+    file.Close()
     return assemblyСode, nil
 }

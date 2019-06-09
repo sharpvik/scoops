@@ -6,13 +6,10 @@ import (
 )
 
 func Write(byteCode []*Instruction, filename string) error {
-    // Convert []*bytes.Instruction to []byte
+    // Convert []*Instruction to []byte
     var digest []byte
     for _, i := range byteCode {
-        digest = append(digest, i.Opcode)
-        for _, b := range i.Operand {
-            digest = append(digest, b)
-        }
+        digest = append(digest, i.opcode, i.operand)
     }
     
     // Create file

@@ -1,4 +1,4 @@
-# Scoops Assembly Specs
+# Package assembly
 
 *Scoops Assembly* is a language based on simple and clear instructions that are
 meant to be executed by the *Scoops Interpreter*. In this file, you can find all
@@ -13,12 +13,12 @@ the specs that you should know if you wish to
 Assembly instruction consists of two parts:
 
 1. Opcode
-2. Operand(s)
+2. Operand
 
 Regular expression that matches a valid *Scoops Assembly* instruction:
 
 ```
-^[A-Z_]+( b[01]+| '.'| -?\d+\.\d+| x[\dA-F]+| -?\d+| ".+")*\s*$
+^[A-Z_]+( b[01]+| x[\dA-F]+| \d+| '[\x00-\xFF]'| [A-Z_]+)?\s*$
 ```
 
 ## Opcodes
@@ -26,14 +26,14 @@ Regular expression that matches a valid *Scoops Assembly* instruction:
 *Scoops Interpreter (SI)* can support up to 256 different opcodes as it is a
 [bytecode] based [virtual machine]. Each opcode is a simple command that *SI*
 can understand and execute. An example of a trivial opcode would be the
-`THE_END` opcode that tells *SI* that program has come to an end and it is time
-to stop execution.
+`THE_END` opcode that tells *SI* that program has come to an end and it is
+time to stop execution.
 
-Some opcodes may require one or more operand(s) -- additional parameter(s)
-needed to make *SI* more flexible. For example, you may want to `MAKE_INT 42`.
-This opcode tells *SI* to push 42 into the *chamber* ([queue]) of the currently
-active execution environment as 8 bytes and then use those bytes to create an
-instance of *Integer* and push it onto the *data stack* ([stack]).
+Some opcodes may require an operand -- additional parameter needed to make *SI*
+more flexible. For example, you may want to `LOAD_CONST 42`. This opcode tells
+*SI* to push 42 onto the *data stack* ([stack]) of the currently active
+execution environment as a bytes, it may then used to create an instance of
+*Integer* for example.
 
 You can find the list of all the opcodes used by the *Scoops Interpreter* 
 [in this file]. Regular expression that matches a valid *SI* opcode is as
@@ -41,7 +41,6 @@ follows: `[A-Z_]+`
 
 [bytecode]: https://en.wikipedia.org/wiki/Bytecode
 [virtual machine]: https://en.wikipedia.org/wiki/Virtual_machine
-[queue]: ../DataTypes/Queue/README.md
 [stack]: https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
 [in this file]: ../Shared/opcodes.go
 
@@ -52,18 +51,12 @@ syntactically valid:
 
 | Operand Type | Definitions               | Regular Expression | Example      |
 |:-------------|:--------------------------|:-------------------|:-------------|
-| Boolean      | 64-bit long boolean       | `b[01]+`           | b101010      |
-| Float        | 64 bit long float         | `-?\d+\.\d+`       | 3.14159      |
-| Hexadecimal  | 64 bit long hexadecimal   | `x[\dA-F]+`        | x2A          |
-| Integer      | 64 bit long integer       | `-?\d+`            | -42          |
-| Rune         | UTF-8 compliant character | `'.'`              | '🍨'         |
-| String       | UTF-8 compliant string    | `".+"`             | "Hello, 🌍"  |
+| Boolean      | 8 bits long booleans      | `b[01]+`           | `b101010`    |
+| Hexadecimal  | Hexadecimals up to xFF    | `x[\dA-F]+`        | `x2A`        |
+| Integer      | Integers from 0 up to 255 | `\d+`              | `42`         |
+| Character    | ASCII characters          | `'[\x00-\xFF]'`    | `'*'`        |
+| Opcode       | Scoops Assembly opcodes   | `[A-Z_]+`          | `LOAD_CONST` |
 
-It is important to note that booleans, floating point numbers, hexadecimals and 
-integers **must** be so that *SI* will be able to store them in 64 bits. For 
-example, all integers must fall in range of **±9 223 372 036 854 775 807**.
-
-All opcodes require **specific** number of operands to be served with them. You 
-can find these numbers [in here].
-
-[in here]: ../Shared/operands.go
+The underlying rule is -- every operand must be *1 byte long*. This way, every
+instruction is exactly *16 bits or 2 bytes* which makes it extremely easy to
+split raw stream of bytes into slice of *Scoops Interpreter Instructions*.

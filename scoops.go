@@ -57,10 +57,24 @@ func ParseArgs(args []string) (byte, string, error) {
 }
 
 
+func ReverseString(s string) string {
+    runes := []rune(s)
+    var reversed []rune
+    for i := len(runes) - 1; i > -1; i-- {
+        reversed = append(reversed, runes[i])
+    }
+    return string(reversed)
+}
+
+
 func GetFileExtention(filename string) string {
-    for i, char := range filename {
+    reversed := ReverseString(filename)
+    for i, char := range reversed {
+        if char == '/' {
+            return ""
+        }
         if char == '.' {
-            return filename[i + 1:]
+            return ReverseString(reversed[:i])
         }
     }
     return ""
@@ -173,14 +187,14 @@ func main() {
             util.Help()
             
         default:
-            util.Error( errors.New("Input file does not have exntention.") )
+            util.Error( errors.New("Input file does not have extention.") )
             UsageHint()
             os.Exit(1)
         }
         
     default:
         // Any other filename extentions are to be considered invalid.
-        util.Error( errors.New("Input file has an invalid exntention.") )
+        util.Error( errors.New("Input file has an invalid extention.") )
         UsageHint()
         os.Exit(1)
     }
