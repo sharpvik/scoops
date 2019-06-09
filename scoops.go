@@ -157,11 +157,6 @@ func main() {
         fallthrough
 
     case "scpb":
-        util.Error(
-            errors.New("This file format is not yet supported. Sorry."),
-        )
-        os.Exit(1)
-        /*
         if flag != 'e' && flag != 0 {
             util.Error(
                 errors.New("Invalid flag for *.scpb input file."),
@@ -177,7 +172,6 @@ func main() {
         }
         interpreter := bytes.NewInterpreter(byteCode)
         interpreter.Execute()
-        */
 
     case "":
         // If filename doesn't have extention, it is either a command line

@@ -1,9 +1,7 @@
 package bytes
 
 import (
-    "bufio"    
-    "github.com/sharpvik/scoops/Package/Shared"
-    //"github.com/sharpvik/scoops/Package/Util"
+    "bufio"
     "os"
 )
 
@@ -15,14 +13,23 @@ func Read(filename string) ([]*Instruction, error) {
     if err != nil {
         return nil, err
     }
+    
     rdr := bufio.NewReader(file)
-    opcode, err := rdr.ReadByte()
-    if err != nil {
-        return nil, err
+    
+    var code []*Instruction
+    for {
+        opcode, err := rdr.ReadByte()
+        if err != nil {
+            return nil, err
+        }
+        
+        operand, err := rdr.ReadByte()
+        if err != nil {
+            return nil, err
+        }
+        
+        code = append( code, NewInstruction(opcode, operand) )
     }
-    code := []*Instruction{}
-    for opcode != shared.THE_END {
-        //
-    }
-    return code, err
+    
+    return code, nil
 }

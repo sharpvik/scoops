@@ -9,18 +9,18 @@ import (
 func TestWrite(t *testing.T) {
     sampleFile := "sample.scpb"
     input := []*Instruction{
-        NewInstruction(1, []byte{1, 2, 3}),
-        NewInstruction(2, []byte{1, 2, 3}),
-        NewInstruction(3, []byte{1, 2, 3}),
-        NewInstruction(4, []byte{1, 2, 3}),
-        NewInstruction(5, []byte{1, 2, 3}),
+        NewInstruction(1, 1),
+        NewInstruction(2, 2),
+        NewInstruction(3, 3),
+        NewInstruction(4, 4),
+        NewInstruction(5, 5),
     }
     digest := []byte{
-        1, 1, 2, 3,
-        2, 1, 2, 3,
-        3, 1, 2, 3,
-        4, 1, 2, 3,
-        5, 1, 2, 3,
+        1, 1,
+        2, 2,
+        3, 3,
+        4, 4,
+        5, 5,
     }
     
     err := Write(input, sampleFile)

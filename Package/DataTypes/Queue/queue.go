@@ -11,7 +11,7 @@ type (
         val     interface{}
     }
     
-    queue struct {
+    Queue struct {
         size    int
         head    *node
     }
@@ -24,23 +24,23 @@ func newNode(prev *node, next *node, val interface{}) *node {
 }
 
 
-func New() *queue {
-    return &queue{0, nil}
+func New() *Queue {
+    return &Queue{0, nil}
 }
 
 
-func (q *queue) Clear() {
+func (q *Queue) Clear() {
     q.head = nil
     q.size = 0
 }
 
 
-func (q *queue) Empty() bool {
+func (q *Queue) Empty() bool {
     return q.size == 0
 }
 
 
-func (q *queue) Peek() interface{} {
+func (q *Queue) Peek() interface{} {
     if q.size == 0 {
         return nil
     }
@@ -48,7 +48,7 @@ func (q *queue) Peek() interface{} {
 }
 
 
-func (q *queue) Pop() interface{} {
+func (q *Queue) Pop() interface{} {
     var n interface{}
     if q.size < 1 {
         return nil
@@ -66,7 +66,7 @@ func (q *queue) Pop() interface{} {
 }
 
 
-func (q *queue) Print() {
+func (q *Queue) Print() {
     if q.size == 0 {
         fmt.Println("<- { } <-")
         return
@@ -84,7 +84,7 @@ func (q *queue) Print() {
 }
 
 
-func (q *queue) Push(item interface{}) {
+func (q *Queue) Push(item interface{}) {
     n := newNode(nil, nil, item)
     if q.size == 0 {
         n.prev = n
@@ -100,6 +100,6 @@ func (q *queue) Push(item interface{}) {
 }
 
 
-func (q *queue) Size() int {
+func (q *Queue) Size() int {
     return q.size
 }
