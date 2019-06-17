@@ -50,7 +50,7 @@ func (q *Queue) Peek() interface{} {
 
 func (q *Queue) Pop() interface{} {
     var n interface{}
-    if q.size < 1 {
+    if q.size == 0 {
         return nil
     } else if q.size == 1 {
         n = q.head.val

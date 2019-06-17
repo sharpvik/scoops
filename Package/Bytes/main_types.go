@@ -8,6 +8,7 @@ import (
 
 type Object interface{
     Print()
+    Type()
 }
 
 
@@ -51,5 +52,6 @@ func NewInterpreter(code []*Instruction) *Interpreter {
         nil,
         0,
         code,
+        NewEnvironment("global", nil),
     }
 }
