@@ -3,13 +3,22 @@ package bytes
 import (
     "errors"
     "fmt"
-    //"github.com/sharpvik/scoops/Package/Util"
+    "github.com/sharpvik/scoops/Package/Util"
 )
+
+
+
+func (interpreter *Interpreter) Evaluate() {
+    //
+}
 
 
 func (interpreter *Interpreter) Execute() {
     for interpreter.running && interpreter.err == nil {
-        fmt.Println("It's all good.")
-        interpreter.err = errors.New("Just to show off.")
+        interpreter.Evaluate()
+    }
+    if interpreter.err != nil {
+        util.Error(interpreter.err)
+        util.Log("Interpreter exited with non-zero return value.")
     }
 }

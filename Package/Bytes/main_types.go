@@ -6,18 +6,18 @@ import (
 
 
 
-type Object interface{
+type Object interface {
     Print()
-    Type()
+    Type() string
 }
 
 
 type (
-    Instruction struct{
+    Instruction struct {
         opcode, operand byte
     }
     
-    Environment struct{
+    Environment struct {
         name string
         data *stack.Stack
         refs []*Object
@@ -25,7 +25,7 @@ type (
         // next *Environment // ?
     }
     
-    Interpreter struct{
+    Interpreter struct {
         running bool
         err     error
         ip      uint64

@@ -7,8 +7,7 @@ import (
 
 
 type Integer struct {
-    _type   string
-    value   int
+    value int
 }
 
 
@@ -19,4 +18,9 @@ func NewInteger(value int) *Integer {
 
 func (integer *Integer) Print() {
     fmt.Printf("%d", integer.value)
+}
+
+
+func (integer *Integer) Type() string {
+    return "int"
 }

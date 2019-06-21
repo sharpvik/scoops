@@ -4,7 +4,8 @@ import "github.com/sharpvik/scoops/Package/Shared"
 
 // Based on scoops/Package/Shared/opcodes.go/const(opcodes)
 var OpcodeMap = map[string]uint8{
-    "THE_END": shared.THE_END,
+    "END": shared.END,
+    "BEGIN": shared.BEGIN,
     "NOP": shared.NOP,
     "PUSH_CONST": shared.PUSH_CONST,
     "MAKE_BLN": shared.MAKE_BLN,
