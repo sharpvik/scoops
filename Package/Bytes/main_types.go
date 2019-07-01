@@ -31,6 +31,7 @@ type (
         ip      uint64
         code    []*Instruction
         global  *Environment
+        scope   *Environment
     }
 )
 
@@ -47,11 +48,13 @@ func NewEnvironment(name string, prev *Environment) *Environment {
 
 
 func NewInterpreter(code []*Instruction) *Interpreter {
+    global := NewEnvironment("global", nil)
     return &Interpreter{
         true,
         nil,
         0,
         code,
-        NewEnvironment("global", nil),
+        global,
+        global,
     }
 }

@@ -7,11 +7,11 @@ import (
 
 
 type Integer struct {
-    value int
+    value int64
 }
 
 
-func NewInteger(value int) *Integer {
+func NewInteger(value int64) *Integer {
     return &Integer{value}
 }
 
