@@ -1,15 +1,25 @@
 package bytes
 
 import (
-    "errors"
+    //"errors"
     "fmt"
+    //"github.com/sharpvik/scoops/Package/DataTypes/Primitives"
+    "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/Util"
 )
 
 
 
 func (interpreter *Interpreter) Evaluate() {
-    //
+    inst := *(interpreter.code[interpreter.ip])
+    switch inst.opcode {
+    case shared.END:
+        fmt.Println(inst)
+        interpreter.running = false
+    default:
+        fmt.Println(inst)
+        interpreter.ip++
+    }
 }
 
 

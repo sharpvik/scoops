@@ -31,7 +31,7 @@ func TestAssembleLine(t *testing.T) {
         "PUSH_CONST xFF",
         "PUSH_CONST 42",
         "PUSH_CONST PUSH_CONST",
-        "THE_END 0",
+        "END 0",
     }
     answers := []*bytes.Instruction{
         bytes.NewInstruction(2, 42),

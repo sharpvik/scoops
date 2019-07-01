@@ -1,4 +1,4 @@
-package bytes
+package primitives
 
 import (
     "fmt"
@@ -12,7 +12,7 @@ type Integer struct {
 
 
 func NewInteger(value int) *Integer {
-    return &Integer{"int", value}
+    return &Integer{value}
 }
 
 
