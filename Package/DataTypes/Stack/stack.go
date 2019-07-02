@@ -88,3 +88,8 @@ func (s *Stack) Push(item interface{}) {
 func (s *Stack) Size() int {
     return s.size
 }
+
+
+func (s *Stack) Type() string {
+    return "stack"
+}

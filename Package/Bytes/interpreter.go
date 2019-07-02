@@ -21,21 +21,72 @@ func (interpreter *Interpreter) Evaluate() {
 
     case shared.PUSH_CONST:
         interpreter.scope.data.Push(instruction.operand)
+        
+    case shared.MAKE_BLN:
+        i := interpreter.scope.data.Pop().(byte)
+        interpreter.scope.data.Push( primitives.NewBoolean(i) )
 
     case shared.MAKE_INT:
         var buffer []byte
         for i := 0; i < 8; i++ {
-            v := interpreter.scope.data.Pop()
-            b := v.(byte)
-            buffer = append(buffer, b)
+            buffer = append( buffer, interpreter.scope.data.Pop().(byte) )
         }
         n := int64( binary.LittleEndian.Uint64(buffer) )
-        o := primitives.NewInteger(n)
-        interpreter.scope.data.Push(o)
+        interpreter.scope.data.Push( primitives.NewInteger(n) )
+
+    case shared.MAKE_RUNE:
+        var buffer []byte
+        c := int(instruction.operand)
+        for i := 0; i < c; i++ {
+            buffer = append( buffer, interpreter.scope.data.Pop().(byte) )
+        }
+        interpreter.scope.data.Push( primitives.NewRune(buffer) )
+
+    case shared.BINARY_ADD:
+        x := interpreter.scope.data.Pop().(Object)
+        y := interpreter.scope.data.Pop().(Object)
+        _type := x.Type() + y.Type()
+        switch _type {
+        case "intint":
+            a := x.(*primitives.Integer)
+            b := y.(*primitives.Integer)
+            c := primitives.AddInteger(a, b)
+            interpreter.scope.data.Push(c)
+        default:
+            interpreter.err = errors.New("Unknown numeric data type.")
+        }
+        
+    case shared.BINARY_SUB:
+        x := interpreter.scope.data.Pop().(Object)
+        y := interpreter.scope.data.Pop().(Object)
+        _type := x.Type() + y.Type()
+        switch _type {
+        case "intint":
+            a := x.(*primitives.Integer)
+            b := y.(*primitives.Integer)
+            c := primitives.SubInteger(a, b)
+            interpreter.scope.data.Push(c)
+        default:
+            interpreter.err = errors.New("Unknown numeric data type.")
+        }
+        
+    case shared.BINARY_MUL:
+        x := interpreter.scope.data.Pop().(Object)
+        y := interpreter.scope.data.Pop().(Object)
+        _type := x.Type() + y.Type()
+        switch _type {
+        case "intint":
+            a := x.(*primitives.Integer)
+            b := y.(*primitives.Integer)
+            c := primitives.MulInteger(a, b)
+            interpreter.scope.data.Push(c)
+        default:
+            interpreter.err = errors.New("Unknown numeric data type.")
+        }
 
     case shared.PRINT_OBJ:
         i := interpreter.scope.data.Peek()
-        o := i.(*primitives.Integer)
+        o := i.(Object)
         o.Print()
 
     case shared.PRINT_NEWLINE:

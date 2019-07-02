@@ -103,3 +103,8 @@ func (q *Queue) Push(item interface{}) {
 func (q *Queue) Size() int {
     return q.size
 }
+
+
+func (q *Queue) Type() string {
+    return "queue"
+}
