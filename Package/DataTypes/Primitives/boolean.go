@@ -27,20 +27,20 @@ func (b *Boolean) Type() string {
 
 
 func NotBoolean(b *Boolean) *Boolean {
-    return NewBoolean(!b.value)
+    return &Boolean{!b.value}
 }
 
 
 func AndBoolean(a, b *Boolean) *Boolean {
-    return NewBoolean(a.value && b.value)
+    return &Boolean{a.value && b.value}
 }
 
 
 func OrBoolean(a, b *Boolean) *Boolean {
-    return NewBoolean(a.value || b.value)
+    return &Boolean{a.value || b.value}
 }
 
 
 func XorBoolean(a, b *Boolean) *Boolean {
-    return NewBoolean(a.value != b.value)
+    return &Boolean{a.value != b.value}
 }
