@@ -12,11 +12,7 @@ type Boolean struct {
 
 
 func NewBoolean(value byte) *Boolean {
-    if value != byte(0) {
-        return &Boolean{true}
-    } else {
-        return &Boolean{false}
-    }
+    return &Boolean{value != byte(0)}
 }
 
 
@@ -27,4 +23,24 @@ func (b *Boolean) Print() {
 
 func (b *Boolean) Type() string {
     return "bln"
+}
+
+
+func NotBoolean(b *Boolean) *Boolean {
+    return NewBoolean(!b.value)
+}
+
+
+func AndBoolean(a, b *Boolean) *Boolean {
+    return NewBoolean(a.value && b.value)
+}
+
+
+func OrBoolean(a, b *Boolean) *Boolean {
+    return NewBoolean(a.value || b.value)
+}
+
+
+func XorBoolean(a, b *Boolean) *Boolean {
+    return NewBoolean(a.value != b.value)
 }

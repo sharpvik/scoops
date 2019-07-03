@@ -26,16 +26,16 @@ func (integer *Integer) Type() string {
 }
 
 
-func AddInteger(a *Integer, b *Integer) *Integer {
+func AddInteger(a, b *Integer) *Integer {
     return NewInteger(a.value + b.value)
 }
 
 
-func SubInteger(a *Integer, b *Integer) *Integer {
+func SubInteger(a, b *Integer) *Integer {
     return NewInteger(a.value - b.value)
 }
 
 
-func MulInteger(a *Integer, b *Integer) *Integer {
+func MulInteger(a, b *Integer) *Integer {
     return NewInteger(a.value * b.value)
 }

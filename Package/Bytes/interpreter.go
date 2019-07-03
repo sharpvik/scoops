@@ -85,9 +85,7 @@ func (interpreter *Interpreter) Evaluate() {
         }
 
     case shared.PRINT_OBJ:
-        i := interpreter.scope.data.Peek()
-        o := i.(Object)
-        o.Print()
+        interpreter.scope.data.Peek().(Object).Print()
 
     case shared.PRINT_NEWLINE:
         fmt.Print("\n")
