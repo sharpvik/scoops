@@ -3,6 +3,7 @@ package assembly
 import (
     "github.com/sharpvik/scoops/Package/Bytes"
     "testing"
+    //"fmt"
 )
 
 
@@ -34,11 +35,11 @@ func TestAssembleLine(t *testing.T) {
         "END 0",
     }
     answers := []*bytes.Instruction{
-        bytes.NewInstruction(2, 42),
-        bytes.NewInstruction(2, 42),
-        bytes.NewInstruction(2, 255),
-        bytes.NewInstruction(2, 42),
-        bytes.NewInstruction(2, 2),
+        bytes.NewInstruction(1, 42),
+        bytes.NewInstruction(1, 42),
+        bytes.NewInstruction(1, 255),
+        bytes.NewInstruction(1, 42),
+        bytes.NewInstruction(1, 1),
         bytes.NewInstruction(0, 0),
     }
     for i, c := range cases {

@@ -1,6 +1,7 @@
 package bytes
 
 import (
+    "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
     "github.com/sharpvik/scoops/Package/DataTypes/Stack"
 )
 
@@ -31,7 +32,8 @@ type (
         ip      uint64
         code    []*Instruction
         global  *Environment
-        scope   *Environment
+        scope   *Environment    // current execution scope
+        thenil  *primitives.Nil // universal nil value
     }
 )
 
@@ -56,5 +58,6 @@ func NewInterpreter(code []*Instruction) *Interpreter {
         code,
         global,
         global,
+        primitives.NewNil(),
     }
 }

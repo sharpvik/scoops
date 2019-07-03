@@ -33,6 +33,9 @@ func (interpreter *Interpreter) Evaluate() {
         }
         n := int64( binary.LittleEndian.Uint64(buffer) )
         interpreter.scope.data.Push( primitives.NewInteger(n) )
+        
+    case shared.MAKE_NIL:
+        interpreter.scope.data.Push(interpreter.thenil)
 
     case shared.MAKE_RUNE:
         var buffer []byte
