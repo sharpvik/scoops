@@ -1,9 +1,6 @@
 package primitives
 
-import (
-    "fmt"
-)
-
+import "fmt"
 
 
 type Integer struct {

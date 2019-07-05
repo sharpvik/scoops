@@ -12,7 +12,7 @@ type (
     }
     
     Queue struct {
-        size    int
+        size    uint64
         head    *node
     }
 )
@@ -100,7 +100,7 @@ func (q *Queue) Push(item interface{}) {
 }
 
 
-func (q *Queue) Size() int {
+func (q *Queue) Size() uint64 {
     return q.size
 }
 

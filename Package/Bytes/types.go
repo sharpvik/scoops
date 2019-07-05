@@ -1,16 +1,11 @@
 package bytes
 
 import (
+    "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
     "github.com/sharpvik/scoops/Package/DataTypes/Stack"
 )
 
-
-
-type Object interface {
-    Print()
-    Type() string
-}
 
 
 type (
@@ -21,7 +16,7 @@ type (
     Environment struct {
         name string
         data *stack.Stack
-        refs []*Object
+        refs []*shared.Object
         prev *Environment
         // next *Environment // ?
     }

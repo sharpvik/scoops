@@ -5,6 +5,7 @@ import (
     "errors"
     "fmt"
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
+    "github.com/sharpvik/scoops/Package/DataTypes/Slice"
     "github.com/sharpvik/scoops/Package/DataTypes/String"
     "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/Util"
@@ -51,7 +52,7 @@ func (interpreter *Interpreter) Evaluate() {
         }
         interpreter.scope.data.Push( primitives.NewRune(buffer) )
         
-    case shared.MAKE_STR:
+    case shared.MAKE_STRING:
         c := interpreter.scope.data.Pop().(*primitives.Integer).Value
         var i int64
         var buffer []*primitives.Rune
@@ -60,7 +61,17 @@ func (interpreter *Interpreter) Evaluate() {
             buffer = append(buffer, r)
         }
         interpreter.scope.data.Push( _string.New(buffer) )
-        
+    
+    case shared.MAKE_SLICE:
+        c := interpreter.scope.data.Pop().(*primitives.Integer).Value
+        var i int64
+        var buffer []shared.Object
+        for i = 0; i < c; i++ {
+            o := interpreter.scope.data.Pop().(shared.Object)
+            buffer = append(buffer, o)
+        }
+        interpreter.scope.data.Push( slice.New(buffer) )
+    
     case shared.UNARY_NOT:
         b := interpreter.scope.data.Pop().(*primitives.Boolean)
         interpreter.scope.data.Push( primitives.NotBoolean(b) )
@@ -81,8 +92,8 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Push( primitives.XorBoolean(a, b) )
 
     case shared.BINARY_ADD:
-        x := interpreter.scope.data.Pop().(Object)
-        y := interpreter.scope.data.Pop().(Object)
+        x := interpreter.scope.data.Pop().(shared.Object)
+        y := interpreter.scope.data.Pop().(shared.Object)
         _type := x.Type() + y.Type()
         switch _type {
         case "intint":
@@ -95,8 +106,8 @@ func (interpreter *Interpreter) Evaluate() {
         }
         
     case shared.BINARY_SUB:
-        x := interpreter.scope.data.Pop().(Object)
-        y := interpreter.scope.data.Pop().(Object)
+        x := interpreter.scope.data.Pop().(shared.Object)
+        y := interpreter.scope.data.Pop().(shared.Object)
         _type := x.Type() + y.Type()
         switch _type {
         case "intint":
@@ -109,8 +120,8 @@ func (interpreter *Interpreter) Evaluate() {
         }
         
     case shared.BINARY_MUL:
-        x := interpreter.scope.data.Pop().(Object)
-        y := interpreter.scope.data.Pop().(Object)
+        x := interpreter.scope.data.Pop().(shared.Object)
+        y := interpreter.scope.data.Pop().(shared.Object)
         _type := x.Type() + y.Type()
         switch _type {
         case "intint":
@@ -123,7 +134,7 @@ func (interpreter *Interpreter) Evaluate() {
         }
 
     case shared.PRINT_OBJ:
-        interpreter.scope.data.Peek().(Object).Print()
+        interpreter.scope.data.Peek().(shared.Object).Print()
 
     case shared.PRINT_NEWLINE:
         fmt.Print("\n")

@@ -1,18 +1,17 @@
 package _string
 
-import (
-    "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
-)
+import "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
 
 
 
 type String struct {
-    value []*primitives.Rune
+    size    uint64
+    value   []*primitives.Rune
 }
 
 
 func New(value []*primitives.Rune) *String {
-    return &String{value}
+    return &String{uint64( len(value) ), value}
 }
 
 
@@ -24,5 +23,10 @@ func (s *String) Print() {
 
 
 func (s *String) Type() string {
-    return "str"
+    return "string"
+}
+
+
+func (s *String) Size() uint64 {
+    return s.size
 }

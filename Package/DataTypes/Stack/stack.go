@@ -1,8 +1,6 @@
 package stack
 
-import (
-    "fmt"
-)
+import "fmt"
 
 
 
@@ -13,7 +11,7 @@ type (
     }
     
     Stack struct {
-        size    int
+        size    uint64
         top     *node
     }
 )
@@ -85,7 +83,7 @@ func (s *Stack) Push(item interface{}) {
 }
 
 
-func (s *Stack) Size() int {
+func (s *Stack) Size() uint64 {
     return s.size
 }
 

@@ -1,8 +1,6 @@
 package primitives
 
-import (
-    "fmt"
-)
+import "fmt"
 
 
 

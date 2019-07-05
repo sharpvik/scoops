@@ -6,9 +6,8 @@
 [X] - MAKE_INT
 [X] - MAKE_NIL
 [X] - MAKE_RUNE
-[X] - MAKE_STR
-[ ] - MAKE_ARRAY
-[ ] - MAKE_SLICE
+[X] - MAKE_STRING
+[X] - MAKE_SLICE
 [ ] - MAKE_LINKED
 [ ] - MAKE_SET
 [ ] - MAKE_MAP
