@@ -7,7 +7,7 @@ import (
 
 
 type Byte struct {
-    value byte
+    Value byte
 }
 
 
@@ -17,7 +17,7 @@ func NewByte(value byte) *Byte {
 
 
 func (b *Byte) Print() {
-    fmt.Printf("%d", b.value)
+    fmt.Printf("%d", b.Value)
 }
 
 
@@ -27,35 +27,35 @@ func (b *Byte) Type() string {
 
 
 func AddByte(a, b *Byte) *Byte {
-    return NewByte(a.value + b.value)
+    return NewByte(a.Value + b.Value)
 }
 
 
 func SubByte(a, b *Byte) *Byte {
-    return NewByte(a.value - b.value)
+    return NewByte(a.Value - b.Value)
 }
 
 
 func MulByte(a, b *Byte) *Byte {
-    return NewByte(a.value * b.value)
+    return NewByte(a.Value * b.Value)
 }
 
 
 func DivByte(a, b *Byte) *Byte {
-    return NewByte(a.value / b.value)
+    return NewByte(a.Value / b.Value)
 }
 
 
 func (x *Byte) ToBoolean() *Boolean {
-    return NewBoolean(x.value)
+    return NewBoolean(x.Value)
 }
 
 
 func (x *Byte) ToInteger() *Integer {
-    return NewInteger( int64(x.value) )
+    return NewInteger( int64(x.Value) )
 }
 
 
 func (x *Byte) ToRune() *Rune {
-    return NewRune( []byte{x.value} )
+    return NewRune( []byte{x.Value} )
 }

@@ -7,7 +7,7 @@ import (
 
 
 type Boolean struct {
-    value bool
+    Value bool
 }
 
 
@@ -17,7 +17,7 @@ func NewBoolean(value byte) *Boolean {
 
 
 func (b *Boolean) Print() {
-    fmt.Printf("%v", b.value)
+    fmt.Printf("%v", b.Value)
 }
 
 
@@ -27,20 +27,20 @@ func (b *Boolean) Type() string {
 
 
 func NotBoolean(b *Boolean) *Boolean {
-    return &Boolean{!b.value}
+    return &Boolean{!b.Value}
 }
 
 
 func AndBoolean(a, b *Boolean) *Boolean {
-    return &Boolean{a.value && b.value}
+    return &Boolean{a.Value && b.Value}
 }
 
 
 func OrBoolean(a, b *Boolean) *Boolean {
-    return &Boolean{a.value || b.value}
+    return &Boolean{a.Value || b.Value}
 }
 
 
 func XorBoolean(a, b *Boolean) *Boolean {
-    return &Boolean{a.value != b.value}
+    return &Boolean{a.Value != b.Value}
 }

@@ -5,6 +5,7 @@ import (
     "errors"
     "fmt"
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
+    "github.com/sharpvik/scoops/Package/DataTypes/String"
     "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/Util"
 )
@@ -14,6 +15,7 @@ import (
 func (interpreter *Interpreter) Evaluate() {
     instruction := *(interpreter.code[interpreter.ip])
     //fmt.Println(instruction)
+    //interpreter.scope.data.Print()
     switch instruction.opcode {
 
     case shared.END:
@@ -23,8 +25,12 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Push(instruction.operand)
         
     case shared.MAKE_BLN:
-        i := interpreter.scope.data.Pop().(byte)
-        interpreter.scope.data.Push( primitives.NewBoolean(i) )
+        b := interpreter.scope.data.Pop().(byte)
+        interpreter.scope.data.Push( primitives.NewBoolean(b) )
+        
+    case shared.MAKE_BYTE:
+        b := interpreter.scope.data.Pop().(byte)
+        interpreter.scope.data.Push( primitives.NewByte(b) )
 
     case shared.MAKE_INT:
         var buffer []byte
@@ -44,6 +50,35 @@ func (interpreter *Interpreter) Evaluate() {
             buffer = append( buffer, interpreter.scope.data.Pop().(byte) )
         }
         interpreter.scope.data.Push( primitives.NewRune(buffer) )
+        
+    case shared.MAKE_STR:
+        c := interpreter.scope.data.Pop().(*primitives.Integer).Value
+        var i int64
+        var buffer []*primitives.Rune
+        for i = 0; i < c; i++ {
+            r := interpreter.scope.data.Pop().(*primitives.Rune)
+            buffer = append(buffer, r)
+        }
+        interpreter.scope.data.Push( _string.New(buffer) )
+        
+    case shared.UNARY_NOT:
+        b := interpreter.scope.data.Pop().(*primitives.Boolean)
+        interpreter.scope.data.Push( primitives.NotBoolean(b) )
+        
+    case shared.BINARY_AND:
+        a := interpreter.scope.data.Pop().(*primitives.Boolean)
+        b := interpreter.scope.data.Pop().(*primitives.Boolean)
+        interpreter.scope.data.Push( primitives.AndBoolean(a, b) )
+        
+    case shared.BINARY_OR:
+        a := interpreter.scope.data.Pop().(*primitives.Boolean)
+        b := interpreter.scope.data.Pop().(*primitives.Boolean)
+        interpreter.scope.data.Push( primitives.OrBoolean(a, b) )
+        
+    case shared.BINARY_XOR:
+        a := interpreter.scope.data.Pop().(*primitives.Boolean)
+        b := interpreter.scope.data.Pop().(*primitives.Boolean)
+        interpreter.scope.data.Push( primitives.XorBoolean(a, b) )
 
     case shared.BINARY_ADD:
         x := interpreter.scope.data.Pop().(Object)

@@ -7,7 +7,7 @@ import (
 
 
 type Rune struct {
-    value []byte
+    Value []byte
 }
 
 
@@ -17,7 +17,7 @@ func NewRune(value []byte) *Rune {
 
 
 func (r *Rune) Print() {
-    fmt.Print( string(r.value) )
+    fmt.Print( string(r.Value) )
 }
 
 

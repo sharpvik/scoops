@@ -7,7 +7,7 @@ import (
 
 
 type Integer struct {
-    value int64
+    Value int64
 }
 
 
@@ -17,7 +17,7 @@ func NewInteger(value int64) *Integer {
 
 
 func (integer *Integer) Print() {
-    fmt.Printf("%d", integer.value)
+    fmt.Printf("%d", integer.Value)
 }
 
 
@@ -27,15 +27,15 @@ func (integer *Integer) Type() string {
 
 
 func AddInteger(a, b *Integer) *Integer {
-    return NewInteger(a.value + b.value)
+    return NewInteger(a.Value + b.Value)
 }
 
 
 func SubInteger(a, b *Integer) *Integer {
-    return NewInteger(a.value - b.value)
+    return NewInteger(a.Value - b.Value)
 }
 
 
 func MulInteger(a, b *Integer) *Integer {
-    return NewInteger(a.value * b.value)
+    return NewInteger(a.Value * b.Value)
 }
