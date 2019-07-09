@@ -98,8 +98,8 @@ func main() {
         UsageHint()
         os.Exit(1)
     }
-    util.Log( "Flag: " + string(flag) )
-    util.Log("Filename: " + filename)
+    //util.Log( "Flag: " + string(flag) )
+    //util.Log("Filename: " + filename)
 
     fileExtention := GetFileExtention(filename)
     var (

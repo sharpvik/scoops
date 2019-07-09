@@ -23,35 +23,33 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.running = false
 
     case shared.PUSH_CONST:
-        interpreter.scope.data.Push(instruction.operand)
-        
+        interpreter.scope.data.Push( primitives.NewByte(instruction.operand) )
+    
     case shared.MAKE_BLN:
-        b := interpreter.scope.data.Pop().(byte)
+        b := interpreter.scope.data.Pop().(*primitives.Byte)
         interpreter.scope.data.Push( primitives.NewBoolean(b) )
-        
-    case shared.MAKE_BYTE:
-        b := interpreter.scope.data.Pop().(byte)
-        interpreter.scope.data.Push( primitives.NewByte(b) )
-
+    
     case shared.MAKE_INT:
         var buffer []byte
         for i := 0; i < 8; i++ {
-            buffer = append( buffer, interpreter.scope.data.Pop().(byte) )
+            b := interpreter.scope.data.Pop().(*primitives.Byte).Value
+            buffer = append(buffer, b)
         }
         n := int64( binary.LittleEndian.Uint64(buffer) )
         interpreter.scope.data.Push( primitives.NewInteger(n) )
-        
+    
     case shared.MAKE_NIL:
         interpreter.scope.data.Push(interpreter.thenil)
-
+    
     case shared.MAKE_RUNE:
         var buffer []byte
         c := int(instruction.operand)
         for i := 0; i < c; i++ {
-            buffer = append( buffer, interpreter.scope.data.Pop().(byte) )
+            b := interpreter.scope.data.Pop().(*primitives.Byte).Value
+            buffer = append(buffer, b)
         }
         interpreter.scope.data.Push( primitives.NewRune(buffer) )
-        
+    
     case shared.MAKE_STRING:
         c := interpreter.scope.data.Pop().(*primitives.Integer).Value
         var i int64
@@ -63,14 +61,7 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Push( _string.New(buffer) )
     
     case shared.MAKE_SLICE:
-        c := interpreter.scope.data.Pop().(*primitives.Integer).Value
-        var i int64
-        var buffer []shared.Object
-        for i = 0; i < c; i++ {
-            o := interpreter.scope.data.Pop().(shared.Object)
-            buffer = append(buffer, o)
-        }
-        interpreter.scope.data.Push( slice.New(buffer) )
+        interpreter.scope.data.Push( slice.New() )
     
     case shared.UNARY_NOT:
         b := interpreter.scope.data.Pop().(*primitives.Boolean)
@@ -132,9 +123,9 @@ func (interpreter *Interpreter) Evaluate() {
         default:
             interpreter.err = errors.New("Unknown numeric data type.")
         }
-
+    
     case shared.PRINT_OBJ:
-        interpreter.scope.data.Peek().(shared.Object).Print()
+        interpreter.scope.data.Peek().Print()
 
     case shared.PRINT_NEWLINE:
         fmt.Print("\n")
@@ -147,9 +138,8 @@ func (interpreter *Interpreter) Evaluate() {
 
     }
     
-    /* Instruction pointer is incremented by default. Use 'return' to force
-     * it not to.
-     */
+    /* Instruction pointer is incremented by default. Use 'return' inside the
+       case body to force it not to. */
     interpreter.ip++
 }
 

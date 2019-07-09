@@ -1,14 +1,18 @@
 package queue
 
-import "testing"
+import (
+    "testing"
+    "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 
 func TestPush(t *testing.T) {
     q := New()
-    q.Push(1)
-    q.Push(2)
-    q.Push(3)
+    q.Push( primitives.NewByte(1) )
+    q.Push( primitives.NewByte(2) )
+    q.Push( primitives.NewByte(3) )
     if q.Size() != 3 {
         t.Error("Method Push failed test.")
     }
@@ -22,7 +26,7 @@ func TestEmpty(t *testing.T) {
         t.Error("Queue is empty but not reported as such.")
     }
     
-    q.Push(1)
+    q.Push( primitives.NewByte(1) )
     b := q.Empty()
     if b {
         t.Error("Queue is not empty, but reported a empty.")
@@ -32,9 +36,9 @@ func TestEmpty(t *testing.T) {
 
 func TestClear(t *testing.T) {
     q := New()
-    q.Push(1)
-    q.Push(2)
-    q.Push(3.14)
+    q.Push( primitives.NewByte(1) )
+    q.Push( primitives.NewByte(2) )
+    q.Push( primitives.NewByte(3) )
     q.Clear()
     if !q.Empty() {
         t.Error("Clear function failed to clear the queue.")
@@ -44,8 +48,10 @@ func TestClear(t *testing.T) {
 
 func TestPop(t *testing.T) {
     q := New()
-    cases := []interface{}{
-        1, true, 3.14, false, 'c',
+    cases := []shared.Object{
+        primitives.NewByte(1), primitives.NewBoolean( primitives.NewByte(1) ),
+        primitives.NewByte(3), primitives.NewBoolean( primitives.NewByte(0) ), 
+        primitives.NewRune(  []byte{100}  ),
     }
     for _, c := range cases {
         q.Push(c)
@@ -61,8 +67,10 @@ func TestPop(t *testing.T) {
 
 func TestPeek(t *testing.T) {
     q := New()
-    cases := []interface{}{
-        1, true, 3.14, false, 'c',
+    cases := []shared.Object{
+        primitives.NewByte(1), primitives.NewBoolean( primitives.NewByte(1) ),
+        primitives.NewByte(3), primitives.NewBoolean( primitives.NewByte(0) ), 
+        primitives.NewRune(  []byte{100}  ),
     }
     for _, c := range cases {
         q.Push(c)

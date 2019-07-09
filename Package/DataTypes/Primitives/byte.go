@@ -45,7 +45,7 @@ func DivByte(a, b *Byte) *Byte {
 
 
 func (x *Byte) ToBoolean() *Boolean {
-    return NewBoolean(x.Value)
+    return NewBoolean(x)
 }
 
 

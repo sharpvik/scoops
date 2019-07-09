@@ -1,13 +1,16 @@
 package stack
 
-import "fmt"
+import (
+    "fmt"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 
 type (
     node struct {
         next    *node
-        val     interface{}
+        val     shared.Object
     }
     
     Stack struct {
@@ -18,7 +21,7 @@ type (
 
 
 
-func newNode(next *node, val interface{}) *node {
+func newNode(next *node, val shared.Object) *node {
     return &node{next, val}
 }
 
@@ -39,12 +42,12 @@ func (s *Stack) Empty() bool {
 }
 
 
-func (s *Stack) Peek() interface{} {
+func (s *Stack) Peek() shared.Object {
     return s.top.val
 }
 
 
-func (s *Stack) Pop() interface{} {
+func (s *Stack) Pop() shared.Object {
     if s.size == 0 {
         return nil
     }
@@ -63,7 +66,7 @@ func (s *Stack) Print() {
     cur := s.top
     fmt.Print("<-> {")
     for {
-        fmt.Printf(" %v ", cur.val)
+        cur.val.Print()
         cur = cur.next
         if cur == nil {
             fmt.Print("}\n")
@@ -73,7 +76,7 @@ func (s *Stack) Print() {
 }
 
 
-func (s *Stack) Push(item interface{}) {
+func (s *Stack) Push(item shared.Object) {
     if s.size == 0 {
         s.top = newNode(nil, item)
     } else {

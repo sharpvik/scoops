@@ -1,6 +1,9 @@
 package queue
 
-import "fmt"
+import (
+    "fmt"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 
@@ -8,7 +11,7 @@ type (
     node struct {
         prev    *node
         next    *node
-        val     interface{}
+        val     shared.Object
     }
     
     Queue struct {
@@ -19,7 +22,7 @@ type (
 
 
 
-func newNode(prev *node, next *node, val interface{}) *node {
+func newNode(prev *node, next *node, val shared.Object) *node {
     return &node{prev, next, val}
 }
 
@@ -40,7 +43,7 @@ func (q *Queue) Empty() bool {
 }
 
 
-func (q *Queue) Peek() interface{} {
+func (q *Queue) Peek() shared.Object {
     if q.size == 0 {
         return nil
     }
@@ -48,8 +51,8 @@ func (q *Queue) Peek() interface{} {
 }
 
 
-func (q *Queue) Pop() interface{} {
-    var n interface{}
+func (q *Queue) Pop() shared.Object {
+    var n shared.Object
     if q.size == 0 {
         return nil
     } else if q.size == 1 {
@@ -74,7 +77,7 @@ func (q *Queue) Print() {
     cur := q.head
     fmt.Print("<- {")
     for {
-        fmt.Printf(" %v ", cur.val)
+        cur.val.Print()
         cur = cur.next
         if cur == q.head {
             fmt.Print("} <-\n")
@@ -84,7 +87,7 @@ func (q *Queue) Print() {
 }
 
 
-func (q *Queue) Push(item interface{}) {
+func (q *Queue) Push(item shared.Object) {
     n := newNode(nil, nil, item)
     if q.size == 0 {
         n.prev = n

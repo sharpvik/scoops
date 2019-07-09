@@ -9,8 +9,8 @@ type Boolean struct {
 }
 
 
-func NewBoolean(value byte) *Boolean {
-    return &Boolean{value != byte(0)}
+func NewBoolean(value *Byte) *Boolean {
+    return &Boolean{value.Value != byte(0)}
 }
 
 

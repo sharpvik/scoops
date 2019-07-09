@@ -13,8 +13,8 @@ type Slice struct {
 }
 
 
-func New(value []shared.Object) *Slice {
-    return &Slice{uint64( len(value) ), value}
+func New() *Slice {
+    return &Slice{0, nil}
 }
 
 
