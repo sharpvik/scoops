@@ -77,7 +77,9 @@ func (q *Queue) Print() {
     cur := q.head
     fmt.Print("<- {")
     for {
+        fmt.Print(" ")
         cur.val.Print()
+        fmt.Print(" ")
         cur = cur.next
         if cur == q.head {
             fmt.Print("} <-\n")

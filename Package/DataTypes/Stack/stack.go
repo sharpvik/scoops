@@ -66,7 +66,9 @@ func (s *Stack) Print() {
     cur := s.top
     fmt.Print("<-> {")
     for {
+        fmt.Print(" ")
         cur.val.Print()
+        fmt.Print(" ")
         cur = cur.next
         if cur == nil {
             fmt.Print("}\n")

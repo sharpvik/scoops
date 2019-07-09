@@ -13,9 +13,17 @@ package shared
  * Here's why... We declare the Print and Type functions as follows:
  *     func (r *Rune) Print() { ... }
  * so type *Rune satisfies the Object interface but type Rune doesn't.
- * This goes for every type in the DataTypes folder.
+ * This goes for every type in the DataTypes folder.Similar logic applies to the
+ * Collection interface.
  */
 type Object interface {
     Print()
     Type() string
+}
+
+
+type Collection interface {
+    Print()
+    Type() string
+    Size() uint64
 }

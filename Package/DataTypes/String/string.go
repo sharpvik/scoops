@@ -15,6 +15,16 @@ func New(value []*primitives.Rune) *String {
 }
 
 
+func FromString(from string) *String {
+    var value []*primitives.Rune
+    runes := []rune(from)
+    for _, r := range runes {
+        value = append(   value, primitives.NewRune(  []byte( string(r) )  )   )
+    }
+    return New(value)
+}
+
+
 func (s *String) Print() {
     for _, r := range s.value {
         r.Print()
