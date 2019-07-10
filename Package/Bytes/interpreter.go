@@ -63,6 +63,29 @@ func (interpreter *Interpreter) Evaluate() {
     case shared.MAKE_SLICE:
         interpreter.scope.data.Push( slice.New() )
         
+    case shared.SLICE_APPEND:
+        slice := interpreter.scope.data.Pop().(*slice.Slice)
+        obj := interpreter.scope.data.Pop()
+        slice.Append(obj)
+        interpreter.scope.data.Push(slice)
+        
+    case shared.SLICE_GET_ITEM_BY_INDEX:
+        i := interpreter.scope.data.Pop().(*primitives.Integer).Value
+        index := uint64(i)
+        slice := interpreter.scope.data.Peek().(*slice.Slice)
+        obj := slice.GetItemByIndex(index)
+        interpreter.scope.data.Push(obj)
+        
+    case shared.SLICE_POP:
+        i := interpreter.scope.data.Pop().(*primitives.Integer).Value
+        index := uint64(i)
+        slice := interpreter.scope.data.Peek().(*slice.Slice)
+        obj := slice.Pop(index)
+        interpreter.scope.data.Push(obj)
+    
+    case shared.PRINT_OBJ:
+        interpreter.scope.data.Peek().Print()
+        
     case shared.GET_TYPE:
         _type := _string.FromString( interpreter.scope.data.Pop().Type() )
         interpreter.scope.data.Push(_type)
@@ -132,9 +155,6 @@ func (interpreter *Interpreter) Evaluate() {
         default:
             interpreter.err = errors.New("Unknown numeric data type.")
         }
-    
-    case shared.PRINT_OBJ:
-        interpreter.scope.data.Peek().Print()
 
     case shared.PRINT_NEWLINE:
         fmt.Print("\n")

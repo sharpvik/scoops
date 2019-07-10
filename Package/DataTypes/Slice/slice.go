@@ -19,11 +19,13 @@ func New() *Slice {
 
 
 func (s *Slice) Print() {
-    fmt.Print("[ ")
+    fmt.Print("[")
     for _, o := range s.value {
+        fmt.Print(" ")
         o.Print()
+        fmt.Print(" ")
     }
-    fmt.Print(" ]")
+    fmt.Print("]")
 }
 
 
@@ -42,7 +44,13 @@ func (s *Slice) Append(item shared.Object) {
 }
 
 
-func (s *Slice) Pop(index uint64) {
+func (s *Slice) GetItemByIndex(index uint64) shared.Object {
+    return s.value[index]
+}
+
+
+func (s *Slice) Pop(index uint64) shared.Object {
+    obj := s.value[index]
     tmp := s.value[:index]
     len := uint64( len(s.value) )
     if index < len - 1 {
@@ -51,4 +59,5 @@ func (s *Slice) Pop(index uint64) {
         }
     }
     s.value = tmp
+    return obj
 }
