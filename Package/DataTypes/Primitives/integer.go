@@ -1,6 +1,9 @@
 package primitives
 
-import "fmt"
+import (
+    "fmt"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 type Integer struct {
@@ -13,12 +16,17 @@ func NewInteger(value int64) *Integer {
 }
 
 
-func (integer *Integer) Print() {
-    fmt.Printf("%d", integer.Value)
+func (i *Integer) Clone() shared.Object {
+    return NewInteger(i.Value)
 }
 
 
-func (integer *Integer) Type() string {
+func (i *Integer) Print() {
+    fmt.Printf("%d", i.Value)
+}
+
+
+func (i *Integer) Type() string {
     return "int"
 }
 

@@ -174,8 +174,8 @@ func main() {
         interpreter.Execute()
 
     case "":
-        // If filename doesn't have extention, it is either a command line
-        // keyword (like "help"), or an invalid input file.
+        /* If filename doesn't have extention, it is either a command line
+           keyword (like "help"), or an invalid input file. */
         switch filename {
         case "help":
             util.Help()

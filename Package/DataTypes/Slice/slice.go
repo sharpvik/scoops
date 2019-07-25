@@ -18,14 +18,27 @@ func New() *Slice {
 }
 
 
+func (s *Slice) Clone() shared.Object {
+    news := New()
+    for _, o := range s.value {
+        news.Append( o.Clone() )
+    }
+    return news
+}
+
+
 func (s *Slice) Print() {
+    if s.size == 0 {
+        fmt.Println("[ ]")
+        return
+    }
     fmt.Print("[")
     for _, o := range s.value {
         fmt.Print(" ")
         o.Print()
         fmt.Print(" ")
     }
-    fmt.Print("]")
+    fmt.Print("]\n")
 }
 
 
@@ -41,6 +54,7 @@ func (s *Slice) Size() uint64 {
 
 func (s *Slice) Append(item shared.Object) {
     s.value = append(s.value, item)
+    s.size++
 }
 
 
@@ -59,5 +73,6 @@ func (s *Slice) Pop(index uint64) shared.Object {
         }
     }
     s.value = tmp
+    s.size--
     return obj
 }

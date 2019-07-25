@@ -1,6 +1,9 @@
 package primitives
 
-import "fmt"
+import (
+    "fmt"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 
@@ -11,6 +14,11 @@ type Rune struct {
 
 func NewRune(value []byte) *Rune {
     return &Rune{value}
+}
+
+
+func (r *Rune) Clone() shared.Object {
+    return NewRune(r.Value)
 }
 
 

@@ -1,6 +1,9 @@
 package primitives
 
-import "fmt"
+import (
+    "fmt"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 
@@ -11,6 +14,11 @@ type Byte struct {
 
 func NewByte(value byte) *Byte {
     return &Byte{value}
+}
+
+
+func (b *Byte) Clone() shared.Object {
+    return NewByte(b.Value)
 }
 
 

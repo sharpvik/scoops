@@ -13,6 +13,7 @@ var OpcodeMap = map[string]uint8{
     "MAKE_NIL": shared.MAKE_NIL,
     "MAKE_RUNE": shared.MAKE_RUNE,
     "MAKE_STRING": shared.MAKE_STRING,
+    "STRING_CONCATENATE": shared.STRING_CONCATENATE,
     "MAKE_SLICE": shared.MAKE_SLICE,
     "SLICE_APPEND": shared.SLICE_APPEND,
     "SLICE_GET_ITEM_BY_INDEX": shared.SLICE_GET_ITEM_BY_INDEX,

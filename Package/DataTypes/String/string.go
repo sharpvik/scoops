@@ -1,6 +1,9 @@
 package _string
 
-import "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
+import (
+    "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 
@@ -25,6 +28,15 @@ func FromString(from string) *String {
 }
 
 
+func (s *String) Clone() shared.Object {
+    var value []*primitives.Rune
+    for _, r := range s.value {
+        value = append( value, r.Clone().(*primitives.Rune) )
+    }
+    return New(value)
+}
+
+
 func (s *String) Print() {
     for _, r := range s.value {
         r.Print()
@@ -39,4 +51,13 @@ func (s *String) Type() string {
 
 func (s *String) Size() uint64 {
     return s.size
+}
+
+
+func Concatenate(a, b *String) *String {
+    value := a.value
+    for _, r := range b.value {
+        value = append(value, r)
+    }
+    return New(value)
 }

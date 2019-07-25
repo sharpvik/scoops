@@ -34,7 +34,7 @@ Another important aspect that I would like to focus on is *openness*. In all its
 
 Previous two principles rely heavily on the high level of *code readability*. It is crucial to allow my fellow coders to be able to understand how this thing actually works, so it seems reasonable to write a compiler and interpreter that has *extensive and clear documentation* and is written with readability in mind, avoiding overengineered solutions that only add complexity to the overall system.
 
-*General consistency* is another feature to look for in a well designed programming language. It is apparent that there must be more rules that exceptions in a system that dares to call itself reliable, stable, and secure.
+*General consistency* is another feature to look for in a well designed programming language. It is apparent that there must be more rules than exceptions in a system that dares to call itself reliable, stable, and secure.
 
 ---
 

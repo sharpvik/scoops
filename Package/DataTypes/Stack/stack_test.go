@@ -57,3 +57,19 @@ func TestPop(t *testing.T) {
         t.Error("Function 'Pop' works incorrectly.")
     }
 }
+
+
+func TestClone(t *testing.T) {
+    s := New()
+    s.Push( primitives.NewByte(1) )
+    s.Push( primitives.NewByte(2) )
+    s.Push( primitives.NewByte(3) )
+    news := s.Clone().(*Stack)
+    for i := 0; i < 3; i++ {
+        a := s.Pop().(*primitives.Byte).Value
+        b := news.Pop().(*primitives.Byte).Value
+        if a != b {
+            t.Error("Function 'Clone' works incorrectly.")
+        }
+    }
+}

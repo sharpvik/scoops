@@ -22,7 +22,7 @@ type (
 
 
 
-func newNode(prev *node, next *node, val shared.Object) *node {
+func newNode(prev, next *node, val shared.Object) *node {
     return &node{prev, next, val}
 }
 
@@ -35,6 +35,23 @@ func New() *Queue {
 func (q *Queue) Clear() {
     q.head = nil
     q.size = 0
+}
+
+
+func (q *Queue) Clone() shared.Object {
+    newq := New()
+    if q.size == 0 {
+        return newq
+    }
+    cur := q.head
+    for {
+        newq.Push( cur.val.Clone() )
+        cur = cur.next
+        if cur == q.head {
+            break
+        }
+    }
+    return newq
 }
 
 
@@ -85,7 +102,7 @@ func (q *Queue) Print() {
             fmt.Print("} <-\n")
             break
         }
-    }    
+    }
 }
 
 

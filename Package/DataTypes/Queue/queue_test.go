@@ -83,3 +83,19 @@ func TestPeek(t *testing.T) {
         q.Pop()
     }
 }
+
+
+func TestClone(t *testing.T) {
+    q := New()
+    q.Push( primitives.NewByte(1) )
+    q.Push( primitives.NewByte(2) )
+    q.Push( primitives.NewByte(3) )
+    newq := q.Clone().(*Queue)
+    for i := 0; i < 3; i++ {
+        a := q.Pop().(*primitives.Byte).Value
+        b := newq.Pop().(*primitives.Byte).Value
+        if a != b {
+            t.Error("Function 'Clone' works incorrectly.")
+        }
+    }
+}

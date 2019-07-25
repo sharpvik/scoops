@@ -59,6 +59,12 @@ func (interpreter *Interpreter) Evaluate() {
             buffer = append(buffer, r)
         }
         interpreter.scope.data.Push( _string.New(buffer) )
+        
+    case shared.STRING_CONCATENATE:
+        b := interpreter.scope.data.Pop().(*_string.String)
+        a := interpreter.scope.data.Pop().(*_string.String)
+        c := _string.Concatenate(a, b)
+        interpreter.scope.data.Push(c)
     
     case shared.MAKE_SLICE:
         interpreter.scope.data.Push( slice.New() )

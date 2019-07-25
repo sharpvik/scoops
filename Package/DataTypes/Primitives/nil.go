@@ -1,6 +1,9 @@
 package primitives
 
-import "fmt"
+import (
+    "fmt"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 
@@ -11,6 +14,11 @@ type Nil struct {
 
 func NewNil() *Nil {
     return &Nil{0}
+}
+
+
+func (n *Nil) Clone() shared.Object {
+    return n
 }
 
 

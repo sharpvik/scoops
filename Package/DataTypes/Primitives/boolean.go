@@ -1,6 +1,9 @@
 package primitives
 
-import "fmt"
+import (
+    "fmt"
+    "github.com/sharpvik/scoops/Package/Shared"
+)
 
 
 
@@ -11,6 +14,16 @@ type Boolean struct {
 
 func NewBoolean(value *Byte) *Boolean {
     return &Boolean{value.Value != byte(0)}
+}
+
+
+func FromBoolean(value bool) *Boolean {
+    return &Boolean{value}
+}
+
+
+func (b *Boolean) Clone() shared.Object {
+    return FromBoolean(b.Value)
 }
 
 

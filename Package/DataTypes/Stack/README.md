@@ -13,16 +13,18 @@ This package provides the Stack data type and functions that are related to it.
 
 ## Index
 
-```
+```go
 type Stack
     func New() *Stack
     func (q *Stack) Clear()
+    func (s *Stack) Clone() shared.Object
     func (q *Stack) Empty() bool
     func (q *Stack) Peek() interface{}
     func (q *Stack) Pop() interface{}
     func (q *Stack) Print()
     func (q *Stack) Push(interface{})
     func (q *Stack) Size() int
+    func (s *Stack) Type() string
 ```
 
 
@@ -98,6 +100,15 @@ func (q *Stack) Size() int
 ```
 
 **Size** returns the number of elements in the stack.
+
+
+### func Type
+
+```go
+func (s *Stack) Type() string
+```
+
+**Type** returns `Stack`'s type as Go's embedded `string` type.
 
 
 
