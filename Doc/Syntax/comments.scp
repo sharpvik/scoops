@@ -1,0 +1,21 @@
+# This is a one line comment.
+
+
+#{ 
+   This is a comment that extends over
+   multiple lines. Use '#{' start it and
+   '}#' to end it.
+   If you forget to close your multi line
+   comment, all of the code below it, will
+   be treated as a comment. You don't want
+   that to happen. REALLY.
+}#
+
+
+# You can also use '#{ ... }#' to make comments right
+# in the middle of your code. Very convenient.
+scoop example(a, b)
+{
+    #{ this scoop can }# return #{ the biggest value }# if a > b { return a } else { return b }
+}
+

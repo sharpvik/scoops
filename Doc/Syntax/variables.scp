@@ -1,0 +1,75 @@
+# Scoop that is going to be used in an example later.
+# Scoops are covered in the 'scoops.scp' file.
+scoop increment(x) {
+    x++
+    return x
+}
+
+
+# Simple variable declaration (assignment).
+# When we declare a variable it means that we create a variable with this name 
+# for the first time in a given scoop. To declare a variable we use 
+# the ':=' sign.
+a := 'a'
+
+
+# At this point, variable 'a' has already been declared, therefore, we cannot 
+# declare it again.
+a := "error" # error
+
+
+# Luckily for us, variables in Scoops are not immutable so we can simply change 
+# variable's value using the '=' sign.
+a = "new beginning" # no error this time
+
+
+# However, it is important to use these two signs (':=' and '=') properly. 
+# Variable that is not declared yet, cannot be changed just like declared
+# variable cannot be declared again (like we tried to do in the second example).
+b = "do I exist?" # error
+
+
+# Variables can be assigned to the result of an expression.
+b := 5 + 5 * 5 # 125
+
+
+# Variables can be assigned to other variables. It is important to understnad
+# that under that hood, variable is merely a pointer to some Scoops Object.
+# When we assign 'b' to 'c' like that, the object that 'b' is pointing at gets
+# copied. The 'c' will be holding a pointer to that newly copied object that is
+# separate from 'b' object.
+c := b
+
+
+# However, two variables can be forced to point to the same object like so.
+p := @c
+# Now 'p' and 'c' point at the same object in memory. The '@' operator means
+# that we want to pass a reference instead of copying the object.
+
+
+# Don't confuse Scoops references with C/C++ pointers -- they are not the same
+# thing. Every variable holds a memory address by defalult, so there is no
+# such thing as pointer to a pointer. If we do this...
+pp := @p
+# the newly created 'pp' variable will be pointing at the same object that 'p'
+# and 'c' were pointing at.
+
+
+# References can also be passed to scoops. But you should be careful when
+# you do that. Normally, scoop creates a local copy of all arguments that
+# were lucky enough to be passed onto it. However, if you are passing a
+# reference to some 'x' (let's say) and scoop in question is supposed to 
+# mutate it (just like the 'increment' scoop at the very top), the original
+# object that 'x' was pointing at will be mutated. Let me demonstrate.
+x := 1
+y := increment(x) # 2
+# 'x' still holds 1.
+
+z := increment(@x) # 2
+# However if we now look at the value of 'x', it will be 2. The 'increment'
+# scoop used '@x' reference to increment the original 'x'.
+
+
+# Expressions can include variables and scoop references -- not just numbers.
+d := c + increment(41) + 3 # 125 + 42 + 3 = 170
+

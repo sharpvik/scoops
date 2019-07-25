@@ -1,0 +1,4 @@
+# Basic struct.
+# This struct expects two values --
+# 'a' and 'b'
+struct basic(a, b)

@@ -1,0 +1,136 @@
+# Anonymous scoop.
+# Executed immediately.
+{
+    # ...
+}
+
+
+# Named scoop.
+# Can be referenced but is not executed by default.
+# Named scoops can only be (re)defined in the general scope. 
+scoop my_scoop
+{
+    # ...
+}
+
+
+# Self-executing scoop.
+# This is a named scoop that may be called later, however, the keyword 'exec' 
+# after the scoop's name means that this scoop will be executed immediately just
+# like an anonymous scoop at the very top of the file.
+scoop selfie exec
+{
+    # ...
+}
+
+
+# Scoop that accepts arguments and returns values.
+scoop funky_scoop(a, b)
+{
+    # ...
+    return a + b
+}
+
+
+# A perfect scoop.
+# Perfect scoops don't have access to any variables outside their scope except 
+# for the ones that they except as arguments.
+# Perfect scoops can also be anonymous. We shall se examples later...
+scoop perfection use (a, b)
+{
+    return a - b
+}
+
+
+# These are examples of functions.
+# Functions have to have and use at least 1 argument that gets passed to it
+# when it's called. Functions must return a 'num' or 'bln'.
+sum(a, b) := a + b
+sqr(n) := n * n
+sqrt(n) := n ^ 0.5
+
+
+# One-liner that doesn't return any values.
+# Such one-liners can be used for outputting something to the screen or any 
+# other action that doesn't require returning stuff.
+scoop impotent(a, b) { #{ print a - b }# }
+
+
+# Anonymous scoop that returns multiple values.
+# Scoops that don't expect any arguments don't have to have a name.
+# It is anonymous and thus, it will be executed immediately. 
+s, n := {
+    return "the meaning of life", 42
+}
+
+
+# Scoop that returns values of its variables.
+# This is the second example of unpacking the anonymous scoop's returns 
+# into the  variables. You can also notice the 'use' keyword being used yet
+# again -- this anonymous scope is also perfect but in this case, 's' and
+# 'n' will be passed to it automatically just when it's executed.
+m, d := use (s, n) {
+    meaning := concat(s, " is")
+    number := n
+    return meaning, number
+} 
+
+
+# Named scoop that returns two anonymous values.
+scoop pair
+{
+    return 42, "Southampton"
+}
+
+
+# Scoop that uses previous scoops.
+scoop user
+{
+    # This line references the 'returner_sims' scoop without accepting its 
+    # return value. In this case, 'returner_sims' is going to be  executed and
+    # all the commands behind '...' are still going to be run but the return 
+    # value will be discarded so that it will have no impact on the structure of
+    # the 'user' scoop.
+    returner_sims()
+    
+
+    # This line references the 'returner_sims' scoop and accepts its return 
+    # value by assigning it to the 'number' variable. The 'returner_sims' scoop 
+    # is executed yet again, but this time its return value is not going to be 
+    # discarded -- since we gave it a name, we can use it in the 'user' scoop.
+    number := returner_sims() 
+
+
+    # This line uses the 'returner_sims' scoop in some calculations, accepting
+    # its return value without naming it. This can only be done to a scoop that 
+    # returns one or more values. If the 'returner_sims' scoop had more than one
+    # return value, the first return value would be used in an expression -- the
+    # rest of the values will be discarded.
+    fifty := returner_sims() + 8
+
+
+    # This line will unpack the returns from the 'returnver_vars' scoop.
+    # In this example, the 'user' scoop receives two variables 
+    # called 'num' and 'town'. 
+    # If you decide to unpack the return variables this way:
+    #     1. Make the list of new names to be the same length
+    #        as the number of returns;
+    #     2. Make the list of new names shorter than the number of returns.
+    # In the second case, if you provide n new names, only the first n returns 
+    # will be accepted -- the rest of the values will be discarded..
+    num, town := returner_vars()
+
+
+    # Here, we will only receive the first returned value from the scoop called 
+    # 'pair' that returns two values. In this case, the second value will be 
+    # discarded. We've seen similar behaviour on the first line of this 'parent'
+    # scoop, however, in that case all return values have been discarded. 
+    only_first := pair()
+
+
+    # Here we use the 'funky_scoop' to add two numbers together and put the 
+    # result into a variable.
+    a := 8
+    b := returner_sims()
+    c := funky_scoop(a, b)
+}

@@ -1,0 +1,27 @@
+# 'nil' type is a very simple datatype and it is used in a variety of ways.
+# As a placeholder for values that are yet to be calculated, as a return value
+# that signifies something good or bad, and in various other cases.
+v := nil
+
+
+# 'bln' stands for 'boolean'. This data type represents binary values. The only
+# 2 values that belong to the 'bln' data type are 'true' and 'false'.
+b := true # bln
+
+
+# 'num' is short for 'number'.
+# This data type represents all rational numbers including integers 
+# and decimals.
+n := 3.14 # num
+
+
+# 'chr' stands for 'character'. This data type represents all UTF-8 characters.
+# Values of type 'chr' must be enclosed in single speech marks 
+# (like this 'a', not like this "a").
+c := 'c' # chr
+
+
+# 'str' stands for 'string'. This data type represents all combinations of
+# type 'char'. 'str' is basically an array of 'char'.
+s := "Hello, World" # str
+
