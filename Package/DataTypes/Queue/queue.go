@@ -2,7 +2,6 @@ package queue
 
 import (
     "bufio"
-    "fmt"
     "github.com/sharpvik/scoops/Package/Shared"
 )
 
