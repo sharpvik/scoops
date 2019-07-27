@@ -1,7 +1,6 @@
 [X] - END
 [X] - PUSH_CONST
 [X] - MAKE_BLN
-[X] - MAKE_BYTE
 [ ] - MAKE_FLT
 [X] - MAKE_INT
 [X] - MAKE_NIL
@@ -15,10 +14,10 @@
 [ ] - MAKE_LINKED
 [ ] - MAKE_SET
 [ ] - MAKE_MAP
-[ ] - MAKE_STACK
-[ ] - MAKE_QUEUE
+[ ] - MAKE_STACK        !!! easy to complete !!!
+[ ] - MAKE_QUEUE        !!! easy to complete !!!
 [ ] - MAKE_DEQUE
-[ ] - CLONE
+[ ] - CLONE             !!! easy to complete !!!
 [X] - PRINT_OBJ
 [X] - GET_TYPE
 [X] - GET_SIZE
