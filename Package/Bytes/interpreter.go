@@ -135,7 +135,10 @@ func (interpreter *Interpreter) Evaluate() {
             b := y.(*primitives.Integer)
             interpreter.scope.data.Push( primitives.AddInteger(a, b) )
         default:
-            interpreter.err = errors.New("Unknown numeric data type.")
+            interpreter.err = primitives.NewError(
+                "RuntimeError",
+                errors.New("Unknown numeric data type."),
+            )
         }
 
     case shared.BINARY_SUB:
@@ -149,7 +152,10 @@ func (interpreter *Interpreter) Evaluate() {
             c := primitives.SubInteger(a, b)
             interpreter.scope.data.Push(c)
         default:
-            interpreter.err = errors.New("Unknown numeric data type.")
+            interpreter.err = primitives.NewError(
+                "RuntimeError",
+                errors.New("Unknown numeric data type."),
+            )
         }
 
     case shared.BINARY_MUL:
@@ -163,7 +169,10 @@ func (interpreter *Interpreter) Evaluate() {
             c := primitives.MulInteger(a, b)
             interpreter.scope.data.Push(c)
         default:
-            interpreter.err = errors.New("Unknown numeric data type.")
+            interpreter.err = primitives.NewError(
+                "RuntimeError",
+                errors.New("Unknown numeric data type."),
+            )
         }
 
     case shared.PRINT_NEWLINE:
@@ -174,11 +183,14 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Pop()
 
     default:
-        interpreter.err = errors.New(
-            fmt.Sprintf(
-                "Instruction #%d: Unknown opcode %d.",
-                interpreter.ip,
-                instruction.opcode,
+        interpreter.err = primitives.NewError(
+            "OpcodeError",
+            errors.New(
+                fmt.Sprintf(
+                    "Instruction #%d: Unknown opcode %d.",
+                    interpreter.ip,
+                    instruction.opcode,
+                ),
             ),
         )
 
@@ -195,7 +207,7 @@ func (interpreter *Interpreter) Execute() {
         interpreter.Evaluate()
     }
     if interpreter.err != nil {
-        util.Error(interpreter.err)
+        util.Error( interpreter.err.ToGoError() )
         util.Log("Interpreter exited with non-zero return value.")
     }
 }

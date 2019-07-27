@@ -2,10 +2,10 @@ package bytes
 
 import (
     "bufio"
-    "os"
     "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
     "github.com/sharpvik/scoops/Package/DataTypes/Stack"
+    "os"
 )
 
 
@@ -25,7 +25,7 @@ type (
 
     Interpreter struct {
         running bool
-        err     error
+        err     *primitives.Error
         ip      uint64
         code    []*Instruction
         global  *Environment
