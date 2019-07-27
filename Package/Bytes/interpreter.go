@@ -89,8 +89,13 @@ func (interpreter *Interpreter) Evaluate() {
         obj := slice.Pop(index)
         interpreter.scope.data.Push(obj)
 
+    case shared.CLONE_OBJ:
+        interpreter.scope.data.Push(
+            interpreter.scope.data.Peek().Clone(),
+        )
+
     case shared.PRINT_OBJ:
-        interpreter.scope.data.Peek().Print(interpreter.stdout)
+        interpreter.scope.data.Peek().Print(interpreter.writer)
 
     case shared.GET_TYPE:
         _type := _string.FromString( interpreter.scope.data.Pop().Type() )
@@ -128,8 +133,7 @@ func (interpreter *Interpreter) Evaluate() {
         case "intint":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
-            c := primitives.AddInteger(a, b)
-            interpreter.scope.data.Push(c)
+            interpreter.scope.data.Push( primitives.AddInteger(a, b) )
         default:
             interpreter.err = errors.New("Unknown numeric data type.")
         }
@@ -163,8 +167,8 @@ func (interpreter *Interpreter) Evaluate() {
         }
 
     case shared.PRINT_NEWLINE:
-        interpreter.stdout.WriteString("\n")
-        interpreter.stdout.Flush()
+        interpreter.writer.WriteString("\n")
+        interpreter.writer.Flush()
 
     case shared.POP:
         interpreter.scope.data.Pop()

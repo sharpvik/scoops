@@ -25,6 +25,9 @@ type Object interface {
 }
 
 
+/* Meanwhile, Collection type has all the methods of the Object type plus its
+   own Size method. */
 type Collection interface {
+    Object
     Size() uint64
 }

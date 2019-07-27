@@ -30,6 +30,7 @@ const (
     MAKE_QUEUE
     MAKE_DEQUE
     MAKE_SCOOP
+    CLONE_OBJ
     PRINT_OBJ
     GET_TYPE
     GET_SIZE

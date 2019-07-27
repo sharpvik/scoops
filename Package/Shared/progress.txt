@@ -17,7 +17,7 @@
 [ ] - MAKE_STACK        !!! easy to complete !!!
 [ ] - MAKE_QUEUE        !!! easy to complete !!!
 [ ] - MAKE_DEQUE
-[ ] - CLONE             !!! easy to complete !!!
+[X] - CLONE_OBJ         !!! easy to complete !!!
 [X] - PRINT_OBJ
 [X] - GET_TYPE
 [X] - GET_SIZE

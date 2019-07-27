@@ -32,6 +32,7 @@ type (
         scope   *Environment    // current execution scope
         thenil  *primitives.Nil // universal nil value
         stdout  *bufio.Writer
+        writer  *bufio.Writer   // current writer (stdout by default)
     }
 )
 
@@ -49,6 +50,7 @@ func NewEnvironment(name string, prev *Environment) *Environment {
 
 func NewInterpreter(code []*Instruction) *Interpreter {
     global := NewEnvironment("global", nil)
+    stdout := bufio.NewWriter(os.Stdout)
     return &Interpreter{
         true,
         nil,
@@ -57,6 +59,7 @@ func NewInterpreter(code []*Instruction) *Interpreter {
         global,
         global,
         primitives.NewNil(),
-        bufio.NewWriter(os.Stdout),
+        stdout,
+        stdout,
     }
 }

@@ -24,6 +24,7 @@ var OpcodeMap = map[string]uint8{
     "MAKE_QUEUE": shared.MAKE_QUEUE,
     "MAKE_DEQUE": shared.MAKE_DEQUE,
     "MAKE_SCOOP": shared.MAKE_SCOOP,
+    "CLONE_OBJ": shared.CLONE_OBJ,
     "PRINT_OBJ": shared.PRINT_OBJ,
     "GET_TYPE": shared.GET_TYPE,
     "GET_SIZE": shared.GET_SIZE,
