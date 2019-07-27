@@ -87,16 +87,16 @@ func (s *Stack) Pop() shared.Object {
 func (s *Stack) Print(w *bufio.Writer) {
     defer w.Flush()
     if s.size == 0 {
-        w.WriteString("<-> { }")
+        w.WriteString("<-> [ ]")
         return
     }
     cur := s.top
-    w.WriteString("<-> {")
+    w.WriteString("<-> [ ")
     for {
-        w.WriteString(" ")
         cur.val.Print(w)
+        w.WriteString(" ")
         if cur == s.bottom {
-            w.WriteString(" }\n")
+            w.WriteString("]\n")
             break
         }
         cur = cur.next

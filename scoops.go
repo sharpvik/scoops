@@ -8,6 +8,7 @@ import (
     "github.com/sharpvik/scoops/Package/Bytes"
     "os"
     "regexp"
+    "time"
 )
 
 
@@ -91,6 +92,10 @@ func UsageHint() {
 
 
 func main() {
+    // Timing
+    start := time.Now()
+    defer util.Log(  fmt.Sprintf("Time elapsed: %v", time.Since(start) )  )
+
     // Processing command line arguments...
     flag, filename, err := ParseArgs(os.Args[1:])
     if err != nil {
@@ -107,7 +112,7 @@ func main() {
         assemblyСode []string
         byteCode []*bytes.Instruction
     )
-    
+
     // Use filename extention to determine execution process and catch errors...
     switch fileExtention {
     case "scp":
@@ -179,13 +184,13 @@ func main() {
         switch filename {
         case "help":
             util.Help()
-            
+
         default:
             util.Error( errors.New("Input file does not have extention.") )
             UsageHint()
             os.Exit(1)
         }
-        
+
     default:
         // Any other filename extentions are to be considered invalid.
         util.Error( errors.New("Input file has an invalid extention.") )

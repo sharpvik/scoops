@@ -33,9 +33,8 @@ func (s *Slice) Print(w *bufio.Writer) {
         w.WriteString("[ ]")
         return
     }
-    w.WriteString("[")
+    w.WriteString("[ ")
     for _, o := range s.value {
-        w.WriteString(" ")
         o.Print(w)
         w.WriteString(" ")
     }

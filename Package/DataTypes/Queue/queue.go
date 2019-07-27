@@ -89,18 +89,17 @@ func (q *Queue) Pop() shared.Object {
 func (q *Queue) Print(w *bufio.Writer) {
     defer w.Flush()
     if q.size == 0 {
-        w.WriteString("<- { } <-")
+        w.WriteString("<- [ ] <-")
         return
     }
     cur := q.head
-    w.WriteString("<- {")
+    w.WriteString("<- [ ")
     for {
-        w.WriteString(" ")
         cur.val.Print(w)
         w.WriteString(" ")
         cur = cur.next
         if cur == q.head {
-            w.WriteString("} <-\n")
+            w.WriteString("] <-\n")
             break
         }
     }
