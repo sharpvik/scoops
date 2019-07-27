@@ -7,7 +7,6 @@ var OpcodeMap = map[string]uint8{
     "END": shared.END,
     "PUSH_CONST": shared.PUSH_CONST,
     "MAKE_BLN": shared.MAKE_BLN,
-    "MAKE_BYTE": shared.MAKE_BYTE,
     "MAKE_FLT": shared.MAKE_FLT,
     "MAKE_INT": shared.MAKE_INT,
     "MAKE_NIL": shared.MAKE_NIL,

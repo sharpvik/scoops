@@ -1,7 +1,7 @@
 package slice
 
 import (
-    "fmt"
+    "bufio"
     "github.com/sharpvik/scoops/Package/Shared"
 )
 
@@ -27,18 +27,19 @@ func (s *Slice) Clone() shared.Object {
 }
 
 
-func (s *Slice) Print() {
+func (s *Slice) Print(w *bufio.Writer) {
+    defer w.Flush()
     if s.size == 0 {
-        fmt.Println("[ ]")
+        w.WriteString("[ ]")
         return
     }
-    fmt.Print("[")
+    w.WriteString("[")
     for _, o := range s.value {
-        fmt.Print(" ")
-        o.Print()
-        fmt.Print(" ")
+        w.WriteString(" ")
+        o.Print(w)
+        w.WriteString(" ")
     }
-    fmt.Print("]\n")
+    w.WriteString("]\n")
 }
 
 

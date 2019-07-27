@@ -1,6 +1,8 @@
 package bytes
 
 import (
+    "bufio"
+    "os"
     "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
     "github.com/sharpvik/scoops/Package/DataTypes/Stack"
@@ -12,7 +14,7 @@ type (
     Instruction struct {
         opcode, operand byte
     }
-    
+
     Environment struct {
         name string
         data *stack.Stack
@@ -20,7 +22,7 @@ type (
         prev *Environment
         // next *Environment // ?
     }
-    
+
     Interpreter struct {
         running bool
         err     error
@@ -29,6 +31,7 @@ type (
         global  *Environment
         scope   *Environment    // current execution scope
         thenil  *primitives.Nil // universal nil value
+        stdout  *bufio.Writer
     }
 )
 
@@ -54,5 +57,6 @@ func NewInterpreter(code []*Instruction) *Interpreter {
         global,
         global,
         primitives.NewNil(),
+        bufio.NewWriter(os.Stdout),
     }
 }

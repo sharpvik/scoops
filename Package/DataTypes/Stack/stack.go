@@ -1,7 +1,7 @@
 package stack
 
 import (
-    "fmt"
+    "bufio"
     "github.com/sharpvik/scoops/Package/Shared"
 )
 
@@ -13,7 +13,7 @@ type (
         next    *node
         val     shared.Object
     }
-    
+
     Stack struct {
         size    uint64
         top     *node
@@ -84,18 +84,19 @@ func (s *Stack) Pop() shared.Object {
 }
 
 
-func (s *Stack) Print() {
+func (s *Stack) Print(w *bufio.Writer) {
+    defer w.Flush()
     if s.size == 0 {
-        fmt.Println("<-> { }")
+        w.WriteString("<-> { }")
         return
     }
     cur := s.top
-    fmt.Print("<-> {")
+    w.WriteString("<-> {")
     for {
-        fmt.Print(" ")
-        cur.val.Print()
+        w.WriteString(" ")
+        cur.val.Print(w)
         if cur == s.bottom {
-            fmt.Print(" }\n")
+            w.WriteString(" }\n")
             break
         }
         cur = cur.next

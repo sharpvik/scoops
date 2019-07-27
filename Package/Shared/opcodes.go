@@ -13,7 +13,6 @@ const (
     END             byte = iota
     PUSH_CONST
     MAKE_BLN
-    MAKE_BYTE
     MAKE_FLT
     MAKE_INT
     MAKE_NIL

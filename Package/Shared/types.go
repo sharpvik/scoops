@@ -1,5 +1,7 @@
 package shared
 
+import "bufio"
+
 /*
  * It is important to note that the 'Object' interface type is satisfied by all
  * of the pointer types in the DataTypes folder.
@@ -13,12 +15,12 @@ package shared
  * Here's why... We declare the Print and Type functions as follows:
  *     func (r *Rune) Print() { ... }
  * so type *Rune satisfies the Object interface but type Rune doesn't.
- * This goes for every type in the DataTypes folder. Similar logic applies to 
+ * This goes for every type in the DataTypes folder. Similar logic applies to
  * the Collection interface.
  */
 type Object interface {
     Clone() Object
-    Print()
+    Print(w *bufio.Writer)
     Type() string
 }
 

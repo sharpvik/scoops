@@ -1,6 +1,7 @@
 package queue
 
 import (
+    "bufio"
     "fmt"
     "github.com/sharpvik/scoops/Package/Shared"
 )
@@ -13,7 +14,7 @@ type (
         next    *node
         val     shared.Object
     }
-    
+
     Queue struct {
         size    uint64
         head    *node
@@ -86,20 +87,21 @@ func (q *Queue) Pop() shared.Object {
 }
 
 
-func (q *Queue) Print() {
+func (q *Queue) Print(w *bufio.Writer) {
+    defer w.Flush()
     if q.size == 0 {
-        fmt.Println("<- { } <-")
+        w.WriteString("<- { } <-")
         return
     }
     cur := q.head
-    fmt.Print("<- {")
+    w.WriteString("<- {")
     for {
-        fmt.Print(" ")
-        cur.val.Print()
-        fmt.Print(" ")
+        w.WriteString(" ")
+        cur.val.Print(w)
+        w.WriteString(" ")
         cur = cur.next
         if cur == q.head {
-            fmt.Print("} <-\n")
+            w.WriteString("} <-\n")
             break
         }
     }

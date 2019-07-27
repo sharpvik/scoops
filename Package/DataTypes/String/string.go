@@ -1,6 +1,7 @@
 package _string
 
 import (
+    "bufio"
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
     "github.com/sharpvik/scoops/Package/Shared"
 )
@@ -37,9 +38,9 @@ func (s *String) Clone() shared.Object {
 }
 
 
-func (s *String) Print() {
+func (s *String) Print(w *bufio.Writer) {
     for _, r := range s.value {
-        r.Print()
+        r.Print(w)
     }
 }
 

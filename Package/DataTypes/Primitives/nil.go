@@ -1,7 +1,7 @@
 package primitives
 
 import (
-    "fmt"
+    "bufio"
     "github.com/sharpvik/scoops/Package/Shared"
 )
 
@@ -22,8 +22,9 @@ func (n *Nil) Clone() shared.Object {
 }
 
 
-func (n *Nil) Print() {
-    fmt.Print("nil")
+func (n *Nil) Print(w *bufio.Writer) {
+    w.WriteString("nil")
+    w.Flush()
 }
 
 
