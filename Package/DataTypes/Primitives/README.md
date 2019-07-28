@@ -37,10 +37,14 @@ type Byte
     func (x *Byte) ToInteger() *Integer
     func (x *Byte) ToRune() *Rune
 type Error
-    func NewError(_type string, value error) *Error
+    func NewError(tag, message string) *Error
+    func FromError(tag string, message error) *Error
     func (e *Error) Clone() *Error
     func (e *Error) Print(w *bufio.Writer)
-    func (e *Error) ToGoString() string
+    func NewError(tag, message string) *Error
+func FromError(tag string, message error) *Error
+func (e *Error) ToGoString() string
+func (e *Error) ToGoError() error
     func (e *Error) ToGoError() error
     func (e *Error) Type() string
 type Float
@@ -216,10 +220,20 @@ Functions listed above can convert `*Byte` into other Scoops data types.
 ### func NewError
 
 ```go
-func NewError(_type string, value error) *Error
+func NewError(tag, message string) *Error
 ```
 
 **NewError** returns pointer to a newly created `Error` instance.
+
+
+### func FromError
+
+```go
+func FromError(tag string, message error) *Error
+```
+
+**FromError** is a function that accepts error message as Go's embedded `error`
+type. That is its only difference from **NewError**.
 
 
 ### func ToGoString
