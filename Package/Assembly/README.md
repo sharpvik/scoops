@@ -25,17 +25,17 @@ Regular expression that matches a valid *Scoops Assembly* instruction:
 
 *Scoops Interpreter (SI)* can support up to 256 different opcodes as it is a
 [bytecode] based [virtual machine]. Each opcode is a simple command that *SI*
-can understand and execute. An example of a trivial opcode would be the
-`THE_END` opcode that tells *SI* that program has come to an end and it is
-time to stop execution.
+can understand and execute. An example of a trivial opcode would be the `END 0`
+opcode that tells *SI* that program has come to an end and it is time to stop
+execution.
 
 Some opcodes may require an operand -- additional parameter needed to make *SI*
-more flexible. For example, you may want to `LOAD_CONST 42`. This opcode tells
+more flexible. For example, you may want to `PUSH_CONST 42`. This opcode tells
 *SI* to push 42 onto the *data stack* ([stack]) of the currently active
-execution environment as a bytes, it may then used to create an instance of
-*Integer* for example.
+execution environment as a `*Byte`, it may then be used to create an instance of
+`*Integer` for example.
 
-You can find the list of all the opcodes used by the *Scoops Interpreter* 
+You can find the list of all the opcodes used by the *Scoops Interpreter*
 [in this file]. Regular expression that matches a valid *SI* opcode is as
 follows: `[A-Z_]+`
 
@@ -46,7 +46,7 @@ follows: `[A-Z_]+`
 
 ## Operands
 
-There are 4 types of operands that *Scoops Assembler (SA)* accepts as 
+There are 4 types of operands that *Scoops Assembler (SA)* accepts as
 syntactically valid:
 
 | Operand Type | Definitions               | Regular Expression | Example      |
@@ -55,7 +55,7 @@ syntactically valid:
 | Hexadecimal  | Hexadecimals up to xFF    | `x[\dA-F]+`        | `x2A`        |
 | Integer      | Integers from 0 up to 255 | `\d+`              | `42`         |
 | Character    | ASCII characters          | `'[\x00-\xFF]'`    | `'*'`        |
-| Opcode       | Scoops Assembly opcodes   | `[A-Z_]+`          | `LOAD_CONST` |
+| Opcode       | Scoops Assembly opcodes   | `[A-Z_]+`          | `PUSH_CONST` |
 
 The underlying rule is -- every operand must be *1 byte long*. This way, every
 instruction is exactly *16 bits or 2 bytes* which makes it extremely easy to
