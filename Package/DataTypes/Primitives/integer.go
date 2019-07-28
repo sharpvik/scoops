@@ -46,3 +46,8 @@ func SubInteger(a, b *Integer) *Integer {
 func MulInteger(a, b *Integer) *Integer {
     return NewInteger(a.Value * b.Value)
 }
+
+
+func DivInteger(a, b *Integer) *Float {
+    return NewFloat( float64(a.Value) / float64(b.Value) )
+}

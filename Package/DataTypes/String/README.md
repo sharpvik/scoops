@@ -18,7 +18,7 @@ type String
     func New(value []*primitives.Rune) *String
     func FromString(from string) *String
     func (s *String) Clone() shared.Object
-    func (s *String) Print()
+    func (s *String) Print(w *bufio.Writer)
     func (s *String) Type() string
     func (s *String) Size() uint64
     func Concatenate(a, b *String) *String
@@ -58,7 +58,7 @@ to its parent `*String` in its contents, as every item has also been Cloned.
 ### func Print
 
 ```go
-func (s *String) Print()
+func (s *String) Print(w *bufio.Writer)
 ```
 
 **Print** prints our `String` to stdout.

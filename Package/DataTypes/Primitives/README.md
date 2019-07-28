@@ -36,6 +36,22 @@ type Byte
     func (x *Byte) ToBoolean() *Boolean
     func (x *Byte) ToInteger() *Integer
     func (x *Byte) ToRune() *Rune
+type Error
+    func NewError(_type string, value error) *Error
+    func (e *Error) Clone() *Error
+    func (e *Error) Print(w *bufio.Writer)
+    func (e *Error) ToGoString() string
+    func (e *Error) ToGoError() error
+    func (e *Error) Type() string
+type Float
+    func NewFloat(value float64) *Float
+    func (f *Float) Clone() shared.Object
+    func (f *Float) Print(w *bufio.Writer)
+    func (f *Float) Type() string
+    func AddFloat(a, b *Float) *Float
+    func SubFloat(a, b *Float) *Float
+    func MulFloat(a, b *Float) *Float
+    func DivFloat(a, b *Float) *Float
 type Integer
     func NewInteger(value int64) *Integer
     func (i *Integer) Clone() shared.Object
@@ -44,6 +60,7 @@ type Integer
     func AddInteger(a, b *Integer) *Integer
     func SubInteger(a, b *Integer) *Integer
     func MulInteger(a, b *Integer) *Integer
+    func DivInteger(a, b *Integer) *Float
 type Nil
     func NewNil() *Nil
     func (n *Nil) Clone() shared.Object
@@ -101,9 +118,9 @@ to the stdout.
 func (b *<primitive>) Type() string
 ```
 
-**Type** returns primitive's type as Go's embedded `string` type. The `GET_TYPE` 
-opcode uses `string.FromString` function from the 
-`scoops/Package/DataTypes/String` package to convert `string` to 
+**Type** returns primitive's type as Go's embedded `string` type. The `GET_TYPE`
+opcode uses `string.FromString` function from the
+`scoops/Package/DataTypes/String` package to convert `string` to
 `_string.String` type and push it onto the data stack.
 
 
@@ -125,7 +142,7 @@ func NewBoolean(value *Byte) *Boolean
 func FromBoolean(value bool) *Boolean
 ```
 
-**FromBoolean** returns pointer to a newly created `Boolean` instance. It is 
+**FromBoolean** returns pointer to a newly created `Boolean` instance. It is
 used when we want to create a `*Boolean` using Go's embedded `bool` data type as
 an argument to the function.
 
@@ -140,10 +157,10 @@ func XorBoolean(a, b *Boolean) *Boolean
 ```
 
 All functions listed above implement basic boolean functions that are essential
-for any programming language. 
+for any programming language.
 **NotBoolean** reverses the value of the incoming
-`*Boolean`. 
-**AndBoolean** accepts two `*Boolean` values and returns a `*Boolean` with a 
+`*Boolean`.
+**AndBoolean** accepts two `*Boolean` values and returns a `*Boolean` with a
 `true` value if both incoming booleans were `true`.
 **OrBoolean** also accepts two `*Boolean`s and returns `true` if at least one of
 those was `true`.
@@ -194,6 +211,63 @@ Functions listed above can convert `*Byte` into other Scoops data types.
 
 
 
+## Type Error
+
+### func NewError
+
+```go
+func NewError(_type string, value error) *Error
+```
+
+**NewError** returns pointer to a newly created `Error` instance.
+
+
+### func ToGoString
+
+```go
+func (e *Error) ToGoString() string
+```
+
+**ToGoString** combines fields of `Error` to return a formatted `string` that
+may be used to display that `Error`.
+
+
+### func ToGoError
+
+```go
+func (e *Error) ToGoError() error
+```
+
+**ToGoError** simply converts the output of **ToGoString** into Go's embedded
+`error` data type and returns the result of that conversion.
+
+
+
+## Type Float
+
+### func NewFloat
+
+```go
+func NewFloat(value float64) *Float
+```
+
+**NewFloat** returns pointer to a newly created `Float` instance.
+
+
+### func AddFloat, SubFloat, MulFloat, DivFloat
+
+```go
+func AddFloat(a, b *Float) *Float
+func SubFloat(a, b *Float) *Float
+func MulFloat(a, b *Float) *Float
+func DivFloat(a, b *Float) *Float
+```
+
+Functions above are used to add, subtract, multiply or divide two `Float`s. I
+think this is self-explanatory.
+
+
+
 ## Type Integer
 
 ### func NewInteger
@@ -211,14 +285,14 @@ func NewInteger(value int64) *Integer
 func AddInteger(a, b *Integer) *Integer
 func SubInteger(a, b *Integer) *Integer
 func MulInteger(a, b *Integer) *Integer
+func DivInteger(a, b *Integer) *Float
 ```
 
 Functions listed above implement `*Integer`-based arithmetic.
 In case you want to add two `*Integer`s -- use **AddInteger**;
 In case you want to subtract two `*Integer`s -- use **SubInteger**;
 In case you want to multiply two `*Integer`s -- use **MulInteger**;
-*Function DivInteger is coming up soon. We need to implement the float data type
-first to add this function.*
+**DivInteger** returns a `*Float` as a result of dividing two `*Integer`s;
 
 
 
@@ -246,7 +320,7 @@ be assigned to, like that
 n := IReturnNil()
 ```
 
-then the variable `n` will hold the `Nil` value. If you want to declare a 
+then the variable `n` will hold the `Nil` value. If you want to declare a
 variable that doesn't hold any specific value, you may assign it to `Nil`.
 
 
@@ -259,8 +333,8 @@ variable that doesn't hold any specific value, you may assign it to `Nil`.
 func NewRune(value []byte) *Rune
 ```
 
-**NewRune** returns pointer to a newly created `Rune` instance. `Rune` only 
-implements the functions that are required to satisfy the `shared.Object` 
+**NewRune** returns pointer to a newly created `Rune` instance. `Rune` only
+implements the functions that are required to satisfy the `shared.Object`
 interface. Therefore, I can just mention that `Rune` is just a type that holds
 a few `byte`s (from 1 to 4 to be precise) and represent a printable UTF-8
 character. Scoops' `Rune` type is a nice compromise between Go's `byte`s,

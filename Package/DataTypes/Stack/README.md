@@ -16,14 +16,14 @@ This package provides the Stack data type and functions that are related to it.
 ```go
 type Stack
     func New() *Stack
-    func (q *Stack) Clear()
+    func (s *Stack) Clear()
     func (s *Stack) Clone() shared.Object
-    func (q *Stack) Empty() bool
-    func (q *Stack) Peek() interface{}
-    func (q *Stack) Pop() interface{}
-    func (q *Stack) Print()
-    func (q *Stack) Push(interface{})
-    func (q *Stack) Size() int
+    func (s *Stack) Empty() bool
+    func (s *Stack) Peek() shared.Object
+    func (s *Stack) Pop() shared.Object
+    func (s *Stack) Print(w *bufio.Writer)
+    func (s *Stack) Push(item shared.Object)
+    func New() *Stack
     func (s *Stack) Type() string
 ```
 
@@ -31,7 +31,7 @@ type Stack
 ### func New
 
 ```go
-func New() *Stack
+func (s *Stack) Clear()
 ```
 
 **New** returns pointer to a newly initialised Stack.
@@ -40,7 +40,7 @@ func New() *Stack
 ### func Clear
 
 ```go
-func (q *Stack) Clear()
+func (s *Stack) Clone() shared.Object
 ```
 
 **Clear** simply empties the stack. It is *much* more efficient to use **Clear**
@@ -50,7 +50,7 @@ than popping every element off by hand using the **Pop** function.
 ### func Empty
 
 ```go
-func (q *Stack) Empty() bool
+func (s *Stack) Empty() bool
 ```
 
 **Empty** returns `true` if stack is empty and `false` if it isn't.
@@ -59,7 +59,7 @@ func (q *Stack) Empty() bool
 ### func Peek
 
 ```go
-func (q *Stack) Peek() interface{}
+func (s *Stack) Peek() shared.Object
 ```
 
 **Peek** returns the top item of the stack. Top element is said to be the
@@ -69,7 +69,7 @@ element that would be popped if **Pop** function was called.
 ### func Pop
 
 ```go
-func (q *Stack) Pop() interface{}
+func (s *Stack) Pop() shared.Object
 ```
 
 **Pop** pops off and returns the top item of the stack.
@@ -78,7 +78,7 @@ func (q *Stack) Pop() interface{}
 ### func Print
 
 ```go
-func (q *Stack) Print()
+func (s *Stack) Print(w *bufio.Writer)
 ```
 
 **Print** prints out contents of the stack to stdout.
@@ -87,7 +87,7 @@ func (q *Stack) Print()
 ### func Push
 
 ```go
-func (q *Stack) Push(interface{})
+func (s *Stack) Push(item shared.Object)
 ```
 
 **Push** inserts given item into the stack.
@@ -96,7 +96,7 @@ func (q *Stack) Push(interface{})
 ### func Size
 
 ```go
-func (q *Stack) Size() int
+func (s *Stack) Size() uint64
 ```
 
 **Size** returns the number of elements in the stack.

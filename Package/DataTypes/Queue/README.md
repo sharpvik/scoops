@@ -21,7 +21,7 @@ type Queue
     func (q *Queue) Empty() bool
     func (q *Queue) Peek() shared.Object
     func (q *Queue) Pop() shared.Object
-    func (q *Queue) Print()
+    func (q *Queue) Print(w *bufio.Writer)
     func (q *Queue) Push(item shared.Object)
     func (q *Queue) Size() uint64
     func (q *Queue) Type() string
@@ -45,6 +45,17 @@ func (q *Queue) Clear()
 
 **Clear** simply empties the queue. It is *much* more efficient to use **Clear**
 than popping every element off by hand using the **Pop** function.
+
+
+### func Clone
+
+```go
+func (q *Queue) Clone() shared.Object
+```
+
+**Clone** returns an object of type shared.Object (with underlying type of
+`*Queue`) that is identical, in terms of contents, to the `Queue` this function
+was called on.
 
 
 ### func Empty
@@ -78,7 +89,7 @@ func (q *Queue) Pop() shared.Object
 ### func Print
 
 ```go
-func (q *Queue) Print()
+func (q *Queue) Print(w *bufio.Writer)
 ```
 
 **Print** prints out contents of the queue to stdout.
@@ -87,7 +98,7 @@ func (q *Queue) Print()
 ### func Push
 
 ```go
-func (q *Queue) Push(shared.Object)
+func (q *Queue) Push(item shared.Object)
 ```
 
 **Push** inserts given item into the queue.

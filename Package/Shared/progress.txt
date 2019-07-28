@@ -1,5 +1,5 @@
 [X] - END
-[X] - PUSH_CONST
+[X] - PUSH_CONST        !!! is waiting to be implemented !!!
 [X] - MAKE_BLN
 [ ] - MAKE_FLT
 [X] - MAKE_INT

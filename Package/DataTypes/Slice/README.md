@@ -15,8 +15,9 @@ This package provides the Dynamic Array data type and all related functions.
 
 ```go
 type Slice
+    func New() *Slice
     func (s *Slice) Clone() shared.Object
-    func (s *Slice) Print()
+    func (s *Slice) Print(w *bufio.Writer)
     func (s *Slice) Type() string
     func (s *Slice) Size() uint64
     func (s *Slice) Append(item shared.Object)
@@ -31,7 +32,7 @@ type Slice
 func New() *Slice
 ```
 
-**New** returns pointer to a newly created `Slice` instance. 
+**New** returns pointer to a newly created `Slice` instance.
 
 
 ### func Clone
@@ -48,7 +49,7 @@ its parent `*Slice` in its contents, as every item has also been Cloned.
 ### func Print
 
 ```go
-func (s *Slice) Print()
+func (s *Slice) Print(w *bufio.Writer)
 ```
 
 **Print** prints our `Slice` to stdout.

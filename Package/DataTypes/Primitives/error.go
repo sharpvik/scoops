@@ -42,5 +42,5 @@ func (e *Error) ToGoError() error {
 
 
 func (e *Error) Type() string {
-    return "error"
+    return "err"
 }
