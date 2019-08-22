@@ -17,8 +17,9 @@ import (
 
 func (interpreter *Interpreter) Evaluate() {
     instruction := *(interpreter.code[interpreter.ip])
-    //fmt.Println(instruction)
-    //interpreter.scope.data.Print()
+
+    //fmt.Println(instruction) // debug
+
     switch instruction.opcode {
 
     case shared.END:
@@ -88,10 +89,9 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Push( slice.New() )
 
     case shared.SLICE_APPEND:
-        slice := interpreter.scope.data.Pop().(*slice.Slice)
         obj := interpreter.scope.data.Pop()
+        slice := interpreter.scope.data.Peek().(*slice.Slice)
         slice.Append(obj)
-        interpreter.scope.data.Push(slice)
 
     case shared.SLICE_GET_ITEM_BY_INDEX:
         i := interpreter.scope.data.Pop().(*primitives.Integer).Value
@@ -110,8 +110,46 @@ func (interpreter *Interpreter) Evaluate() {
     case shared.MAKE_STACK:
         interpreter.scope.data.Push( stack.New() )
 
+    case shared.STACK_PUSH:
+        obj := interpreter.scope.data.Pop()
+        interpreter.scope.data.Peek().(*stack.Stack).Push(obj)
+
+    case shared.STACK_POP:
+        obj := interpreter.scope.data.Peek().(*stack.Stack).Pop()
+        interpreter.scope.data.Push(obj)
+
+    case shared.STACK_CLEAR:
+        interpreter.scope.data.Peek().(*stack.Stack).Clear()
+
+    case shared.STACK_EMPTY:
+        bln := interpreter.scope.data.Peek().(*stack.Stack).Empty()
+        interpreter.scope.data.Push( primitives.FromBoolean(bln) )
+
+    case shared.STACK_PEEK:
+        obj := interpreter.scope.data.Peek().(*stack.Stack).Peek()
+        interpreter.scope.data.Push(obj)
+
     case shared.MAKE_QUEUE:
         interpreter.scope.data.Push( queue.New() )
+
+    case shared.QUEUE_PUSH:
+        obj := interpreter.scope.data.Pop()
+        interpreter.scope.data.Peek().(*queue.Queue).Push(obj)
+
+    case shared.QUEUE_POP:
+        obj := interpreter.scope.data.Peek().(*queue.Queue).Pop()
+        interpreter.scope.data.Push(obj)
+
+    case shared.QUEUE_CLEAR:
+        interpreter.scope.data.Peek().(*queue.Queue).Clear()
+
+    case shared.QUEUE_EMPTY:
+        bln := interpreter.scope.data.Peek().(*queue.Queue).Empty()
+        interpreter.scope.data.Push( primitives.FromBoolean(bln) )
+
+    case shared.QUEUE_PEEK:
+        obj := interpreter.scope.data.Peek().(*queue.Queue).Peek()
+        interpreter.scope.data.Push(obj)
 
     case shared.CLONE_OBJ:
         interpreter.scope.data.Push(
@@ -122,11 +160,12 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Peek().Print(interpreter.writer)
 
     case shared.GET_TYPE:
-        _type := _string.FromString( interpreter.scope.data.Pop().Type() )
-        interpreter.scope.data.Push(_type)
+        interpreter.scope.data.Push(
+            _string.FromString( interpreter.scope.data.Peek().Type() ),
+        )
 
     case shared.GET_SIZE:
-        collection := interpreter.scope.data.Pop().(shared.Collection)
+        collection := interpreter.scope.data.Peek().(shared.Collection)
         size := int64( collection.Size() )
         interpreter.scope.data.Push( primitives.NewInteger(size) )
 
@@ -221,6 +260,8 @@ func (interpreter *Interpreter) Evaluate() {
     /* Instruction pointer is incremented by default. Use 'return' inside the
        case body to force it not to. */
     interpreter.ip++
+
+    //interpreter.scope.data.Print(interpreter.writer) // debug
 }
 
 
