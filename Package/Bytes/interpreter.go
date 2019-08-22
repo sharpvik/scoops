@@ -4,10 +4,13 @@ import (
     "encoding/binary"
     "fmt"
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
+    "github.com/sharpvik/scoops/Package/DataTypes/Queue"
     "github.com/sharpvik/scoops/Package/DataTypes/Slice"
+    "github.com/sharpvik/scoops/Package/DataTypes/Stack"
     "github.com/sharpvik/scoops/Package/DataTypes/String"
     "github.com/sharpvik/scoops/Package/Shared"
     "github.com/sharpvik/scoops/Package/Util"
+    "math"
 )
 
 
@@ -27,6 +30,22 @@ func (interpreter *Interpreter) Evaluate() {
     case shared.MAKE_BLN:
         b := interpreter.scope.data.Pop().(*primitives.Byte)
         interpreter.scope.data.Push( primitives.NewBoolean(b) )
+
+    /*
+     * It's important to remember that the sequence of bytes that are pushed
+     * onto the data stack to become a flt or an int in the future must be
+     * generated using the BigEndian byte order. Stack reverses them and here
+     * interpreter uses the LittleEndian to instantiate primitives.
+     */
+    case shared.MAKE_FLT:
+        var buffer []byte
+        for i := 0; i < 8; i++ {
+            b := interpreter.scope.data.Pop().(*primitives.Byte).Value
+            buffer = append(buffer, b)
+        }
+        bits := binary.LittleEndian.Uint64(buffer)
+        float := math.Float64frombits(bits)
+        interpreter.scope.data.Push( primitives.NewFloat(float) )
 
     case shared.MAKE_INT:
         var buffer []byte
@@ -87,6 +106,12 @@ func (interpreter *Interpreter) Evaluate() {
         slice := interpreter.scope.data.Peek().(*slice.Slice)
         obj := slice.Pop(index)
         interpreter.scope.data.Push(obj)
+
+    case shared.MAKE_STACK:
+        interpreter.scope.data.Push( stack.New() )
+
+    case shared.MAKE_QUEUE:
+        interpreter.scope.data.Push( queue.New() )
 
     case shared.CLONE_OBJ:
         interpreter.scope.data.Push(

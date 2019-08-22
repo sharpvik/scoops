@@ -1,7 +1,7 @@
 [X] - END
-[X] - PUSH_CONST        !!! is waiting to be implemented !!!
+[X] - PUSH_CONST
 [X] - MAKE_BLN
-[ ] - MAKE_FLT
+[X] - MAKE_FLT
 [X] - MAKE_INT
 [X] - MAKE_NIL
 [X] - MAKE_RUNE
@@ -14,8 +14,18 @@
 [ ] - MAKE_LINKED
 [ ] - MAKE_SET
 [ ] - MAKE_MAP
-[ ] - MAKE_STACK        !!! easy to complete !!!
-[ ] - MAKE_QUEUE        !!! easy to complete !!!
+[X] - MAKE_STACK
+[ ] - STACK_PUSH
+[ ] - STACK_POP
+[ ] - STACK_CLEAR
+[ ] - STACK_EMPTY
+[ ] - STACK_PEEK
+[X] - MAKE_QUEUE
+[ ] - QUEUE_PUSH
+[ ] - QUEUE_POP
+[ ] - QUEUE_CLEAR
+[ ] - QUEUE_EMPTY
+[ ] - QUEUE_PEEK
 [ ] - MAKE_DEQUE
 [X] - CLONE_OBJ
 [X] - PRINT_OBJ

@@ -3,7 +3,7 @@ package assembly
 import "github.com/sharpvik/scoops/Package/Shared"
 
 // Based on scoops/Package/Shared/opcodes.go/const(opcodes)
-var OpcodeMap = map[string]uint8{
+var OpcodeMap = map[string]byte{
     "END": shared.END,
     "PUSH_CONST": shared.PUSH_CONST,
     "MAKE_BLN": shared.MAKE_BLN,
@@ -21,7 +21,17 @@ var OpcodeMap = map[string]uint8{
     "MAKE_SET": shared.MAKE_SET,
     "MAKE_MAP": shared.MAKE_MAP,
     "MAKE_STACK": shared.MAKE_STACK,
+    "STACK_PUSH": shared.STACK_PUSH,
+    "STACK_POP": shared.STACK_POP,
+    "STACK_CLEAR": shared.STACK_CLEAR,
+    "STACK_EMPTY": shared.STACK_EMPTY,
+    "STACK_PEEK": shared.STACK_PEEK,
     "MAKE_QUEUE": shared.MAKE_QUEUE,
+    "QUEUE_PUSH": shared.QUEUE_PUSH,
+    "QUEUE_POP": shared.QUEUE_POP,
+    "QUEUE_CLEAR": shared.QUEUE_CLEAR,
+    "QUEUE_EMPTY": shared.QUEUE_EMPTY,
+    "QUEUE_PEEK": shared.QUEUE_PEEK,
     "MAKE_DEQUE": shared.MAKE_DEQUE,
     "MAKE_SCOOP": shared.MAKE_SCOOP,
     "CLONE_OBJ": shared.CLONE_OBJ,
