@@ -10,57 +10,58 @@ package shared
  */
 
 const (
-    END             byte = iota	// 0
-    PUSH_CONST	// 1
-    MAKE_BLN	// 2
-    MAKE_FLT	// 3
-    MAKE_INT	// 4
-    MAKE_NIL	// 5
-    MAKE_RUNE	// 6
-    MAKE_STRING	// 7
-    STRING_CONCATENATE	// 8
-    MAKE_SLICE	// 9
-    SLICE_APPEND	// 10
-    SLICE_GET_ITEM_BY_INDEX	// 11
-    SLICE_POP	// 12
-    MAKE_LINKED	// 13
-    MAKE_SET	// 14
-    MAKE_MAP	// 15
-    MAKE_STACK	// 16
-    STACK_PUSH	// 17
-    STACK_POP	// 18
-    STACK_CLEAR	// 19
-    STACK_EMPTY	// 20
-    STACK_PEEK	// 21
-    MAKE_QUEUE	// 22
-    QUEUE_PUSH	// 23
-    QUEUE_POP	// 24
-    QUEUE_CLEAR	// 25
-    QUEUE_EMPTY	// 26
-    QUEUE_PEEK	// 27
-    MAKE_DEQUE	// 28
-    MAKE_SCOOP	// 29
-    CLONE_OBJ	// 30
-    PRINT_OBJ	// 31
-    GET_TYPE	// 32
-    GET_SIZE	// 33
-    STORE_VAR	// 34
-    LOAD_VAR	// 35
-    UNARY_NOT	// 36
-    BINARY_AND	// 37
-    BINARY_OR	// 38
-    BINARY_XOR	// 39
-    BINARY_ADD	// 40
-    BINARY_SUB	// 41
-    BINARY_MUL	// 42
-    BINARY_DIV	// 43
-    BINARY_POW	// 44
-    PRINT_NEWLINE	// 45
-    ABSOLUTE_JUMP	// 46
-    RELATIVE_JUMP	// 47
-    JUMP_IF_TRUE	// 48
-    JUMP_IF_FALSE	// 49
-    CALL_SCOOP	// 50
-    RETURN	// 51
-    POP	// 52
+    END             byte = iota
+    PUSH_CONST
+    MAKE_BLN
+    MAKE_FLT
+    MAKE_INT
+    MAKE_NIL
+    MAKE_RUNE
+    MAKE_STRING
+    STRING_CONCATENATE
+    MAKE_SLICE
+    SLICE_APPEND
+    SLICE_GET_ITEM_BY_INDEX
+    SLICE_POP
+    MAKE_LINKED
+    MAKE_SET
+    MAKE_MAP
+    MAKE_STACK
+    STACK_PUSH
+    STACK_POP
+    STACK_CLEAR
+    STACK_EMPTY
+    STACK_PEEK
+    MAKE_QUEUE
+    QUEUE_PUSH
+    QUEUE_POP
+    QUEUE_CLEAR
+    QUEUE_EMPTY
+    QUEUE_PEEK
+    MAKE_DEQUE
+    MAKE_SCOOP
+    CLONE_OBJ
+    PRINT_OBJ
+    GET_TYPE
+    GET_SIZE
+    STORE_VAR
+    LOAD_VAR
+    UNARY_NOT
+    BINARY_AND
+    BINARY_OR
+    BINARY_XOR
+    BINARY_ADD
+    BINARY_SUB
+    BINARY_MUL
+    BINARY_MOD	
+    BINARY_DIV
+    BINARY_POW
+    PRINT_NEWLINE
+    ABSOLUTE_JUMP
+    RELATIVE_JUMP
+    JUMP_IF_TRUE
+    JUMP_IF_FALSE
+    CALL_SCOOP
+    RETURN
+    POP
 )

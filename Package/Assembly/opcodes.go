@@ -47,6 +47,7 @@ var OpcodeMap = map[string]byte{
     "BINARY_ADD": shared.BINARY_ADD,
     "BINARY_SUB": shared.BINARY_SUB,
     "BINARY_MUL": shared.BINARY_MUL,
+    "BINARY_MOD": shared.BINARY_MOD,
     "BINARY_DIV": shared.BINARY_DIV,
     "BINARY_POW": shared.BINARY_POW,
     "PRINT_NEWLINE": shared.PRINT_NEWLINE,

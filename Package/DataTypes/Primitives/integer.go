@@ -51,3 +51,8 @@ func MulInteger(a, b *Integer) *Integer {
 func DivInteger(a, b *Integer) *Float {
     return NewFloat( float64(a.Value) / float64(b.Value) )
 }
+
+
+func (i *Integer) ToFloat() *Float {
+    return NewFloat( float64(i.Value) )
+}

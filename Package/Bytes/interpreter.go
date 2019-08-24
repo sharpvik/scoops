@@ -197,6 +197,18 @@ func (interpreter *Interpreter) Evaluate() {
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
             interpreter.scope.data.Push( primitives.AddInteger(a, b) )
+        case "fltint":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Integer).ToFloat()
+            interpreter.scope.data.Push( primitives.AddFloat(a, b) )
+        case "intflt":
+            a := x.(*primitives.Integer).ToFloat()
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.AddFloat(a, b) )
+        case "fltflt":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.AddFloat(a, b) )
         default:
             interpreter.err = primitives.NewError(
                 shared.RuntimeError,
@@ -212,8 +224,19 @@ func (interpreter *Interpreter) Evaluate() {
         case "intint":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
-            c := primitives.SubInteger(a, b)
-            interpreter.scope.data.Push(c)
+            interpreter.scope.data.Push( primitives.SubInteger(a, b) )
+        case "fltint":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Integer).ToFloat()
+            interpreter.scope.data.Push( primitives.SubFloat(a, b) )
+        case "intflt":
+            a := x.(*primitives.Integer).ToFloat()
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.SubFloat(a, b) )
+        case "fltflt":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.SubFloat(a, b) )
         default:
             interpreter.err = primitives.NewError(
                 shared.RuntimeError,
@@ -229,8 +252,47 @@ func (interpreter *Interpreter) Evaluate() {
         case "intint":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
-            c := primitives.MulInteger(a, b)
-            interpreter.scope.data.Push(c)
+            interpreter.scope.data.Push( primitives.MulInteger(a, b) )
+        case "fltint":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Integer).ToFloat()
+            interpreter.scope.data.Push( primitives.MulFloat(a, b) )
+        case "intflt":
+            a := x.(*primitives.Integer).ToFloat()
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.MulFloat(a, b) )
+        case "fltflt":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.MulFloat(a, b) )
+        default:
+            interpreter.err = primitives.NewError(
+                shared.RuntimeError,
+                "Unknown numeric data type.",
+            )
+        }
+
+    case shared.BINARY_DIV:
+        x := interpreter.scope.data.Pop()
+        y := interpreter.scope.data.Pop()
+        _type := x.Type() + y.Type()
+        switch _type {
+        case "intint":
+            a := x.(*primitives.Integer)
+            b := y.(*primitives.Integer)
+            interpreter.scope.data.Push( primitives.DivInteger(a, b) )
+        case "fltint":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Integer).ToFloat()
+            interpreter.scope.data.Push( primitives.DivFloat(a, b) )
+        case "intflt":
+            a := x.(*primitives.Integer).ToFloat()
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.DivFloat(a, b) )
+        case "fltflt":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.DivFloat(a, b) )
         default:
             interpreter.err = primitives.NewError(
                 shared.RuntimeError,
