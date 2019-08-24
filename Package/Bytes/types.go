@@ -16,11 +16,11 @@ type (
     }
 
     Environment struct {
-        name string
-        data *stack.Stack
-        refs []*shared.Object
-        prev *Environment
-        // next *Environment // ?
+        name    string
+        data    *stack.Stack
+        vars    []*shared.Object
+        prev    *Environment
+        global  *Environment
     }
 
     Interpreter struct {
@@ -43,13 +43,13 @@ func NewInstruction(opcode, operand byte) *Instruction {
 }
 
 
-func NewEnvironment(name string, prev *Environment) *Environment {
-    return &Environment{name, stack.New(), nil, prev}
+func NewEnvironment(name string, prev, global *Environment) *Environment {
+    return &Environment{name, stack.New(), nil, prev, global}
 }
 
 
 func NewInterpreter(code []*Instruction) *Interpreter {
-    global := NewEnvironment("global", nil)
+    global := NewEnvironment("global", nil, nil)
     stdout := bufio.NewWriter(os.Stdout)
     return &Interpreter{
         true,
