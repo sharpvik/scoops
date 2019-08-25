@@ -18,7 +18,7 @@ type (
     Environment struct {
         name    string
         data    *stack.Stack
-        vars    []*shared.Object
+        vars    []shared.Object
         prev    *Environment
         global  *Environment
     }

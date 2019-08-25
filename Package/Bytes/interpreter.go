@@ -169,6 +169,29 @@ func (interpreter *Interpreter) Evaluate() {
         size := int64( collection.Size() )
         interpreter.scope.data.Push( primitives.NewInteger(size) )
 
+    case shared.STORE_VAR:
+        storeMode := instruction.operand
+        if storeMode == 'n' {           // new variable created
+            interpreter.scope.vars = append(
+                interpreter.scope.vars,
+                interpreter.scope.data.Peek(),
+            )
+        } else if storeMode == 'r' {    // variable reassigned
+            id := uint64(
+                interpreter.scope.data.Pop().(*primitives.Integer).Value,
+            )
+            interpreter.scope.vars[id] = interpreter.scope.data.Pop()
+        } else {
+            interpreter.err = primitives.NewError(
+                shared.RuntimeError,
+                "Unknown store mode in call to STORE_VAR.",
+            )
+        }
+
+    case shared.LOAD_VAR:
+        id := uint64( interpreter.scope.data.Pop().(*primitives.Integer).Value )
+        interpreter.scope.data.Push( interpreter.scope.vars[id] )
+
     case shared.UNARY_NOT:
         b := interpreter.scope.data.Pop().(*primitives.Boolean)
         interpreter.scope.data.Push( primitives.NotBoolean(b) )
