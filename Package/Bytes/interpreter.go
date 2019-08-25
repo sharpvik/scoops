@@ -171,12 +171,12 @@ func (interpreter *Interpreter) Evaluate() {
 
     case shared.STORE_VAR:
         storeMode := instruction.operand
-        if storeMode == 'n' {           // new variable created
+        if storeMode == 'N' {           // new variable created
             interpreter.scope.vars = append(
                 interpreter.scope.vars,
                 interpreter.scope.data.Peek(),
             )
-        } else if storeMode == 'r' {    // variable reassigned
+        } else if storeMode == 'R' {    // variable reassigned
             id := uint64(
                 interpreter.scope.data.Pop().(*primitives.Integer).Value,
             )
