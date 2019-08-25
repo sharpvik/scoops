@@ -193,6 +193,10 @@ func (interpreter *Interpreter) Evaluate() {
         y := interpreter.scope.data.Pop()
         _type := x.Type() + y.Type()
         switch _type {
+        case "bytebyte":
+            a := x.(*primitives.Byte)
+            b := y.(*primitives.Byte)
+            interpreter.scope.data.Push( primitives.AddByte(a, b) )
         case "intint":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
@@ -221,6 +225,10 @@ func (interpreter *Interpreter) Evaluate() {
         y := interpreter.scope.data.Pop()
         _type := x.Type() + y.Type()
         switch _type {
+        case "bytebyte":
+            a := x.(*primitives.Byte)
+            b := y.(*primitives.Byte)
+            interpreter.scope.data.Push( primitives.SubByte(a, b) )
         case "intint":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
@@ -249,6 +257,10 @@ func (interpreter *Interpreter) Evaluate() {
         y := interpreter.scope.data.Pop()
         _type := x.Type() + y.Type()
         switch _type {
+        case "bytebyte":
+            a := x.(*primitives.Byte)
+            b := y.(*primitives.Byte)
+            interpreter.scope.data.Push( primitives.MulByte(a, b) )
         case "intint":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
@@ -277,6 +289,10 @@ func (interpreter *Interpreter) Evaluate() {
         y := interpreter.scope.data.Pop()
         _type := x.Type() + y.Type()
         switch _type {
+        case "bytebyte":
+            a := x.(*primitives.Byte)
+            b := y.(*primitives.Byte)
+            interpreter.scope.data.Push( primitives.DivByte(a, b) )
         case "intint":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
