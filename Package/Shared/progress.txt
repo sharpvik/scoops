@@ -31,9 +31,14 @@
 [X] - PRINT_OBJ
 [X] - GET_TYPE
 [X] - GET_SIZE
-[ ] - MAKE_SCOOP
-[ ] - STORE_VAR
-[ ] - LOAD_VAR
+[ ] - MAKE_SCOOP        creates empty scoop
+[ ] - RECORD_SCOOP      records some lines into a newly created scoop
+[ ] - SCOOP_CALL
+[ ] - NEW_ENVIRONMENT
+[ ] - SCOOP_ACCEPT_ARG
+[ ] - SCOOP_RETURN      returns all objects from data stack
+[X] - STORE_VAR
+[X] - LOAD_VAR
 [X] - UNARY_NOT
 [X] - BINARY_AND
 [X] - BINARY_OR
@@ -49,6 +54,4 @@
 [ ] - RELATIVE_JUMP
 [ ] - JUMP_IF_TRUE
 [ ] - JUMP_IF_FALSE
-[ ] - CALL_SCOOP
-[ ] - RETURN
 [X] - POP
