@@ -6,6 +6,7 @@ import (
     "github.com/sharpvik/scoops/Package/Util"
     "github.com/sharpvik/scoops/Package/Assembly"
     "github.com/sharpvik/scoops/Package/Bytes"
+    "github.com/sharpvik/scoops/Package/Shared"
     "os"
     "regexp"
     "time"
@@ -110,7 +111,7 @@ func main() {
     var (
         //sourceСode []string
         assemblyСode []string
-        byteCode []*bytes.Instruction
+        byteCode []*shared.Instruction
     )
 
     // Use filename extention to determine execution process and catch errors...

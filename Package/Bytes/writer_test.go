@@ -4,16 +4,17 @@ import (
     "os"
     "testing"
     "io/ioutil"
+    "github.com/sharpvik/scoops/Package/Shared"
 )
 
 func TestWrite(t *testing.T) {
     sampleFile := "sample.scpb"
-    input := []*Instruction{
-        NewInstruction(1, 1),
-        NewInstruction(2, 2),
-        NewInstruction(3, 3),
-        NewInstruction(4, 4),
-        NewInstruction(5, 5),
+    input := []*shared.Instruction{
+        shared.NewInstruction(1, 1),
+        shared.NewInstruction(2, 2),
+        shared.NewInstruction(3, 3),
+        shared.NewInstruction(4, 4),
+        shared.NewInstruction(5, 5),
     }
     digest := []byte{
         1, 1,

@@ -176,13 +176,15 @@ func (interpreter *Interpreter) Evaluate() {
             interpreter.scope.data.Pop().(*primitives.Integer).Value,
         )
         var code []*shared.Instruction
+        final := interpreter.scope.ip + size + 1
         for interpreter.scope.ip++; 
-            interpreter.scope.ip < interpreter.scope.ip + size; 
+            interpreter.scope.ip < final;
             interpreter.scope.ip++ {
                 scoopInstruction := interpreter.scope.code[interpreter.scope.ip]
                 code = append(code, scoopInstruction)
         }
         interpreter.scope.data.Push( scoop.New(name, code) )
+        return
 
     case shared.SCOOP_CALL:
         callMode := instruction.Operand
@@ -217,9 +219,7 @@ func (interpreter *Interpreter) Evaluate() {
 
     case shared.SCOOP_RETURN:
         for !interpreter.scope.data.Empty() {
-            interpreter.scope.prev.data.Push(
-                interpreter.scope.data.Pop(),
-            )
+            interpreter.scope.prev.data.Push( interpreter.scope.data.Pop() )
         }
         interpreter.scope = interpreter.scope.prev
 

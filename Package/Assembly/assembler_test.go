@@ -1,7 +1,7 @@
 package assembly
 
 import (
-    "github.com/sharpvik/scoops/Package/Bytes"
+    "github.com/sharpvik/scoops/Package/Shared"
     "testing"
     //"fmt"
 )
@@ -34,13 +34,13 @@ func TestAssembleLine(t *testing.T) {
         "PUSH_CONST PUSH_CONST",
         "END 0",
     }
-    answers := []*bytes.Instruction{
-        bytes.NewInstruction(1, 42),
-        bytes.NewInstruction(1, 42),
-        bytes.NewInstruction(1, 255),
-        bytes.NewInstruction(1, 42),
-        bytes.NewInstruction(1, 1),
-        bytes.NewInstruction(0, 0),
+    answers := []*shared.Instruction{
+        shared.NewInstruction(1, 42),
+        shared.NewInstruction(1, 42),
+        shared.NewInstruction(1, 255),
+        shared.NewInstruction(1, 42),
+        shared.NewInstruction(1, 1),
+        shared.NewInstruction(0, 0),
     }
     for i, c := range cases {
         instruction, err := AssembleLine(c)

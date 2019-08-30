@@ -3,7 +3,7 @@ package assembly
 import (
     "errors"
     "fmt"
-    "github.com/sharpvik/scoops/Package/Bytes"
+    "github.com/sharpvik/scoops/Package/Shared"
     "regexp"
     "strconv"
 )
@@ -21,9 +21,7 @@ func SyntaxCheck(line string) error {
     validInstruction := regexp.MustCompile(
         `^[A-Z_]+( b[01]+| x[\dA-F]+| \d+| '[\x00-\xFF]'| [A-Z_]+)\s*$`)
     if !validInstruction.MatchString(line) {
-        return errors.New(
-            fmt.Sprintf("Syntactically incorrect line detected:\n\t%s", line),
-        )
+        return fmt.Errorf("Syntactically incorrect line detected:\n\t%s", line)
     }
     return nil
 }
@@ -116,7 +114,7 @@ func GetIntegerAndBase(integer string) (string, int) {
 }
 
 
-func AssembleLine(line string) (instruction *bytes.Instruction, err error) {
+func AssembleLine(line string) (instruction *shared.Instruction, err error) {
     err = SyntaxCheck(line)
     if err != nil {
         return
@@ -147,7 +145,7 @@ func AssembleLine(line string) (instruction *bytes.Instruction, err error) {
         operand = byte(operand64)    
     }
 
-    instruction = bytes.NewInstruction(opcode, operand)
+    instruction = shared.NewInstruction(opcode, operand)
     return
 }
 
@@ -157,7 +155,7 @@ func AssembleLine(line string) (instruction *bytes.Instruction, err error) {
  * returning error whenever it finds a line that is either syntactically or
  * semantically incorrect.
  */
-func Assemble(assemblyCode []string) (byteCode []*bytes.Instruction, 
+func Assemble(assemblyCode []string) (byteCode []*shared.Instruction, 
                                       err error) {
     for _, line := range assemblyCode {
         instruction, err := AssembleLine(line)
