@@ -3,13 +3,14 @@ package bytes
 import (
     "bufio"
     "os"
+    "github.com/sharpvik/scoops/Package/Shared"
 )
 
-func Write(byteCode []*Instruction, filename string) error {
-    // Convert []*Instruction to []byte
+func Write(byteCode []*shared.Instruction, filename string) error {
+    // Convert []*shared.Instruction to []byte
     var digest []byte
     for _, i := range byteCode {
-        digest = append(digest, i.opcode, i.operand)
+        digest = append(digest, i.Opcode, i.Operand)
     }
     
     // Create file

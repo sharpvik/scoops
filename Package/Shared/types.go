@@ -31,3 +31,12 @@ type Collection interface {
     Object
     Size() uint64
 }
+
+
+type Instruction struct {
+    Opcode, Operand byte
+}
+
+func NewInstruction(opcode, operand byte) *Instruction {
+    return &Instruction{opcode, operand}
+}

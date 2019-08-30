@@ -62,3 +62,12 @@ func Concatenate(a, b *String) *String {
     }
     return New(value)
 }
+
+
+func (s *String) ToGoString() string {
+    var bytes []byte
+    for _, r := range s.value {
+        bytes = append(bytes, r.Value...)
+    }
+    return string(bytes)
+}

@@ -1,10 +1,11 @@
 package bytes
 
 import (
-    "encoding/binary"
+	"encoding/binary"
     "fmt"
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives"
     "github.com/sharpvik/scoops/Package/DataTypes/Queue"
+    "github.com/sharpvik/scoops/Package/DataTypes/Scoop"
     "github.com/sharpvik/scoops/Package/DataTypes/Slice"
     "github.com/sharpvik/scoops/Package/DataTypes/Stack"
     "github.com/sharpvik/scoops/Package/DataTypes/String"
@@ -16,17 +17,17 @@ import (
 
 
 func (interpreter *Interpreter) Evaluate() {
-    instruction := *(interpreter.code[interpreter.ip])
+    instruction := *(interpreter.scope.code[interpreter.scope.ip])
 
     //fmt.Println(instruction) // debug
 
-    switch instruction.opcode {
+    switch instruction.Opcode {
 
     case shared.END:
         interpreter.running = false
 
     case shared.PUSH_CONST:
-        interpreter.scope.data.Push( primitives.NewByte(instruction.operand) )
+        interpreter.scope.data.Push( primitives.NewByte(instruction.Operand) )
 
     case shared.MAKE_BLN:
         b := interpreter.scope.data.Pop().(*primitives.Byte)
@@ -62,7 +63,7 @@ func (interpreter *Interpreter) Evaluate() {
 
     case shared.MAKE_RUNE:
         var buffer []byte
-        c := int(instruction.operand)
+        c := int(instruction.Operand)
         for i := 0; i < c; i++ {
             b := interpreter.scope.data.Pop().(*primitives.Byte).Value
             buffer = append(buffer, b)
@@ -169,8 +170,61 @@ func (interpreter *Interpreter) Evaluate() {
         size := int64( collection.Size() )
         interpreter.scope.data.Push( primitives.NewInteger(size) )
 
+    case shared.MAKE_SCOOP:
+        name := interpreter.scope.data.Pop().(*_string.String).ToGoString()
+        size := uint64( 
+            interpreter.scope.data.Pop().(*primitives.Integer).Value,
+        )
+        var code []*shared.Instruction
+        for interpreter.scope.ip++; 
+            interpreter.scope.ip < interpreter.scope.ip + size; 
+            interpreter.scope.ip++ {
+                scoopInstruction := interpreter.scope.code[interpreter.scope.ip]
+                code = append(code, scoopInstruction)
+        }
+        interpreter.scope.data.Push( scoop.New(name, code) )
+
+    case shared.SCOOP_CALL:
+        callMode := instruction.Operand
+        if callMode == 'I' {            // immediate call
+            s := interpreter.scope.data.Pop().(*scoop.Scoop)
+            interpreter.scope = NewEnvironment(
+                s.Name, s.Code, interpreter.scope,
+            )
+        } else if callMode == 'V' {     // call from variable
+            id := uint64( 
+                interpreter.scope.data.Pop().(*primitives.Integer).Value,
+            )
+            s := interpreter.scope.vars[id].(*scoop.Scoop)
+            interpreter.scope = NewEnvironment(
+                s.Name, s.Code, interpreter.scope,
+            )
+        } else {
+            interpreter.err = primitives.NewError(
+                shared.RuntimeError,
+                fmt.Sprintf("Unknown call mode '%c' in SCOOP_CALL.", callMode),
+            )
+        }
+        /*
+         * Here, we have to use 'return' in order to prevent instruction
+         * pointer 'ip' from being incremented as it must be 0 at the start of
+         * the new Scoop.
+         */
+        return
+
+    case shared.SCOOP_ACCEPT_ARG:
+        interpreter.scope.data.Push( interpreter.scope.prev.data.Pop() )
+
+    case shared.SCOOP_RETURN:
+        for !interpreter.scope.data.Empty() {
+            interpreter.scope.prev.data.Push(
+                interpreter.scope.data.Pop(),
+            )
+        }
+        interpreter.scope = interpreter.scope.prev
+
     case shared.STORE_VAR:
-        storeMode := instruction.operand
+        storeMode := instruction.Operand
         if storeMode == 'N' {           // new variable created
             interpreter.scope.vars = append(
                 interpreter.scope.vars,
@@ -184,7 +238,10 @@ func (interpreter *Interpreter) Evaluate() {
         } else {
             interpreter.err = primitives.NewError(
                 shared.RuntimeError,
-                "Unknown store mode in call to STORE_VAR.",
+                fmt.Sprintf(
+                    "Unknown store mode '%c' in call to STORE_VAR.",
+                    storeMode,
+                ),
             )
         }
 
@@ -351,8 +408,8 @@ func (interpreter *Interpreter) Evaluate() {
             shared.OpcodeError,
             fmt.Sprintf(
                 "Instruction #%d: Unknown opcode %d.",
-                interpreter.ip,
-                instruction.opcode,
+                interpreter.scope.ip,
+                instruction.Opcode,
             ),
         )
 
@@ -360,7 +417,7 @@ func (interpreter *Interpreter) Evaluate() {
 
     /* Instruction pointer is incremented by default. Use 'return' inside the
        case body to force it not to. */
-    interpreter.ip++
+    interpreter.scope.ip++
 
     //interpreter.scope.data.Print(interpreter.writer) // debug
 }
