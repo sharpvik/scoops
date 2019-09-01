@@ -52,7 +52,7 @@ func (s *String) Clone() shared.Object
 
 **Clone** returns value of interface type `shared.Object` with underlying type
 `*String`. The return value of this method is a new `*String` that is identical
-to its parent `*String` in its contents, as every item has also been Cloned.
+to its parent `*String` in its contents.
 
 
 ### func Print

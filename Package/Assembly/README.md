@@ -58,5 +58,5 @@ syntactically valid:
 | Opcode       | Scoops Assembly opcodes   | `[A-Z_]+`          | `PUSH_CONST` |
 
 The underlying rule is -- every operand must be *1 byte long*. This way, every
-instruction is exactly *16 bits or 2 bytes* which makes it extremely easy to
+instruction is exactly *16 bits (2 bytes)* which makes it extremely easy to
 split raw stream of bytes into slice of *Scoops Interpreter Instructions*.

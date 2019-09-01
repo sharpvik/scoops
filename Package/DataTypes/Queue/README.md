@@ -53,7 +53,7 @@ than popping every element off by hand using the **Pop** function.
 func (q *Queue) Clone() shared.Object
 ```
 
-**Clone** returns an object of type shared.Object (with underlying type of
+**Clone** returns an object of type shared.Object (with underlying type
 `*Queue`) that is identical, in terms of contents, to the `Queue` this function
 was called on.
 

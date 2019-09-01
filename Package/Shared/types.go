@@ -6,7 +6,7 @@ import "bufio"
  * It is important to note that the 'Object' interface type is satisfied by all
  * of the pointer types in the DataTypes folder.
  *
- * In other words, *primitives.Rune can be retreived from an Object type using
+ * In other words, *primitives.Rune can be retrieved from an Object type using
  * type assertion as *primitives.Rune perfectly satisfies the Object interface:
  *     var a Object = interpreter.scope.data.Pop()
  *     var b *primitives.Rune = a.(*primitives.Rune)

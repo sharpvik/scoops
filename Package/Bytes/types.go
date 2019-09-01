@@ -10,17 +10,16 @@ import (
 
 
 
-type (
-    Environment struct {
+type Environment struct {
         name    string
         ip      uint64          // instruction pointer
         code    []*shared.Instruction
         data    *stack.Stack
         vars    []shared.Object
         prev    *Environment
-    }
+}
 
-    Interpreter struct {
+type Interpreter struct {
         running bool
         err     *primitives.Error
         global  *Environment
@@ -28,8 +27,7 @@ type (
         thenil  *primitives.Nil // universal nil value
         stdout  *bufio.Writer
         writer  *bufio.Writer   // current writer (stdout by default)
-    }
-)
+}
 
 
 

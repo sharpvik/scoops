@@ -31,20 +31,31 @@ type Stack
 ### func New
 
 ```go
-func (s *Stack) Clear()
+func New() *Stack
 ```
 
-**New** returns pointer to a newly initialised Stack.
+**New** returns pointer to a newly created `Stack` instance.
 
 
 ### func Clear
 
 ```go
-func (s *Stack) Clone() shared.Object
+func (s *Stack) Clear()
 ```
 
 **Clear** simply empties the stack. It is *much* more efficient to use **Clear**
 than popping every element off by hand using the **Pop** function.
+
+
+### func Clone
+
+```go
+func (s *Stack) Clone() shared.Object
+```
+
+**Clone** returns an object of type shared.Object (with underlying type
+`*Stack`) that is identical, in terms of contents, to the `Stack` this function
+was called on.
 
 
 ### func Empty
