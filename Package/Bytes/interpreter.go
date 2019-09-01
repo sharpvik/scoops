@@ -186,6 +186,14 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Push( scoop.New(name, code) )
         return
 
+    case shared.INLINE_SCOOP:
+        interpreter.scope = NewInlineEnvironment(
+            "inline",
+            interpreter.scope.ip,
+            interpreter.scope.code,
+            interpreter.scope,
+        )
+
     case shared.SCOOP_CALL:
         callMode := instruction.Operand
         if callMode == 'I' {            // immediate call
@@ -221,7 +229,12 @@ func (interpreter *Interpreter) Evaluate() {
         for !interpreter.scope.data.Empty() {
             interpreter.scope.prev.data.Push( interpreter.scope.data.Pop() )
         }
+        ip := interpreter.scope.ip
+        name := interpreter.scope.name
         interpreter.scope = interpreter.scope.prev
+        if name == "inline" {
+            interpreter.scope.ip = ip
+        }
 
     case shared.STORE_VAR:
         storeMode := instruction.Operand

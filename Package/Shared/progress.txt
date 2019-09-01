@@ -32,6 +32,7 @@
 [X] - GET_TYPE
 [X] - GET_SIZE
 [X] - MAKE_SCOOP        record some lines into a newly created scoop
+[X] - INLINE_SCOOP
 [X] - SCOOP_CALL
 [X] - SCOOP_ACCEPT_ARG
 [X] - SCOOP_RETURN      returns all objects from data stack

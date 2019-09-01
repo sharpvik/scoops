@@ -13,7 +13,7 @@ import (
 type (
     Environment struct {
         name    string
-        ip      uint64
+        ip      uint64          // instruction pointer
         code    []*shared.Instruction
         data    *stack.Stack
         vars    []shared.Object
@@ -33,8 +33,15 @@ type (
 
 
 
-func NewEnvironment(name string, code []*shared.Instruction, prev *Environment) *Environment {
+func NewEnvironment(name string, code []*shared.Instruction,
+                    prev *Environment) *Environment {
     return &Environment{name, 0, code, stack.New(), nil, prev}
+}
+
+
+func NewInlineEnvironment(name string, ip uint64, code []*shared.Instruction,
+                          prev *Environment) *Environment {
+    return &Environment{name, ip, code, stack.New(), nil, prev}
 }
 
 
