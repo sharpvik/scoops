@@ -172,12 +172,12 @@ func (interpreter *Interpreter) Evaluate() {
 
     case shared.MAKE_SCOOP:
         name := interpreter.scope.data.Pop().(*_string.String).ToGoString()
-        size := uint64( 
+        size := uint64(
             interpreter.scope.data.Pop().(*primitives.Integer).Value,
         )
         var code []*shared.Instruction
         final := interpreter.scope.ip + size + 1
-        for interpreter.scope.ip++; 
+        for interpreter.scope.ip++;
             interpreter.scope.ip < final;
             interpreter.scope.ip++ {
                 scoopInstruction := interpreter.scope.code[interpreter.scope.ip]
@@ -202,7 +202,7 @@ func (interpreter *Interpreter) Evaluate() {
                 s.Name, s.Code, interpreter.scope,
             )
         } else if callMode == 'V' {     // call from variable
-            id := uint64( 
+            id := uint64(
                 interpreter.scope.data.Pop().(*primitives.Integer).Value,
             )
             s := interpreter.scope.vars[id].(*scoop.Scoop)

@@ -6,7 +6,7 @@ package shared
  *     2. Possibly run scoops/Tools/enumerate_opcodes.py
  *     3. Update if necessary...
  *         │ scoops/Package/Assembly/assembler_test.go
- *         │ scoops/InputFiles/scpa/* (if you have renamed existing opcodes)
+ *         │ scoops/InputFiles/scpa/*
  */
 
 const (
