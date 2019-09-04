@@ -6,6 +6,7 @@ package shared
  * const value from the package 'shared' like so: shared.ErrorTag.
  */
 const (
+    IndexError      string = "OpcodeError"
     OpcodeError     string = "OpcodeError"
     RuntimeError    string = "RuntimeError"
     TypeError       string = "TypeError"

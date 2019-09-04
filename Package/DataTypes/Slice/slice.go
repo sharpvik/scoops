@@ -66,9 +66,9 @@ func (s *Slice) GetItemByIndex(index uint64) shared.Object {
 func (s *Slice) Pop(index uint64) shared.Object {
     obj := s.value[index]
     tmp := s.value[:index]
-    len := uint64( len(s.value) )
-    if index < len - 1 {
-        for i := index + 1; i < len; i++ {
+    length := uint64( len(s.value) )
+    if index < length - 1 {
+        for i := index + 1; i < length; i++ {
             tmp = append(tmp, s.value[i])
         }
     }
