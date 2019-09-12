@@ -38,7 +38,7 @@ func (s *Slice) Print(w *bufio.Writer) {
         o.Print(w)
         w.WriteString(" ")
     }
-    w.WriteString("]\n")
+    w.WriteString("]")
 }
 
 
@@ -60,6 +60,11 @@ func (s *Slice) Append(item shared.Object) {
 
 func (s *Slice) GetItemByIndex(index uint64) shared.Object {
     return s.value[index]
+}
+
+
+func (s *Slice) ReassignIndex(index uint64, item shared.Object) {
+    s.value[index] = item
 }
 
 

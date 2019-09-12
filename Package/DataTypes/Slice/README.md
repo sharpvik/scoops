@@ -52,7 +52,7 @@ its parent `*Slice` in its contents, as every item has also been Cloned.
 func (s *Slice) Print(w *bufio.Writer)
 ```
 
-**Print** prints our `Slice` to stdout.
+**Print** prints our `Slice` using the specified writer.
 
 
 ### func Type
@@ -98,4 +98,5 @@ type, allowing user to access elements of our `Slice`.
 func (s *Slice) Pop(index uint64) shared.Object
 ```
 
-**Pop** removes element with given index from the `Slice`.
+**Pop** removes element with given index from the `Slice` and returns it as a
+`shared.Object`.

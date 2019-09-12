@@ -61,7 +61,7 @@ to its parent `*String` in its contents.
 func (s *String) Print(w *bufio.Writer)
 ```
 
-**Print** prints our `String` to stdout.
+**Print** prints our `String` using the specified writer.
 
 
 ### func Type

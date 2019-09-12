@@ -92,7 +92,7 @@ func (q *Queue) Pop() shared.Object
 func (q *Queue) Print(w *bufio.Writer)
 ```
 
-**Print** prints out contents of the queue to stdout.
+**Print** prints out contents of the `Queue` using the specified writer.
 
 
 ### func Push

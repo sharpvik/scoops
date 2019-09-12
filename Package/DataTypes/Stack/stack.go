@@ -94,9 +94,9 @@ func (s *Stack) Print(w *bufio.Writer) {
     w.WriteString("<-> [ ")
     for {
         cur.val.Print(w)
-        w.WriteString(" ")
+        w.WriteByte(' ')
         if cur == s.bottom {
-            w.WriteString("]\n")
+            w.WriteByte(']')
             break
         }
         cur = cur.next

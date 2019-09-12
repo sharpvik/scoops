@@ -99,7 +99,7 @@ func (q *Queue) Print(w *bufio.Writer) {
         w.WriteString(" ")
         cur = cur.next
         if cur == q.head {
-            w.WriteString("] <-\n")
+            w.WriteString("] <-")
             break
         }
     }

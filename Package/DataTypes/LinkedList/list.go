@@ -61,13 +61,13 @@ func (l *LinkedList) Print(w *bufio.Writer) {
     for {
         obj := cur.val
         obj.Print(w)
-        w.WriteString(" ")
+        w.WriteByte(' ')
         if cur == l.begin.prev {
             break
         }
         cur = cur.next
     }
-    w.WriteString("]\n")
+    w.WriteByte(']')
 }
 
 
@@ -110,8 +110,7 @@ func (l *LinkedList) GetItemByIndex(index uint64) (
         shared.Object,
         *primitives.Error,
     ) {
-    len := l.begin.prev.index + 1
-    if index >= len {
+    if index >= l.size {
         return nil, primitives.NewError(
             shared.IndexError,
             "Index given in call to 'GetItemByIndex' is out of range.",
@@ -122,6 +121,24 @@ func (l *LinkedList) GetItemByIndex(index uint64) (
         cur = cur.next
     }
     return cur.val, nil
+}
+
+
+func (l *LinkedList) ReassignIndex(index uint64, item shared.Object) (
+        *primitives.Error,
+    ) {
+    if index >= l.size {
+        return primitives.NewError(
+            shared.IndexError,
+            "Index given in call to 'ReassignIndex' is out of range.",
+        )
+    }
+    cur := l.begin
+    for cur.index != index {
+        cur = cur.next
+    }
+    cur.val = item
+    return nil
 }
 
 

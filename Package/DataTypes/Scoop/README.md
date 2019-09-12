@@ -60,7 +60,8 @@ was called on.
 func (s *Scoop) Print(w *bufio.Writer)
 ```
 
-**Print** prints out some explanatory data about the `Scoop` to stdout.
+**Print** prints out some explanatory data about the `Scoop` using the specified
+writer.
 
 
 ### func Type

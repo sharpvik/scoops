@@ -92,7 +92,7 @@ func (s *Stack) Pop() shared.Object
 func (s *Stack) Print(w *bufio.Writer)
 ```
 
-**Print** prints out contents of the stack to stdout.
+**Print** prints out contents of the `Stack` using the specified writer.
 
 
 ### func Push

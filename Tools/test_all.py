@@ -6,6 +6,7 @@ DIRS = [
     "github.com/sharpvik/scoops",
     "github.com/sharpvik/scoops/Package/Assembly",
     "github.com/sharpvik/scoops/Package/Bytes",
+    "github.com/sharpvik/scoops/Package/DataTypes/LinkedList",
     "github.com/sharpvik/scoops/Package/DataTypes/Primitives",
     "github.com/sharpvik/scoops/Package/DataTypes/Queue",
     "github.com/sharpvik/scoops/Package/DataTypes/Slice",

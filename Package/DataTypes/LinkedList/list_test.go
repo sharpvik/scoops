@@ -33,6 +33,22 @@ func (l *LinkedList) TestGetItemByIndex(t *testing.T) {
 }
 
 
+func (l *LinkedList) TestReassignIndex(t *testing.T) {
+    lst := New()
+    lst.Append( primitives.NewByte(1) )
+    lst.Append( primitives.NewByte(2) )
+    lst.Append( primitives.NewByte(3) )
+    lst.ReassignIndex(
+        1,
+        primitives.NewByte(42),
+    )
+    item, _ := lst.GetItemByIndex(1)
+    if item.(*primitives.Byte).Value != 42 {
+        t.Error("Function 'ReassignIndex' works incorrectly.")
+    }
+}
+
+
 func TestPop(t *testing.T) {
     lst := New()
     lst.Append( primitives.NewByte(1) )
