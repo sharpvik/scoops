@@ -195,26 +195,8 @@ func (interpreter *Interpreter) Evaluate() {
         )
 
     case shared.SCOOP_CALL:
-        callMode := instruction.Operand
-        if callMode == 'I' {            // immediate call
-            s := interpreter.scope.data.Pop().(*scoop.Scoop)
-            interpreter.scope = NewEnvironment(
-                s.Name, s.Code, interpreter.scope,
-            )
-        } else if callMode == 'V' {     // call from variable
-            id := uint64(
-                interpreter.scope.data.Pop().(*primitives.Integer).Value,
-            )
-            s := interpreter.scope.vars[id].(*scoop.Scoop)
-            interpreter.scope = NewEnvironment(
-                s.Name, s.Code, interpreter.scope,
-            )
-        } else {
-            interpreter.err = primitives.NewError(
-                shared.RuntimeError,
-                fmt.Sprintf("Unknown call mode '%c' in SCOOP_CALL.", callMode),
-            )
-        }
+        s := interpreter.scope.data.Pop().(*scoop.Scoop)
+        interpreter.scope = NewEnvironment(s.Name, s.Code, interpreter.scope)
         /*
          * Here, we have to use 'return' in order to prevent instruction
          * pointer 'ip' from being incremented as it must be 0 at the start of
@@ -247,7 +229,7 @@ func (interpreter *Interpreter) Evaluate() {
             id := uint64(
                 interpreter.scope.data.Pop().(*primitives.Integer).Value,
             )
-            interpreter.scope.vars[id] = interpreter.scope.data.Pop()
+            interpreter.scope.vars[id] = interpreter.scope.data.Peek()
         } else {
             interpreter.err = primitives.NewError(
                 shared.RuntimeError,
