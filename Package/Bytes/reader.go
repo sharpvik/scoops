@@ -2,7 +2,7 @@ package bytes
 
 import (
     "bufio"
-    "fmt"
+//  "fmt"
     "io"
     "os"
     "github.com/sharpvik/scoops/Package/Shared"
@@ -41,7 +41,7 @@ func Read(filename string) ([]*shared.Instruction, error) {
 
     var code []*shared.Instruction
     
-    fmt.Println(buf)
+//  fmt.Println(buf)
     for i := 0; i < len(buf); i += 2 {
         code = append( code, shared.NewInstruction(buf[i], buf[i + 1]) )
     }
