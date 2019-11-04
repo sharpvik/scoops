@@ -95,7 +95,6 @@ func UsageHint() {
 func main() {
     // Timing
     start := time.Now()
-    defer util.Log(  fmt.Sprintf("Time elapsed: %v", time.Since(start) )  )
 
     // Processing command line arguments...
     flag, filename, err := ParseArgs(os.Args[1:])
@@ -198,4 +197,6 @@ func main() {
         UsageHint()
         os.Exit(1)
     }
+
+    util.Log(  fmt.Sprintf("Time elapsed: %v", time.Since(start) )  )
 }
