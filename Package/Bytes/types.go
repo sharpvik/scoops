@@ -11,22 +11,22 @@ import (
 
 
 type Environment struct {
-        name    string
-        ip      uint64          // instruction pointer
-        code    []*shared.Instruction
-        data    *stack.Stack
-        vars    []shared.Object
-        prev    *Environment
+    name    string
+    ip      uint64          // instruction pointer
+    code    []*shared.Instruction
+    data    *stack.Stack
+    vars    []shared.Object
+    prev    *Environment
 }
 
 type Interpreter struct {
-        running bool
-        err     *primitives.Error
-        global  *Environment
-        scope   *Environment    // current execution scope
-        thenil  *primitives.Nil // universal nil value
-        stdout  *bufio.Writer
-        writer  *bufio.Writer   // current writer (stdout by default)
+    running bool
+    err     *primitives.Error
+    global  *Environment
+    scope   *Environment    // current execution scope
+    thenil  *primitives.Nil // universal nil value
+    stdout  *bufio.Writer
+    writer  *bufio.Writer   // current writer (stdout by default)
 }
 
 
