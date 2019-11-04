@@ -53,6 +53,11 @@ func DivInteger(a, b *Integer) *Float {
 }
 
 
+func ModInteger(a, b *Integer) *Integer {
+    return NewInteger(a.Value % b.Value)
+}
+
+
 func (i *Integer) ToFloat() *Float {
     return NewFloat( float64(i.Value) )
 }

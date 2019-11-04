@@ -4,16 +4,16 @@ import (
     "bufio"
     "fmt"
     "github.com/sharpvik/scoops/Package/Shared"
+    "math"
 )
 
-// When implemented, change the README.md file in this folder.
 type Float struct {
     Value float64
 }
 
 
 /*
-func Float64bytes(float float64) []byte {
+func FloatToBytes(float float64) []byte {
     bits := math.Float64bits(float)
     bytes := make([]byte, 8)
     binary.LittleEndian.PutUint64(bytes, bits)
@@ -59,4 +59,9 @@ func MulFloat(a, b *Float) *Float {
 
 func DivFloat(a, b *Float) *Float {
     return NewFloat(a.Value / b.Value)
+}
+
+
+func PowFloat(a, b *Float) *Float {
+    return NewFloat( math.Pow(a.Value, b.Value) )
 }

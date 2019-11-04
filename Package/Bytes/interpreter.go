@@ -364,6 +364,46 @@ func (interpreter *Interpreter) Evaluate() {
             )
         }
 
+    case shared.BINARY_MOD:
+        y := interpreter.scope.data.Pop()
+        x := interpreter.scope.data.Pop()
+        _type := x.Type()
+        switch _type {
+        case "byte":
+            a := x.(*primitives.Byte)
+            b := y.(*primitives.Byte)
+            interpreter.scope.data.Push( primitives.ModByte(a, b) )
+        case "int":
+            a := x.(*primitives.Integer)
+            b := y.(*primitives.Integer)
+            interpreter.scope.data.Push( primitives.ModInteger(a, b) )
+        default:
+            interpreter.err = primitives.NewError(
+                shared.RuntimeError,
+                "Unknown numeric data type.",
+            )
+        }
+
+    case shared.BINARY_POW:
+        y := interpreter.scope.data.Pop()
+        x := interpreter.scope.data.Pop()
+        _type := x.Type()
+        switch _type {
+        case "int":
+            a := x.(*primitives.Integer).ToFloat()
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.PowFloat(a, b) )
+        case "flt":
+            a := x.(*primitives.Float)
+            b := y.(*primitives.Float)
+            interpreter.scope.data.Push( primitives.PowFloat(a, b) )
+        default:
+            interpreter.err = primitives.NewError(
+                shared.RuntimeError,
+                "Unknown numeric data type.",
+            )
+        }
+
     case shared.PRINT_NEWLINE:
         interpreter.writer.WriteString("\n")
         interpreter.writer.Flush()

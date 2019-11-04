@@ -54,6 +54,11 @@ func DivByte(a, b *Byte) *Byte {
 }
 
 
+func ModByte(a, b *Byte) *Byte {
+    return NewByte(a.Value % b.Value)
+}
+
+
 func (x *Byte) ToBoolean() *Boolean {
     return NewBoolean(x)
 }
