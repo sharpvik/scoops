@@ -5,12 +5,13 @@ import "github.com/sharpvik/scoops/Package/Shared"
 // Based on scoops/Package/Shared/opcodes.go/const(opcodes)
 var OpcodeMap = map[string]byte{
     "END": shared.END,
-    "PUSH_CONST": shared.PUSH_CONST,
+    "MAKE_BYTE": shared.MAKE_BYTE,
     "MAKE_BLN": shared.MAKE_BLN,
     "MAKE_FLT": shared.MAKE_FLT,
     "MAKE_INT": shared.MAKE_INT,
     "MAKE_NIL": shared.MAKE_NIL,
     "MAKE_RUNE": shared.MAKE_RUNE,
+    "MAKE_ASCII_RUNE": shared.MAKE_ASCII_RUNE,
     "MAKE_STRING": shared.MAKE_STRING,
     "STRING_CONCATENATE": shared.STRING_CONCATENATE,
     "MAKE_SLICE": shared.MAKE_SLICE,

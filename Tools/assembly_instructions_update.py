@@ -1,5 +1,3 @@
-# Python3 required
-
 def opcodes_pars_template_fill(file):
     file.write(
         "package assembly\n\n" +

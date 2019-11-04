@@ -198,5 +198,5 @@ func main() {
         os.Exit(1)
     }
 
-    util.Log(  fmt.Sprintf("Time elapsed: %v", time.Since(start) )  )
+    util.Log(  fmt.Sprintf( "Time elapsed: %v", time.Since(start) )  )
 }

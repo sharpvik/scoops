@@ -26,7 +26,7 @@ func (interpreter *Interpreter) Evaluate() {
     case shared.END:
         interpreter.running = false
 
-    case shared.PUSH_CONST:
+    case shared.MAKE_BYTE:
         interpreter.scope.data.Push( primitives.NewByte(instruction.Operand) )
 
     case shared.MAKE_BLN:
@@ -60,6 +60,11 @@ func (interpreter *Interpreter) Evaluate() {
 
     case shared.MAKE_NIL:
         interpreter.scope.data.Push(interpreter.thenil)
+
+    case shared.MAKE_ASCII_RUNE:
+        interpreter.scope.data.Push(
+            primitives.NewRune([]byte{instruction.Operand}),
+        )
 
     case shared.MAKE_RUNE:
         var buffer []byte
@@ -264,27 +269,19 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Push( primitives.XorBoolean(a, b) )
 
     case shared.BINARY_ADD:
-        x := interpreter.scope.data.Pop()
         y := interpreter.scope.data.Pop()
-        _type := x.Type() + y.Type()
+        x := interpreter.scope.data.Pop()
+        _type := x.Type()
         switch _type {
-        case "bytebyte":
+        case "byte":
             a := x.(*primitives.Byte)
             b := y.(*primitives.Byte)
             interpreter.scope.data.Push( primitives.AddByte(a, b) )
-        case "intint":
+        case "int":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
             interpreter.scope.data.Push( primitives.AddInteger(a, b) )
-        case "fltint":
-            a := x.(*primitives.Float)
-            b := y.(*primitives.Integer).ToFloat()
-            interpreter.scope.data.Push( primitives.AddFloat(a, b) )
-        case "intflt":
-            a := x.(*primitives.Integer).ToFloat()
-            b := y.(*primitives.Float)
-            interpreter.scope.data.Push( primitives.AddFloat(a, b) )
-        case "fltflt":
+        case "flt":
             a := x.(*primitives.Float)
             b := y.(*primitives.Float)
             interpreter.scope.data.Push( primitives.AddFloat(a, b) )
@@ -296,27 +293,19 @@ func (interpreter *Interpreter) Evaluate() {
         }
 
     case shared.BINARY_SUB:
-        x := interpreter.scope.data.Pop()
         y := interpreter.scope.data.Pop()
-        _type := x.Type() + y.Type()
+        x := interpreter.scope.data.Pop()
+        _type := x.Type()
         switch _type {
-        case "bytebyte":
+        case "byte":
             a := x.(*primitives.Byte)
             b := y.(*primitives.Byte)
             interpreter.scope.data.Push( primitives.SubByte(a, b) )
-        case "intint":
+        case "int":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
             interpreter.scope.data.Push( primitives.SubInteger(a, b) )
-        case "fltint":
-            a := x.(*primitives.Float)
-            b := y.(*primitives.Integer).ToFloat()
-            interpreter.scope.data.Push( primitives.SubFloat(a, b) )
-        case "intflt":
-            a := x.(*primitives.Integer).ToFloat()
-            b := y.(*primitives.Float)
-            interpreter.scope.data.Push( primitives.SubFloat(a, b) )
-        case "fltflt":
+        case "flt":
             a := x.(*primitives.Float)
             b := y.(*primitives.Float)
             interpreter.scope.data.Push( primitives.SubFloat(a, b) )
@@ -328,27 +317,19 @@ func (interpreter *Interpreter) Evaluate() {
         }
 
     case shared.BINARY_MUL:
-        x := interpreter.scope.data.Pop()
         y := interpreter.scope.data.Pop()
-        _type := x.Type() + y.Type()
+        x := interpreter.scope.data.Pop()
+        _type := x.Type()
         switch _type {
-        case "bytebyte":
+        case "byte":
             a := x.(*primitives.Byte)
             b := y.(*primitives.Byte)
             interpreter.scope.data.Push( primitives.MulByte(a, b) )
-        case "intint":
+        case "int":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
             interpreter.scope.data.Push( primitives.MulInteger(a, b) )
-        case "fltint":
-            a := x.(*primitives.Float)
-            b := y.(*primitives.Integer).ToFloat()
-            interpreter.scope.data.Push( primitives.MulFloat(a, b) )
-        case "intflt":
-            a := x.(*primitives.Integer).ToFloat()
-            b := y.(*primitives.Float)
-            interpreter.scope.data.Push( primitives.MulFloat(a, b) )
-        case "fltflt":
+        case "flt":
             a := x.(*primitives.Float)
             b := y.(*primitives.Float)
             interpreter.scope.data.Push( primitives.MulFloat(a, b) )
@@ -360,27 +341,19 @@ func (interpreter *Interpreter) Evaluate() {
         }
 
     case shared.BINARY_DIV:
-        x := interpreter.scope.data.Pop()
         y := interpreter.scope.data.Pop()
-        _type := x.Type() + y.Type()
+        x := interpreter.scope.data.Pop()
+        _type := x.Type()
         switch _type {
-        case "bytebyte":
+        case "byte":
             a := x.(*primitives.Byte)
             b := y.(*primitives.Byte)
             interpreter.scope.data.Push( primitives.DivByte(a, b) )
-        case "intint":
+        case "int":
             a := x.(*primitives.Integer)
             b := y.(*primitives.Integer)
             interpreter.scope.data.Push( primitives.DivInteger(a, b) )
-        case "fltint":
-            a := x.(*primitives.Float)
-            b := y.(*primitives.Integer).ToFloat()
-            interpreter.scope.data.Push( primitives.DivFloat(a, b) )
-        case "intflt":
-            a := x.(*primitives.Integer).ToFloat()
-            b := y.(*primitives.Float)
-            interpreter.scope.data.Push( primitives.DivFloat(a, b) )
-        case "fltflt":
+        case "flt":
             a := x.(*primitives.Float)
             b := y.(*primitives.Float)
             interpreter.scope.data.Push( primitives.DivFloat(a, b) )

@@ -11,12 +11,13 @@ package shared
 
 const (
     END             byte = iota
-    PUSH_CONST
+    MAKE_BYTE
     MAKE_BLN
     MAKE_FLT
     MAKE_INT
     MAKE_NIL
     MAKE_RUNE
+    MAKE_ASCII_RUNE
     MAKE_STRING
     STRING_CONCATENATE
     MAKE_SLICE
