@@ -1,9 +1,11 @@
 package assembly
 
 import (
+  //  "fmt"
     "bufio"
     "io"
     "os"
+    "regexp"
 )
 
 func Read(filename string) ([]string, error) {
@@ -11,22 +13,35 @@ func Read(filename string) ([]string, error) {
     if err != nil {
         return nil, err
     }
+    defer file.Close()
+
+    emptyLine := regexp.MustCompile(`^\s*\n$`)
+    comment := regexp.MustCompile(`^\s*#.*\n$`)
+    lastLine := regexp.MustCompile(`^\s*$`)
     
     rdr := bufio.NewReader(file)
     var assemblyСode []string
-    for {
-        line, err := rdr.ReadString('\n')
-        if err != nil {
-            if err == io.EOF {
-                assemblyСode = append(assemblyСode, line)
-                file.Close()
-                break
-            }
-            return nil, err
+    line, err := rdr.ReadString('\n')
+
+    for err == nil {
+        // skip empty lines and comments
+        if emptyLine.MatchString(line) || comment.MatchString(line) {
+            goto skip
         }
+
+        assemblyСode = append(assemblyСode, line)
+
+        skip:
+        line, err = rdr.ReadString('\n')
+    }
+
+    if err != io.EOF {
+        return nil, err
+    }
+
+    if !lastLine.MatchString(line) && !comment.MatchString(line) {
         assemblyСode = append(assemblyСode, line)
     }
     
-    file.Close()
     return assemblyСode, nil
 }

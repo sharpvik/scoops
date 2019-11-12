@@ -27,11 +27,11 @@ func TestGetIntegerAndBase(t *testing.T) {
 
 func TestAssembleLine(t *testing.T) {
     cases := []string{
-        "PUSH_CONST b101010",
-        "PUSH_CONST x2A",
-        "PUSH_CONST xFF",
-        "PUSH_CONST 42",
-        "PUSH_CONST PUSH_CONST",
+        "MAKE_BYTE b101010",
+        "MAKE_BYTE x2A",
+        "MAKE_BYTE xFF",
+        "MAKE_BYTE 42",
+        "MAKE_BYTE MAKE_BYTE",
         "END 0",
     }
     answers := []*shared.Instruction{
@@ -52,8 +52,8 @@ func TestAssembleLine(t *testing.T) {
         }
     }
     cases = []string{
-        "push_const 1",
-        "PUSH_CONST 11 42",
+        "PUSH_BYTE 1",
+        "MAKE_BYTE 11 42",
         "GO_BROKE",
     }
     for i, c := range cases {

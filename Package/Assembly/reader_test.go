@@ -24,27 +24,23 @@ func TestRead(t *testing.T) {
         t.Error("System Error: Cannot create sample file.")
     }
 
-    cases := []string{
-        "LOAD_BYTES 'c'\n",
-        "PRINT_OBJECT\n",
-        "PRINT_NEWLINE\n",
-        "THE_END",
-    }
+    cases := 
+`MAKE_BYTE 'c'
+PRINT_OBJ 0
+
+PRINT_NEWLINE 0
+THE_END 0
+# the end
+`
     
-    file.WriteString( Join(cases) )
+    file.WriteString(cases)
+    file.Close()
     
-    answer, err := Read(sampleFilename)
+    _, err = Read(sampleFilename)
 
     if err != nil {
         t.Error("Cannot read sample file.")
     }
 
-    for i, line := range answer {
-        if line != cases[i] {
-            t.Error("Cannot properly read sample file.")
-        }
-    }
-
-    file.Close()
     os.Remove(sampleFilename)
 }
