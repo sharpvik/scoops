@@ -22,6 +22,7 @@ type Environment struct {
 type Interpreter struct {
     running bool
     err     *primitives.Error
+    consts  []shared.Object
     global  *Environment
     scope   *Environment    // current execution scope
     thenil  *primitives.Nil // universal nil value
@@ -48,6 +49,7 @@ func NewInterpreter(code []*shared.Instruction) *Interpreter {
     stdout := bufio.NewWriter(os.Stdout)
     return &Interpreter{
         true,
+        nil,
         nil,
         global,
         global,

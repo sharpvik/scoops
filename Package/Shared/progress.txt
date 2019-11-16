@@ -36,6 +36,8 @@
 [X] - SCOOP_CALL
 [X] - SCOOP_ACCEPT_ARG
 [X] - SCOOP_RETURN      returns all objects from data stack
+[X] - STORE_CONST
+[X] - LOAD_CONST
 [X] - STORE_VAR
 [X] - LOAD_VAR
 [X] - UNARY_NOT

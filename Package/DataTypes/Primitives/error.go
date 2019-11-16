@@ -10,7 +10,7 @@ import (
 
 /*
  * Error consists of two important parts: tag and message.
- * Error tag is like a yype of error -- it allows us to track what exactly went
+ * Error tag is like a type of error -- it allows us to track what exactly went
  * wrong. Error message is pretty self-explanatory -- we use it to give some
  * details about the error.
  */

@@ -30,8 +30,8 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Push( primitives.NewByte(instruction.Operand) )
 
     case shared.MAKE_BLN:
-        b := interpreter.scope.data.Pop().(*primitives.Byte)
-        interpreter.scope.data.Push( primitives.NewBoolean(b) )
+        b := instruction.Operand != 0
+        interpreter.scope.data.Push( primitives.FromBoolean(b) )
 
     /*
      * It's important to remember that the sequence of bytes that are pushed
@@ -223,6 +223,16 @@ func (interpreter *Interpreter) Evaluate() {
             interpreter.scope.ip = ip
         }
 
+    case shared.STORE_CONST:
+        interpreter.consts = append(
+            interpreter.consts,
+            interpreter.scope.data.Peek(),
+        )
+
+    case shared.LOAD_CONST:
+        id := uint64( interpreter.scope.data.Pop().(*primitives.Integer).Value )
+        interpreter.scope.data.Push( interpreter.consts[id] )
+
     case shared.STORE_VAR:
         storeMode := instruction.Operand
         if storeMode == 'N' {           // new variable created
@@ -410,6 +420,56 @@ func (interpreter *Interpreter) Evaluate() {
 
     case shared.POP:
         interpreter.scope.data.Pop()
+
+    case shared.ABSOLUTE_JUMP:
+        dst := uint64(
+            interpreter.scope.data.Pop().(*primitives.Integer).Value,
+        )
+        interpreter.scope.ip = dst
+        return
+
+    case shared.RELATIVE_JUMP:
+        diff := uint64(
+            interpreter.scope.data.Pop().(*primitives.Integer).Value,
+        )
+        jumpMode := instruction.Operand
+
+        if jumpMode == '-' {
+            interpreter.scope.ip -= diff
+        } else if jumpMode == '+' {
+            interpreter.scope.ip += diff
+        } else {
+            interpreter.err = primitives.NewError(
+                shared.RuntimeError,
+                fmt.Sprintf(
+                    "Unknown jump mode '%c' in call to RELATIVE_JUMP.",
+                    jumpMode,
+                ),
+            )
+        }
+        return
+
+    case shared.ABSOLUTE_JUMP_IF_FALSE:
+        dst := uint64(
+            interpreter.scope.data.Pop().(*primitives.Integer).Value,
+        )
+        condition := interpreter.scope.data.Pop().(*primitives.Boolean).Value
+
+        if !condition {
+            interpreter.scope.ip = dst
+            return
+        }
+
+    case shared.RELATIVE_JUMP_IF_FALSE:
+        diff := uint64(
+            interpreter.scope.data.Pop().(*primitives.Integer).Value,
+        )
+        condition := interpreter.scope.data.Pop().(*primitives.Boolean).Value
+
+        if !condition {
+            interpreter.scope.ip += diff
+            return
+        }
 
     default:
         interpreter.err = primitives.NewError(
