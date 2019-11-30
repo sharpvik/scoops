@@ -26,7 +26,7 @@ func (s *Scoop) Clone() shared.Object {
 
 
 func (s *Scoop) Print(w *bufio.Writer) {
-	w.WriteString( 
+	w.WriteString(
 		fmt.Sprintf("<Scoop %s at %p with size of %d>", s.Name, s, s.Size),
 	)
 }
