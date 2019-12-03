@@ -14,9 +14,11 @@ type Environment struct {
     name    string
     ip      uint64          // instruction pointer
     code    []*shared.Instruction
+    global  *Environment
     data    *stack.Stack
     vars    []shared.Object
     prev    *Environment
+    writer  *bufio.Writer   // current writer (stdout by default)
 }
 
 type Interpreter struct {
@@ -27,26 +29,44 @@ type Interpreter struct {
     scope   *Environment    // current execution scope
     thenil  *primitives.Nil // universal nil value
     stdout  *bufio.Writer
-    writer  *bufio.Writer   // current writer (stdout by default)
 }
 
 
 
 func NewEnvironment(name string, code []*shared.Instruction,
-                    prev *Environment) *Environment {
-    return &Environment{name, 0, code, stack.New(), nil, prev}
+                    global, prev *Environment,
+                    writer *bufio.Writer) *Environment {
+    return &Environment{
+        name,
+        0,
+        code,
+        global,
+        stack.New(),
+        nil,
+        prev,
+        writer,
+    }
 }
 
 
 func NewInlineEnvironment(name string, ip uint64, code []*shared.Instruction,
-                          prev *Environment) *Environment {
-    return &Environment{name, ip, code, stack.New(), nil, prev}
+                          global, prev *Environment) *Environment {
+    return &Environment{
+        name,
+        ip,
+        code,
+        global,
+        stack.New(),
+        nil,
+        prev,
+        prev.writer,
+    }
 }
 
 
 func NewInterpreter(code []*shared.Instruction) *Interpreter {
-    global := NewEnvironment("global", code, nil)
     stdout := bufio.NewWriter(os.Stdout)
+    global := NewEnvironment("global", code, nil, nil, stdout)
     return &Interpreter{
         true,
         nil,
@@ -54,7 +74,6 @@ func NewInterpreter(code []*shared.Instruction) *Interpreter {
         global,
         global,
         primitives.NewNil(),
-        stdout,
         stdout,
     }
 }

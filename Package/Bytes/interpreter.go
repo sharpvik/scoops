@@ -163,7 +163,7 @@ func (interpreter *Interpreter) Evaluate() {
         )
 
     case shared.PRINT_OBJ:
-        interpreter.scope.data.Peek().Print(interpreter.writer)
+        interpreter.scope.data.Peek().Print(interpreter.scope.writer)
 
     case shared.GET_TYPE:
         interpreter.scope.data.Push(
@@ -196,12 +196,17 @@ func (interpreter *Interpreter) Evaluate() {
             "inline",
             interpreter.scope.ip,
             interpreter.scope.code,
+            interpreter.scope.global,
             interpreter.scope,
         )
 
     case shared.SCOOP_CALL:
         s := interpreter.scope.data.Pop().(*scoop.Scoop)
-        interpreter.scope = NewEnvironment(s.Name, s.Code, interpreter.scope)
+        interpreter.scope = NewEnvironment(
+            s.Name, s.Code,
+            interpreter.scope.global, interpreter.scope,
+            interpreter.scope.writer,
+        )
         /*
          * Here, we have to use 'return' in order to prevent instruction
          * pointer 'ip' from being incremented as it must be 0 at the start of
@@ -415,8 +420,8 @@ func (interpreter *Interpreter) Evaluate() {
         }
 
     case shared.PRINT_NEWLINE:
-        interpreter.writer.WriteString("\n")
-        interpreter.writer.Flush()
+        interpreter.scope.writer.WriteString("\n")
+        interpreter.scope.writer.Flush()
 
     case shared.POP:
         interpreter.scope.data.Pop()
@@ -487,7 +492,7 @@ func (interpreter *Interpreter) Evaluate() {
        case body to force it not to. */
     interpreter.scope.ip++
 
-    //interpreter.scope.data.Print(interpreter.writer) // debug
+    //interpreter.scope.data.Print(interpreter.scope.writer) // debug
 }
 
 
@@ -496,7 +501,7 @@ func (interpreter *Interpreter) Execute() {
         interpreter.Evaluate()
     }
     if interpreter.err != nil {
-        interpreter.err.Print(interpreter.writer)
+        interpreter.err.Print(interpreter.scope.writer)
         util.Log("Interpreter exited with non-zero return value.")
     }
 }
