@@ -6,7 +6,6 @@ import (
     "github.com/sharpvik/scoops/Package/Shared"
     "regexp"
     "strconv"
-    "strings"
 )
 
 
@@ -46,16 +45,16 @@ func OperandCheck(operand string) bool {
     switch prefix {
     case 'b':
         return len(operand) < 10
-        
+
     case 'x':
         _, e := strconv.ParseUint(operand[1:], 16, 8)
         return e == nil
-        
+
     case '\'':
         // ASCII characters are 1 byte long by definition and their validity is
         // checked syntactically.
-        return true 
-        
+        return true
+
     default: // it's either integer or opcode at this point
         validOpcode := regexp.MustCompile(`[A-Z_]+`)
         if validOpcode.MatchString(operand) {
@@ -73,7 +72,7 @@ func SemanticsCheck(line string) error {
     if !exists {
         return errors.New("Opcode does not exist.")
     }
-    
+
     // Check that operand is made of values that can be stored in a byte
     /* 
      * ASCII characters and opcodes are by definition a byte long.
@@ -84,12 +83,12 @@ func SemanticsCheck(line string) error {
      */
     opcodeLen := len(opcodeString)
     operand := FindOperand(line[opcodeLen:])
-    
+
     // Check integers
     if !OperandCheck(operand) {
         return errors.New("Operand contains byte value out of range.")
     }
-        
+
     return nil
 }
 
@@ -116,14 +115,6 @@ func GetIntegerAndBase(integer string) (string, int) {
 
 
 func AssembleLine(line string) (instruction *shared.Instruction, err error) {
-    trimmedLine := strings.TrimLeft(line, "\t \n \r")
-    trimmedLine = strings.TrimRight(line, "\t \n \r")
-    fmt.Printf("=>%s<=\r\n", trimmedLine)
-    if trimmedLine == "" || trimmedLine[0] == '#'{
-        fmt.Printf("skipping %s\r\n", trimmedLine)
-        return nil, nil
-    }
-
     err = SyntaxCheck(line)
     if err != nil {
         return
@@ -132,7 +123,7 @@ func AssembleLine(line string) (instruction *shared.Instruction, err error) {
     if err != nil {
         return
     }
-    
+
     opcodeString := FindOpcode(line)
     opcodeLen := len(opcodeString)
     operandString := FindOperand(line[opcodeLen:])
@@ -151,7 +142,7 @@ func AssembleLine(line string) (instruction *shared.Instruction, err error) {
         if err != nil {
             return nil, err
         }
-        operand = byte(operand64)    
+        operand = byte(operand64)
     }
 
     instruction = shared.NewInstruction(opcode, operand)
@@ -164,7 +155,7 @@ func AssembleLine(line string) (instruction *shared.Instruction, err error) {
  * returning error whenever it finds a line that is either syntactically or
  * semantically incorrect.
  */
-func Assemble(assemblyCode []string) (byteCode []*shared.Instruction, 
+func Assemble(assemblyCode []string) (byteCode []*shared.Instruction,
                                       err error) {
     for _, line := range assemblyCode {
         instruction, err := AssembleLine(line)

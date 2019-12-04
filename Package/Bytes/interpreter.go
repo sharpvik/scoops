@@ -59,7 +59,7 @@ func (interpreter *Interpreter) Evaluate() {
         interpreter.scope.data.Push( primitives.NewInteger(n) )
 
     case shared.MAKE_NIL:
-        interpreter.scope.data.Push(interpreter.thenil)
+        interpreter.scope.data.Push( primitives.NewNil() )
 
     case shared.MAKE_ASCII_RUNE:
         interpreter.scope.data.Push(

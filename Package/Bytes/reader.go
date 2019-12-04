@@ -31,20 +31,20 @@ func Read(filename string) ([]*shared.Instruction, error) {
     if err != nil {
         return nil, err
     }
-    
+
     rdr := bufio.NewReader(file)
-    
+
     buf, err := ReadAllBytes(rdr)
     if err != nil {
         return nil, err
     }
 
     var code []*shared.Instruction
-    
+
 //  fmt.Println(buf)
     for i := 0; i < len(buf); i += 2 {
         code = append( code, shared.NewInstruction(buf[i], buf[i + 1]) )
     }
-    
+
     return code, nil
 }

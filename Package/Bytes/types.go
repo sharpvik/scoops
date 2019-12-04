@@ -28,7 +28,6 @@ type Interpreter struct {
     consts  []shared.Object
     global  *Environment
     scope   *Environment    // current execution scope
-    thenil  *primitives.Nil // universal nil value
     stdout  *bufio.Writer
 }
 
@@ -76,7 +75,6 @@ func NewInterpreter(code []*shared.Instruction) *Interpreter {
         nil,
         global,
         global,
-        primitives.NewNil(),
         stdout,
     }
 }

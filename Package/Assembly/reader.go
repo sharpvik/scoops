@@ -18,20 +18,17 @@ func Read(filename string) ([]string, error) {
     emptyLine := regexp.MustCompile(`^\s*\n$`)
     comment := regexp.MustCompile(`^\s*#.*\n$`)
     lastLine := regexp.MustCompile(`^\s*$`)
-    
+
     rdr := bufio.NewReader(file)
     var assemblyСode []string
     line, err := rdr.ReadString('\n')
 
     for err == nil {
         // skip empty lines and comments
-        if emptyLine.MatchString(line) || comment.MatchString(line) {
-            goto skip
+        if !emptyLine.MatchString(line) && !comment.MatchString(line) {
+            assemblyСode = append(assemblyСode, line)
         }
 
-        assemblyСode = append(assemblyСode, line)
-
-        skip:
         line, err = rdr.ReadString('\n')
     }
 
@@ -42,6 +39,6 @@ func Read(filename string) ([]string, error) {
     if !lastLine.MatchString(line) && !comment.MatchString(line) {
         assemblyСode = append(assemblyСode, line)
     }
-    
+
     return assemblyСode, nil
 }
