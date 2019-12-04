@@ -6,6 +6,7 @@ import (
     "github.com/sharpvik/scoops/Package/Shared"
     "regexp"
     "strconv"
+    "strings"
 )
 
 
@@ -115,6 +116,14 @@ func GetIntegerAndBase(integer string) (string, int) {
 
 
 func AssembleLine(line string) (instruction *shared.Instruction, err error) {
+    trimmedLine := strings.TrimLeft(line, "\t \n \r")
+    trimmedLine = strings.TrimRight(line, "\t \n \r")
+    fmt.Printf("=>%s<=\r\n", trimmedLine)
+    if trimmedLine == "" || trimmedLine[0] == '#'{
+        fmt.Printf("skipping %s\r\n", trimmedLine)
+        return nil, nil
+    }
+
     err = SyntaxCheck(line)
     if err != nil {
         return

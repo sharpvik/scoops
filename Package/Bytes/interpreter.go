@@ -203,7 +203,7 @@ func (interpreter *Interpreter) Evaluate() {
     case shared.SCOOP_CALL:
         s := interpreter.scope.data.Pop().(*scoop.Scoop)
         interpreter.scope = NewEnvironment(
-            s.Name, s.Code,
+            s.Name, s.Code, interpreter.consts,
             interpreter.scope.global, interpreter.scope,
             interpreter.scope.writer,
         )

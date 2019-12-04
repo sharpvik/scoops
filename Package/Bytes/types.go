@@ -14,6 +14,7 @@ type Environment struct {
     name    string
     ip      uint64          // instruction pointer
     code    []*shared.Instruction
+    consts  []shared.Object
     global  *Environment
     data    *stack.Stack
     vars    []shared.Object
@@ -34,12 +35,13 @@ type Interpreter struct {
 
 
 func NewEnvironment(name string, code []*shared.Instruction,
-                    global, prev *Environment,
+                    consts []shared.Object, global, prev *Environment,
                     writer *bufio.Writer) *Environment {
     return &Environment{
         name,
         0,
         code,
+        consts,
         global,
         stack.New(),
         nil,
@@ -55,6 +57,7 @@ func NewInlineEnvironment(name string, ip uint64, code []*shared.Instruction,
         name,
         ip,
         code,
+        prev.consts,
         global,
         stack.New(),
         nil,
@@ -66,7 +69,7 @@ func NewInlineEnvironment(name string, ip uint64, code []*shared.Instruction,
 
 func NewInterpreter(code []*shared.Instruction) *Interpreter {
     stdout := bufio.NewWriter(os.Stdout)
-    global := NewEnvironment("global", code, nil, nil, stdout)
+    global := NewEnvironment("global", code, nil, nil, nil, stdout)
     return &Interpreter{
         true,
         nil,
