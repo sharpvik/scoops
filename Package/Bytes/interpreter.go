@@ -91,6 +91,23 @@ func (interpreter *Interpreter) Evaluate() {
         c := _string.Concatenate(a, b)
         interpreter.scope.data.Push(c)
 
+    case shared.MAKE_ERROR:
+        //
+
+    case shared.SCREECH:
+        if instruction.Operand > 0 {
+            err := interpreter.scope.data.Pop().(*primitives.Error)
+            interpreter.err = err
+        } else {
+            interpreter.err = primitives.NewError(
+                shared.RuntimeError,
+                fmt.Sprintf(
+                    "Instruction #%d: Retarded Screeching is not a good sign.",
+                    interpreter.scope.ip,
+                ),
+            )
+        }
+
     case shared.MAKE_SLICE:
         interpreter.scope.data.Push( slice.New() )
 

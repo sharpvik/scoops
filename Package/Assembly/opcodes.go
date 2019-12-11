@@ -14,6 +14,8 @@ var OpcodeMap = map[string]byte{
     "MAKE_ASCII_RUNE": shared.MAKE_ASCII_RUNE,
     "MAKE_STRING": shared.MAKE_STRING,
     "STRING_CONCATENATE": shared.STRING_CONCATENATE,
+    "MAKE_ERROR": shared.MAKE_ERROR,
+    "SCREECH": shared.SCREECH,
     "MAKE_SLICE": shared.MAKE_SLICE,
     "SLICE_APPEND": shared.SLICE_APPEND,
     "SLICE_GET_ITEM_BY_INDEX": shared.SLICE_GET_ITEM_BY_INDEX,
